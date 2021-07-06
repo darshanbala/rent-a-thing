@@ -49,7 +49,7 @@ class SearchBar extends Component {
         return (
             <main>
                 <h1></h1>
-                <form type="submit">
+                <form type="submit" className="searchBar">
                     <span><input type="text" name="item" id="item" value={item} onChange={(e) => this.handleChange(e)} placeholder='item' /></span>
                     <span><input type="text" name="dateFrom" id="dateFrom" value={dateFrom} onChange={(e) => this.handleChange(e)} placeholder='dateFrom' /></span>
                     <span><input type="text" name="dateTo" id="dateTo" value={dateTo} onChange={(e) => this.handleChange(e)} placeholder='dateTo' /></span>
