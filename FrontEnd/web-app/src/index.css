@@ -1,7 +1,7 @@
 .header{
     padding: 1em;
     margin: 1em;
-    background: orange;
+    background: #e7530b;
     color: black;
     text-align: center;
 }
@@ -11,7 +11,7 @@
     margin: 1em;
     display: flex;
     justify-content: space-around;
-    background: orange;
+    background: #e7530b;
     color: black;
 }
 
@@ -27,4 +27,24 @@
 
 .navButton:hover{
     background-color: grey;
+}
+
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 1em;
+    margin: 1em;
+    display: flex;
+    justify-content: space-around;
+    background: #e7530b;
+    color: black;
+}
+
+.searchBar{
+    padding: 1em;
+    margin: 1em;
+    display: flex;
+    justify-content: space-evenly;
 }
