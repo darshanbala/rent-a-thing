@@ -85,7 +85,7 @@ class Login extends Component {
         const { email, password, successfullySubmitted, touched } = this.state;
         if (successfullySubmitted) {
             //console.log("Sucessfully logged in and redirecting")
-            return (<Redirect to="/Home"/>);
+            return (<Redirect to="/"/>);
         }
 
         return (

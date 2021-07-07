@@ -62,7 +62,7 @@ class App extends Component {
                 <div className="footer">
                   <p>Legal stuff | Contact Info | etc.</p>
                 </div>
-              </div>
+              </Router>
 
         );
     }
