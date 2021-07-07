@@ -1,23 +1,24 @@
 .header{
-    padding: 1em;
-    margin: 1em;
+    padding: 0.5em;
+    font-size: 30px;
+    /*margin: 1em;*/
     background: #e7530b;
-    color: black;
+    color: white;
     text-align: center;
 }
 
 .navBar{
     padding: 1em;
-    margin: 1em;
-    display: flex;
-    justify-content: space-around;
-    background: #e7530b;
+    /*margin: 1em;*/
+    /*display: flex;*/
+    /*justify-content: space-around;*/
+    background: black;
     color: black;
 }
 
 .navButton{
-    background-color: white;
-    color: black;
+    background-color: #e7530b;
+    color: white;
     font-size: 20px;
     padding: 0.5em;
     margin: 0.5em;
@@ -26,7 +27,7 @@
 }
 
 .navButton:hover{
-    background-color: grey;
+    background-color: white;
 }
 
 .footer{
@@ -35,7 +36,7 @@
     bottom: 0;
     width: 100%;
     padding: 1em;
-    margin: 1em;
+    /*margin: 1em;*/
     display: flex;
     justify-content: space-around;
     background: #e7530b;
@@ -49,7 +50,7 @@
     justify-content: space-evenly;
 }
 
-/* TEST */
+/* ################################### TEST ######################################### */
 /*
 body 
 { 
@@ -416,8 +417,8 @@ div.center
   }
   
   .active{
-    background-color: #e7530b;
-    color: #fff;
+    background-color: white;
+    color: black;
     font-weight: bold;
   }
   
@@ -428,14 +429,14 @@ div.center
   .floatRight{
     float: right;
   }
-  
+  /*
   .header{
     background-color: #e7530b;
     color: #fff;
     text-align: center;
     padding: 1em;
   }
-  
+  */
   .SubmitStory{
     /*text-align: center;*/
     background: #fff;
@@ -458,7 +459,7 @@ div.center
     margin: 0.5em;
     padding: 0.5em;
     background: black;
-    color: plum;
+    color: #e7530b;
     display: inline-block;
     cursor: pointer;
     border-radius: 12px;
