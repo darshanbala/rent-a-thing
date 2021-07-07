@@ -38,30 +38,32 @@ class App extends Component {
         const { isLoggedIn, user } = this.state;
 
         return (
+
             <Router>
                 <div className="header">
                     News Site
                 </div>
                 <nav className="navBar">
-                    <NavLink className="navButton" to="/Home">Home</NavLink>
+                    <NavLink className="navButton" to="/">Home</NavLink>
                     <NavLink className="navButton" to="/CreateAccount">Create Account</NavLink>
                     <NavLink className="navButton" to="/Login">Login</NavLink>
                 </nav>
                 <Switch>
-                    <Route path="/Home">
+                    <Route exact path="/">
                         <Home user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()}></Home>
                     </Route>
                     <Route path="/CreateAccount">
-                        <CreateAccount user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()}></CreateAccount>
+                        <CreateAccount user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} />
                     </Route>
                     <Route path="/Login">
                         <Login user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()}></Login>
                     </Route>
                 </Switch>
                 <div className="footer">
-                    <p>Legal stuff | Contact Info | etc.</p>
+                  <p>Legal stuff | Contact Info | etc.</p>
                 </div>
-            </Router>
+              </div>
+
         );
     }
 }
