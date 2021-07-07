@@ -44,12 +44,12 @@ class App extends Component {
                     Rent A Thing
                 </div>
                 <nav className="navBar">
-                    <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
-                    <NavLink className="navButton floatRight" to="/Login" activeClassName="active">Login</NavLink>
-                    <NavLink className="navButton floatRight" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
+                    <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
+                    <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
+                    <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
                 </nav>
                 <Switch>
-                    <Route exact path="/">
+                    <Route path="/Home">
                         <Home user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()}></Home>
                     </Route>
                     <Route path="/CreateAccount">
@@ -60,9 +60,9 @@ class App extends Component {
                     </Route>
                 </Switch>
                 <div className="footer">
-                  <p>Legal stuff | Contact Info | etc.</p>
+                    <p>Legal stuff | Contact Info | etc.</p>
                 </div>
-              </div>
+            </Router>
 
         );
     }
