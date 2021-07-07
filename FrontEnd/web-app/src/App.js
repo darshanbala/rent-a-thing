@@ -9,6 +9,7 @@ import {
 import Home from './Home';
 import CreateAccount from './CreateAccount';
 import Login from './Login';
+import Things from './Things'
 
 
 class App extends Component {
@@ -77,6 +78,9 @@ class App extends Component {
                     </Route>
                     <Route path="/Login">
                         <Login user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()}></Login>
+                    </Route>
+                    <Route path="/Things">
+                        <Things />
                     </Route>
                 </Switch>
                 <div className="footer">

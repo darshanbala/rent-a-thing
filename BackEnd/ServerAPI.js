@@ -14,13 +14,14 @@ const PORT = Number(Deno.env.get("PORT"));
 
 const app = new Application();
 const headersWhitelist = [
-  "Authorization",
-  "Content-Type",
-  "Accept",
-  "Origin",
-  "User-Agent",
+    "Authorization",
+    "Content-Type",
+    "Accept",
+    "Origin",
+    "User-Agent",
 ];
 app.use(cors({ allowOrigins: [Deno.env.get("ALLOWED_ORIGINS")], allowHeaders: headersWhitelist, allowCredentials: true }));
+
 
 async function getCurrentUser(sessionIdArg)
 {
@@ -107,5 +108,15 @@ app
       server.json( true )
     }
   })
+
+  .get('/items', async (server) => {
+
+        const items = (await client.queryObject(`
+        SELECT id, name, is_available FROM items
+      `)).rows
+
+        await server.json({ items })
+    })
+
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
