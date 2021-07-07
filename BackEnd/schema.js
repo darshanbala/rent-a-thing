@@ -7,6 +7,8 @@ config({ path: `./.env.${DENO_ENV}`, export: true })
 const client = new Client(Deno.env.get("PG_URL"))
 await client.connect()
 
+await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items;`);
+
 await client.queryObject(
   `CREATE TABLE users (
     id SERIAL PRIMARY KEY,

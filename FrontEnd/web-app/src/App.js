@@ -41,12 +41,12 @@ class App extends Component {
 
             <Router>
                 <div className="header">
-                    News Site
+                    Rent A Thing
                 </div>
                 <nav className="navBar">
-                    <NavLink className="navButton" to="/">Home</NavLink>
-                    <NavLink className="navButton" to="/CreateAccount">Create Account</NavLink>
-                    <NavLink className="navButton" to="/Login">Login</NavLink>
+                    <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
+                    <NavLink className="navButton floatRight" to="/Login" activeClassName="active">Login</NavLink>
+                    <NavLink className="navButton floatRight" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
                 </nav>
                 <Switch>
                     <Route exact path="/">
