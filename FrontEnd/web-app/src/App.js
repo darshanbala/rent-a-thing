@@ -15,11 +15,11 @@ class App extends Component {
 
     state = { isLoggedIn: false, user: '' };
 
-    async componentDidMount() {
-      this.cookieCheck()
+    async componentWillMount() {
+      await this.cookieCheck()
     }
 
-    async cookieCheck(){
+    async cookieCheck(){  //Checks who is signed in and if anyone is, sets the user and toggles isLoggedIn
       const user = await this.checkWhoIsSignedIn()
       if(await user.id){
         this.toggleLoggedIn(this.state.isLoggedIn)

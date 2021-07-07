@@ -18,7 +18,8 @@ class CreateAccount extends Component {
       city: "",
       postcode: "",
       validationMessage: null,
-      validEmail: true
+      validEmail: true,
+      successfullySubmitted: false
      }
 
     constructor(props) {
@@ -97,6 +98,7 @@ class CreateAccount extends Component {
 
         if(isSuccess.code === 200){
           this.props.cookieCheck()
+          this.setState({ successfullySubmitted: true })
         }
       }else{
         this.setState({
@@ -210,7 +212,12 @@ class CreateAccount extends Component {
     }
 
     render() {
-      const { validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode } = this.state
+      const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode } = this.state
+
+      if(successfullySubmitted){
+        return (<Redirect to="/"/>);
+      }
+
       if(!valid_new_user) {
           return(
             <main>
