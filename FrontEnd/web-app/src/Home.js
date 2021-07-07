@@ -73,7 +73,14 @@ class Home extends Component {
         }
         else {
             return (
-                <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
+                <>
+                    <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
+                    <main>
+                        <h1>Welcome! Fill in the boxes above if you know what your after!</h1>
+                        <h1>If you are not sure what you want, check out the <span className="highlight">Categories</span> page!</h1>
+                        <h1>If you just want to browse, go straight to the <span className="highlight">Things</span> page!</h1>
+                    </main>
+                </>
             );
         }
     }
