@@ -223,7 +223,7 @@ class CreateAccount extends Component {
             <main>
                 <div>
                   <h1>CreateAccount</h1>
-                  <form className="SubmitStory">
+                  <form className="SubmissionForm">
                       <section>
                         <label htmlFor="email" value="Email address: " >Email address: </label>
                         <input type="text" name="email" id="email" value={ email } onChange={(e) => this.updateInfo(e)}/>
@@ -253,7 +253,7 @@ class CreateAccount extends Component {
             <main>
                 <div>
                   <h1>User details:</h1>
-                  <form className="SubmitStory">
+                  <form className="SubmissionForm">
                     <section>
                       <label htmlFor="first_name" value="First name: " >First name: </label>
                       <input type="text" name="first_name" id="first_name" value={ first_name } onChange={(e) => this.updateInfo(e)}/>
