@@ -22,7 +22,7 @@ class Login extends Component {
     }
 
     async componentDidMount() {
-        this.checkForUser();
+        //this.checkForUser();
     }
 
     markAsTouched(field) {
@@ -64,9 +64,14 @@ class Login extends Component {
         if (isSuccess.code === 200) {
             //console.log(isSuccess.loggedInAs);
             //this.props.setSignedInUser(isSuccess.loggedInAs);
+            this.props.cookieCheck()
             this.setState({ successfullySubmitted: true });
         }
     }
+/*
+    CHECKING THE COOKIE IS NOW DONE IN APP.js SO THAT IF A USER HAS A COOKIE
+    THEY WILL AUTOMATICALLY BE LOGGED STRAIGHT IN NO MATTER WHAT PART OF THE SITE
+    THEY GO TO
 
     async checkForUser(){
         let { user } = this.props;
@@ -80,6 +85,7 @@ class Login extends Component {
             await this.props.toggleLoggedIn(false);
         }
     }
+*/
 
     render() {
         const { email, password, successfullySubmitted, touched } = this.state;

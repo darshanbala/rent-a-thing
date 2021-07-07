@@ -29,7 +29,8 @@ async function getCurrentUser(sessionIdArg)
   if(userId[0])
   {
     const userIdFinal = userId[0].user_id;
-    return (await client.queryObject("SELECT * FROM users WHERE id = $1", userIdFinal)).rows;
+    const user = (await client.queryObject("SELECT * FROM users WHERE id = $1", userIdFinal)).rows;
+    return await user[0]
   }
   else
   {
@@ -42,7 +43,7 @@ app
     const sessionId = server.cookies['sessionId'];
     const user = await getCurrentUser(sessionId);
     if(user){
-      await server.json({ user });
+      await server.json( user );
     }else {
       await server.json(false);
     }
@@ -50,8 +51,8 @@ app
   .post("/login", async server => {
     const { email, password } = await server.body;
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", email)).rows;
-    const retrieveSaltedHash = (await client.queryObject("SELECT encrypted_password FROM users WHERE email = $1", email)).rows;
-    const existingSaltedHash = retrieveSaltedHash[0].encrypted_password;
+    const retrieveSaltedHash = (await client.queryObject("SELECT salted_password FROM users WHERE email = $1", email)).rows;
+    const existingSaltedHash = retrieveSaltedHash[0].salted_password;
     const authenticated = await bcrypt.compare(password, existingSaltedHash);
     if(authenticated)
     {
@@ -74,18 +75,14 @@ app
   })
   .post("/createAccount", async server => {
     const new_user = await server.body
-    console.log(new_user)
     let encrypted_password = ''
     let salt = ''
     if(new_user.password1 === new_user.password2){
       const salt = await bcrypt.genSalt(8);
-      console.log('encrypting with salt: '+await salt)
       encrypted_password = await bcrypt.hash(new_user.password1, await salt)
-      console.log('encrypted pw: '+encrypted_password)
     }else{
       server.json({  code: 500,  error: 'Passwords do not match'  })
     }
-    console.log('encrypted pw: '+encrypted_password)
     const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW(), $12)", new_user.first_name, new_user.last_name, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
     const sessionId = v4.generate();
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", new_user.email)).rows;
@@ -99,6 +96,16 @@ app
       secure: true
     });
     await server.json({  code: 200  })
+  })
+  .post("/isValidNewEmail", async server => {
+    const { email } = await server.body
+    const check = (await client.queryObject("SELECT * FROM users WHERE email = $1", await email)).rows;
+
+    if(check[0]){
+      server.json( false )
+    }else{
+      server.json( true )
+    }
   })
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);

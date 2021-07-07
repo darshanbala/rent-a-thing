@@ -17,7 +17,8 @@ class CreateAccount extends Component {
       address_2: "",
       city: "",
       postcode: "",
-      validationMessage: null
+      validationMessage: null,
+      validEmail: true
      }
 
     constructor(props) {
@@ -81,7 +82,6 @@ class CreateAccount extends Component {
           city: this.state.city,
           postcode: this.state.postcode
          }
-        console.log('Body of fetch will be: '+JSON.stringify(toBeSent))
         const response = await fetch(
             `${process.env.REACT_APP_API_URL}/createAccount`,
             {
@@ -93,12 +93,40 @@ class CreateAccount extends Component {
                 body: JSON.stringify(toBeSent)
             }
         );
-        console.log(await response.json())
+        const isSuccess = await response.json()
+
+        if(isSuccess.code === 200){
+          this.props.cookieCheck()
+        }
       }else{
         this.setState({
           validationMessage: "Please ensure all fields are complete and valid"
         })
       }
+    }
+
+    async componentDidUpdate(prevProps, prevState) {
+      if(prevState.email !== this.state.email && this.state.email !== ''){
+        await this.checkValidEmail()
+      }
+    }
+
+    async checkValidEmail() {
+      const { email } = this.state
+      const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/isValidNewEmail`,
+          {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email })
+          }
+        )
+        const isEmailValid = await response.json()
+        if(await isEmailValid !== this.state.validEmail){
+          this.setState({ validEmail: isEmailValid})
+        }
     }
 
     validateLive(info) {
@@ -154,10 +182,10 @@ class CreateAccount extends Component {
     }
 
     validateSubmit(which) {
-      const { password1, password2, phone_number } = this.state
+      const { validEmail, password1, password2, phone_number } = this.state
 
       if(which === 'first'){
-        if(password2 !== password1 || password1.length < 8){
+        if(password2 !== password1 || password1.length < 8 || !validEmail){
           return false
         }else{
           return true;
@@ -182,7 +210,7 @@ class CreateAccount extends Component {
     }
 
     render() {
-      const { validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode } = this.state
+      const { validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode } = this.state
       if(!valid_new_user) {
           return(
             <main>
@@ -192,7 +220,7 @@ class CreateAccount extends Component {
                       <section>
                         <label htmlFor="email" value="Email address: " >Email address: </label>
                         <input type="text" name="email" id="email" value={ email } onChange={(e) => this.updateInfo(e)}/>
-                        <div>{this.validateLive(email)}</div>
+                        { !validEmail && <p className="error" >email address unavailable</p>}
                       </section>
                       <section>
                         <label htmlFor="password1" value="Password: " >Password: </label>
