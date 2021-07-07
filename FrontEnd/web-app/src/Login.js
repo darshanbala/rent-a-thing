@@ -96,6 +96,7 @@ class Login extends Component {
 
         return (
             <main>
+            <h1 className="centered">Sign In</h1>
                 <form className='SubmissionForm' onSubmit={(e) => this.handleSubmit(e)}>
                     <section>
                         <label>Email:
