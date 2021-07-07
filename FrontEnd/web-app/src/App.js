@@ -15,30 +15,33 @@ class App extends Component {
 
     render() {
         return (
-            <Router>
-                <div className="header">
-                    News Site
-                </div>
-                <nav className="navBar">
-                    <NavLink className="navButton" to="/">Home</NavLink>
-                    <NavLink className="navButton" to="/CreateAccount">Create Account</NavLink>
-                    <NavLink className="navButton" to="/Login">Login</NavLink>
-                </nav>
-                <Switch>
-                    <Route path="/">
-                        <Home></Home>
-                    </Route>
-                    <Route path="/CreateAccount">
-                        <CreateAccount></CreateAccount>
-                    </Route>
-                    <Route path="/Login">
-                        <Login></Login>
-                    </Route>
-                </Switch>
+                <div>
+                  <div className="header">
+                      News Site
+                  </div>
+                  <Router>
+                    <nav className="navBar">
+                        <NavLink className="navButton" to="/">Home</NavLink>
+                        <NavLink className="navButton" to="/CreateAccount">Create Account</NavLink>
+                        <NavLink className="navButton" to="/Login">Login</NavLink>
+                    </nav>
+                    <Switch>
+                        <Route exact path="/">
+                            <Home></Home>
+                        </Route>
+                        <Route path="/CreateAccount">
+                            <CreateAccount />
+                        </Route>
+                        <Route path="/Login">
+                            <Login></Login>
+                        </Route>
+                    </Switch>
+                  </Router>
                 <div className="footer">
-                    <p>Legal stuff | Contact Info | etc.</p>
+                  <p>Legal stuff | Contact Info | etc.</p>
                 </div>
-            </Router>
+              </div>
+
         );
     }
 }
