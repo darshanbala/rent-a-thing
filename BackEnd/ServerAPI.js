@@ -72,7 +72,7 @@ app
     .get('/items', async (server) => {
 
         const items = (await client.queryObject(`
-        SELECT name, is_available FROM items
+        SELECT id, name, is_available FROM items
       `)).rows
 
         await server.json({ items })
