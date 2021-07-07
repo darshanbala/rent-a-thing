@@ -13,26 +13,49 @@ import Login from './Login';
 
 class App extends Component {
 
+    state = { isLoggedIn: false, user: '' };
+
+    async checkWhoIsSignedIn() {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
+        const user = await response.json();
+        return user;
+    }
+
+    async toggleLoggedIn(arg) {
+        if (arg) {
+            this.setState(state => ({ ...state, isLoggedIn: true }));
+        } else {
+            this.setState(state => ({ ...state, isLoggedIn: false }));
+        }
+    }
+
+    setUser(updatedUserValue) {
+        this.setState(state => ({ ...state, user: updatedUserValue }));
+    }
+
+
     render() {
+        const { isLoggedIn, user } = this.state;
+
         return (
             <Router>
                 <div className="header">
                     News Site
                 </div>
                 <nav className="navBar">
-                    <NavLink className="navButton" to="/">Home</NavLink>
+                    <NavLink className="navButton" to="/Home">Home</NavLink>
                     <NavLink className="navButton" to="/CreateAccount">Create Account</NavLink>
                     <NavLink className="navButton" to="/Login">Login</NavLink>
                 </nav>
                 <Switch>
-                    <Route path="/">
-                        <Home></Home>
+                    <Route path="/Home">
+                        <Home user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()}></Home>
                     </Route>
                     <Route path="/CreateAccount">
-                        <CreateAccount></CreateAccount>
+                        <CreateAccount user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()}></CreateAccount>
                     </Route>
                     <Route path="/Login">
-                        <Login></Login>
+                        <Login user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()}></Login>
                     </Route>
                 </Switch>
                 <div className="footer">
