@@ -82,6 +82,18 @@ class CreateAccount extends Component {
           postcode: this.state.postcode
          }
         console.log('Body of fetch will be: '+JSON.stringify(toBeSent))
+        const response = await fetch(
+            `${process.env.REACT_APP_API_URL}/createAccount`,
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(toBeSent)
+            }
+        );
+        console.log(await response.json())
       }else{
         this.setState({
           validationMessage: "Please ensure all fields are complete and valid"

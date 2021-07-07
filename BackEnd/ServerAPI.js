@@ -47,18 +47,18 @@ app
       await server.json(false);
     }
   })
-  .post("/login", async server => { 
+  .post("/login", async server => {
     const { email, password } = await server.body;
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", email)).rows;
     const retrieveSaltedHash = (await client.queryObject("SELECT encrypted_password FROM users WHERE email = $1", email)).rows;
     const existingSaltedHash = retrieveSaltedHash[0].encrypted_password;
     const authenticated = await bcrypt.compare(password, existingSaltedHash);
-    if(authenticated) 
-    {  
+    if(authenticated)
+    {
       const sessionId = v4.generate();
       const insert = (await client.queryObject("INSERT INTO sessions (uuid, user_id, created_at) VALUES ($1, $2, NOW())", sessionId, user[0].id)).rows;
       server.setCookie({
-        name: "sessionId", 
+        name: "sessionId",
         value: sessionId,
         path: "/",
         expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000 ),
@@ -66,11 +66,15 @@ app
         secure: true
       });
       await server.json({  code: 200 });
-    } 
-    else 
+    }
+    else
     {
       await server.json({  code: 500  });
     }
+  })
+  .post("/createAccount", async server => {
+    const new_user = await server.body
+    console.log(new_user)
   })
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
