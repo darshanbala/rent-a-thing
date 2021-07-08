@@ -61,7 +61,6 @@ class UserReviews extends React.Component {
           return(
             <div>
               <UserReview review={review}/>
-              <hr/>
               </div>
           )
         })}
@@ -76,10 +75,12 @@ class UserReviews extends React.Component {
     //console.log('current reviews state: '+JSON.stringify(this.state))
     if(reviews[0]){
     return(
-      <section id='reviews'>
+      <div  id='reviews'>
+      <section>
         <h2>{`${user.first_name}'s`} reviews</h2>
         {this.formattedReviews(user)}
       </section>
+      </div>
     )
     }else{
       return(

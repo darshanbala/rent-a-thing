@@ -7,6 +7,7 @@ class UserReview extends React.Component {
     console.log(review)
     return(
       <section>
+        <hr/>
         <h1 id="reviewer_name">{review.user.first_name} {review.user.last_name}</h1>
         <p>rating: {review.rating}/5</p>
         <h2 id="review_content">{review.content}</h2>
