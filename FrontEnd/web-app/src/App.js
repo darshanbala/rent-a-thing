@@ -17,15 +17,15 @@ class App extends Component {
     state = { isLoggedIn: false, user: '' };
 
     async componentWillMount() {
-      await this.cookieCheck()
+        await this.cookieCheck()
     }
 
-    async cookieCheck(){  //Checks who is signed in and if anyone is, sets the user and toggles isLoggedIn
-      const user = await this.checkWhoIsSignedIn()
-      if(await user.id){
-        this.toggleLoggedIn(this.state.isLoggedIn)
-        this.setUser(user)
-      }
+    async cookieCheck() {  //Checks who is signed in and if anyone is, sets the user and toggles isLoggedIn
+        const user = await this.checkWhoIsSignedIn()
+        if (await user.id) {
+            this.toggleLoggedIn(this.state.isLoggedIn)
+            this.setUser(user)
+        }
     }
 
     async checkWhoIsSignedIn() {
@@ -56,25 +56,25 @@ class App extends Component {
                     Rent A Thing
                 </div>
                 { !isLoggedIn &&
-                  <nav className="navBar">
-                      <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton floatRight" to="/Login" activeClassName="active">Login</NavLink>
-                      <NavLink className="navButton floatRight" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
-                  </nav>
+                    <nav className="navBar">
+                        <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
+                        <NavLink className="navButton floatRight" to="/Login" activeClassName="active">Login</NavLink>
+                        <NavLink className="navButton floatRight" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
+                    </nav>
                 }
                 { isLoggedIn &&
-                  <nav className="navBar">
-                      <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton floatRight" to="/myAccount" activeClassName="active">Account</NavLink>
-                      <NavLink className="navButton floatRight" to="/postItem" activeClassName="active">Post a new item</NavLink>
-                  </nav>
+                    <nav className="navBar">
+                        <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
+                        <NavLink className="navButton floatRight" to="/myAccount" activeClassName="active">Account</NavLink>
+                        <NavLink className="navButton floatRight" to="/postItem" activeClassName="active">Post a new item</NavLink>
+                    </nav>
                 }
                 <Switch>
                     <Route exact path="/">
                         <Home user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} ></Home>
                     </Route>
                     <Route path="/CreateAccount">
-                        <CreateAccount user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()}/>
+                        <CreateAccount user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Login">
                         <Login user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()}></Login>
@@ -87,11 +87,10 @@ class App extends Component {
                     </Route>
                 </Switch>
                 <div className="footer">
-                  <p>Legal stuff | Contact Info | etc.</p>
-                  {  isLoggedIn && <p>logged in as {user.first_name}</p>  }
+                    <p>Legal stuff | Contact Info | etc.</p>
+                    {isLoggedIn && <p>logged in as {user.first_name}</p>}
                 </div>
-              </Router>
-
+            </Router>
         );
     }
 }
