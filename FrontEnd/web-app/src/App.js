@@ -10,7 +10,7 @@ import Home from './Home';
 import CreateAccount from './CreateAccount';
 import Login from './Login';
 import Things from './Things'
-
+import Item from './Item'
 
 class App extends Component {
 
@@ -81,6 +81,9 @@ class App extends Component {
                     </Route>
                     <Route path="/Things">
                         <Things />
+                    </Route>
+                    <Route path="/Item">
+                        <Item />
                     </Route>
                 </Switch>
                 <div className="footer">
