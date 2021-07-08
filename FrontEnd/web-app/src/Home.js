@@ -15,9 +15,22 @@ class Home extends Component {
         super(props);
         console.log("");
     }
-
-    componentDidMount() {
-        console.log("");
+/*
+    async checkForUser(){
+        let { user } = this.props;
+        user = await this.props.checkWhoIsSignedIn();
+        if(user){
+            //console.log(user.user[0]);
+            this.props.setUser(user.user[0]); // Set user as object of user data {...}
+            await this.props.toggleLoggedIn(true);
+        }else{
+            this.props.setUser(null); // Or set user as null
+            await this.props.toggleLoggedIn(false);
+        }
+    }
+*/
+    async componentDidMount() {
+        this.props.cookieCheck();
     }
 
     componentDidUpdate() {

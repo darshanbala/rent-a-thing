@@ -5,6 +5,10 @@ import './Item.css'
 
 class Item extends Component {
 
+    async componentDidMount() {
+        this.props.cookieCheck();
+    }
+
     render() {
         return (
             <div className='item-page-container'>
