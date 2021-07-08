@@ -8,3 +8,7 @@
 #review_container {
   height: auto;
 }
+
+#new_review {
+  width: 80%;
+}

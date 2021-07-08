@@ -128,8 +128,15 @@ app
       //TODO replace temporary reviews
       //Review structure: { user: {user object}, reviewContent: some_review_text, howLongAgo: formatted_string_of_how_long_ago, rating: star_rating_x/5 }
       if(await user){
-        return ([{user: await user, content: 'Always returns items quickly!', howLongAgo: '3 weeks ago', rating: 5}, {user: user, content: "DONT RENT TO HER, SHE WON'T GIVE YOUR ITEM BACK!!!!", howLongAgo: 'yesterday', rating: 1}])
+        return([{user: await user, content: 'Always returns items quickly!', howLongAgo: '3 weeks ago', rating: 5}, {user: user, content: "DONT RENT TO HER, SHE WON'T GIVE YOUR ITEM BACK!!!!", howLongAgo: 'yesterday', rating: 1}])
       }
+    })
+    .post("postUserReview", async server => {   //TODO WRITE REAL POST REVIEW HANDLER
+      const sessionId = server.cookies['sessionId'];
+      const user = await getCurrentUser(sessionId);
+      console.log(JSON.stringify(user)+' is logged in')
+      const body = await server.body
+      console.log(await body)
     })
 
   .start({ port: PORT })

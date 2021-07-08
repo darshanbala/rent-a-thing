@@ -1,5 +1,6 @@
 import React from 'react';
-import UserReview from './UserReview.js'
+import UserReview from './UserReview.js';
+import AddUserReview from './AddUserReview';
 import './reviews.css'
 
 
@@ -80,6 +81,7 @@ class UserReviews extends React.Component {
         <h2>{`${user.first_name}'s`} reviews</h2>
         {this.formattedReviews(user)}
       </section>
+      { user && <AddUserReview user={user} /> }
       </div>
     )
     }else{
@@ -87,6 +89,7 @@ class UserReviews extends React.Component {
         <section id='reviews'>
           <h2>{`${user.first_name}'s`} reviews</h2>
           <p>no reviews yet...</p>
+          {user && <AddUserReview user={user} />}
         </section>
       )
     }

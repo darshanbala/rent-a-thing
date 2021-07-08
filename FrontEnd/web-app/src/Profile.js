@@ -43,6 +43,10 @@ class Profile extends React.Component {
               <UserReviews user={user} />
             </div>
           </section>
+          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
+          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
+          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
+          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
         </main>
       )
     }else{
