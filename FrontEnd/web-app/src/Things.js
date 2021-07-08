@@ -37,11 +37,9 @@ class Things extends Component {
         } else {
 
             return (
-                <div className="item-list">
+                <div className='item-list'>
                     {items.items.map(({ id, name, is_available }) =>
-                        <Card key={id} id={id} name={name} is_available={is_available}
-                            handleItemClick={() => this.handleItemClick(id)}
-                        />
+                        <Card key={id} id={id} name={name} is_available={is_available} cardType='things-page-card'/>
                     )}
                 </div>
 
