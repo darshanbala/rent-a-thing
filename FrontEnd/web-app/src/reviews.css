@@ -1,3 +1,9 @@
 #reviews {
   border: 1px solid black;
+  min-width: 100%;
+  height: auto;
+}
+
+#review_container {
+  height: 500px;
 }

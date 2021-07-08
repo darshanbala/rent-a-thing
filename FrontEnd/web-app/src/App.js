@@ -9,27 +9,26 @@ import {
 import Home from './Home';
 import CreateAccount from './CreateAccount';
 import Login from './Login';
-import Things from './Things';
-import Item from './Item';
+import Things from './Things'
+import Item from './Item'
+import Logout from './Logout';
 import Profile from './Profile.js';
 
 class App extends Component {
 
-    constructor() {
-      super();
-      this.state = { isLoggedIn: false, user: '' };
-    }
+    state = { isLoggedIn: false, user: '' };
 
     async componentWillMount() {
-      await this.cookieCheck()
+        await this.cookieCheck()
     }
 
     async cookieCheck(){  //Checks who is signed in and if anyone is, sets the user and toggles isLoggedIn
       const user = await this.checkWhoIsSignedIn()
-      if(await user.id){
-        this.toggleLoggedIn(this.state.isLoggedIn)
+      //if(await user.id){
+        //this.toggleLoggedIn(this.state.isLoggedIn)
+        this.toggleLoggedIn(user);
         this.setUser(user)
-      }
+      //}
     }
 
     async checkWhoIsSignedIn() {
@@ -39,10 +38,17 @@ class App extends Component {
     }
 
     async toggleLoggedIn(arg) {
+        /*
         if (arg) {
             this.setState({ isLoggedIn: false });
         } else {
             this.setState({ isLoggedIn: true });
+        }
+        */
+        if (arg) {
+            this.setState({ isLoggedIn: true });
+        } else {
+            this.setState({ isLoggedIn: false });
         }
     }
 
@@ -53,7 +59,8 @@ class App extends Component {
 
     render() {
         const { isLoggedIn, user } = this.state;
-        console.log('app.js user: '+JSON.stringify(user))
+        console.log("USER:")
+        console.log(user);
         return (
 
             <Router>
@@ -62,44 +69,47 @@ class App extends Component {
                 </div>
                 { !isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton floatRight" to="/Login" activeClassName="active">Login</NavLink>
-                      <NavLink className="navButton floatRight" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
+                      <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
                   </nav>
                 }
                 { isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton floatRight" to="/myProfile" activeClassName="active">Account</NavLink>
-                      <NavLink className="navButton floatRight" to="/postItem" activeClassName="active">Post a new item</NavLink>
+                      <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/logout" activeClassName="active">Logout</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
                   </nav>
                 }
                 <Switch>
                     <Route exact path="/">
-                        <Home user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} ></Home>
+                        <Home cookieCheck={() => this.cookieCheck()}></Home>
                     </Route>
                     <Route path="/CreateAccount">
-                        <CreateAccount user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()}/>
+                        <CreateAccount cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/Login">
-                        <Login user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()}></Login>
+                        <Login cookieCheck={() => this.cookieCheck()}></Login>
+                    </Route>
+                    <Route path="/Logout">
+                        <Logout cookieCheck={() => this.cookieCheck()}></Logout>
                     </Route>
                     <Route path="/Things">
-                        <Things />
+                        <Things cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
+                    <Route path="/myAccount">
+                        <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/Item">
-                        <Item />
-                    </Route>
-                    <Route path="/myProfile">
-                        <Profile user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()} />
+                        <Item cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                 </Switch>
                 <div className="footer">
-                  <p>Legal stuff | Contact Info | etc.</p>
-                  {  isLoggedIn && <p>logged in as {user.first_name}</p>  }
+                    <p>Legal stuff | Contact Info | etc.</p>
+                    {isLoggedIn && <p>logged in as {user.first_name}</p>}
                 </div>
-              </Router>
-
+            </Router>
         );
     }
 }

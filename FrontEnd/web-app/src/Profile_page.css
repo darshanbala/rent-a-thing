@@ -28,3 +28,11 @@
   flex: 1;
   max-width: 50px;
 }
+
+#posts {
+  display: flex;
+}
+
+section {
+  margin-bottom: 25px;
+}

@@ -119,14 +119,16 @@ app
     })
 
     .post("getUserReviews", async server => {
-      const  user  = await server.body.user
-      console.log(user)
+      const  body  = await server.body
+      //console.log(await server.body)
+      const user = await body.user
+      console.log(await user)
       //CHECK DB FOR REVIEWS HERE
       //Return in format: [{review1}, {review2}, {review3}]
       //TODO replace temporary reviews
       //Review structure: { user: {user object}, reviewContent: some_review_text, howLongAgo: formatted_string_of_how_long_ago, rating: star_rating_x/5 }
       if(await user){
-        return ([{user: await user, content: 'Always returns items quickly!', howLongAgo: '3 weeks ago', rating: 5}, {user: user, reviewContent: "DONT RENT TO HIM, HE WON'T GIVE YOUR ITEM BACK!!!!", howLongAgo: 'yesterday', rating: 1}])
+        return ([{user: await user, content: 'Always returns items quickly!', howLongAgo: '3 weeks ago', rating: 5}, {user: user, content: "DONT RENT TO HER, SHE WON'T GIVE YOUR ITEM BACK!!!!", howLongAgo: 'yesterday', rating: 1}])
       }
     })
 

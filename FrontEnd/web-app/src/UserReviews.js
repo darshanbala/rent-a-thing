@@ -6,31 +6,37 @@ import './reviews.css'
 class UserReviews extends React.Component {
   constructor(props) {
     super(props)
+    //console.log('AAAAAAAA '+JSON.stringify(props))
     this.state = {
       reviews: [],
-      user: this.props.user
+      user: ''
     };
   }
 
-  //async componentDidMount() {
-  //  await this.getReviews();
-  //}
-  /*
+/*
+  async componentDidMount() {
+    await this.getReviews();
+  }
+*/
+
+
   async componentDidUpdate(prevProps, prevState) {
-    console.log(this.props)
-    console.log(prevProps)
-    if(this.props !== prevProps && this.props.user !== null){
+    //console.log(this.props)
+    //console.log(prevProps)
+    if(this.props !== prevProps && this.props.user !== ''){
       this.setState({user: this.props.user})
       await this.getReviews()
     }
 
   }
-  */
+
+
 
   async getReviews() {
-    const { user } = this.props
-    console.log(this.props)
+    const { user } = this.state
+    console.log('USER REVIEWS PROPS '+JSON.stringify(this.props))
     console.log('USER = '+JSON.stringify(user))
+
     const response = await fetch(
         `${process.env.REACT_APP_API_URL}/getUserReviews`,
         {
@@ -50,7 +56,7 @@ class UserReviews extends React.Component {
   formattedReviews() {
     const { reviews } = this.state;
       return(
-        <div>
+        <div id="review_container">
         {reviews.map((review) => {
           return(
             <div>
@@ -66,8 +72,8 @@ class UserReviews extends React.Component {
   render() {
     const { user } = this.props
     const { reviews } = this.state
-    console.log('user @ overall reviews page: '+JSON.stringify(user))
-    console.log('current reviews state: '+JSON.stringify(this.state))
+    //console.log('user @ overall reviews page: '+JSON.stringify(user))
+    //console.log('current reviews state: '+JSON.stringify(this.state))
     if(reviews[0]){
     return(
       <section id='reviews'>
