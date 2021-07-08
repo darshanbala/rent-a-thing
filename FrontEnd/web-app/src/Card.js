@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Redirect, Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Card.css';
 
 const checkCardType = ['things-page-card', 'myrentals-page-card']
