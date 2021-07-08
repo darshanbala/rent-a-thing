@@ -101,6 +101,7 @@ class App extends Component {
                     <Route path="/myAccount">
                         <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
                     </Route>
+                    <Route>
                         <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Logout">
@@ -111,13 +112,13 @@ class App extends Component {
                     </Route>
                     <Route path="/Item">
                         <Item cookieCheck={() => this.cookieCheck()}/>
-                    </Route>                       
+                    </Route>
                     <Route path="/postItem">
                         <PostItem  userID = {user.id} cookieCheck={() => this.cookieCheck()()}/>
                     </Route>
                     <Route path="/MyRentals">
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
-                    </Route> 
+                    </Route>
                 </Switch>
                 <div className="footer">
                     <p>Legal stuff | Contact Info | etc.</p>
