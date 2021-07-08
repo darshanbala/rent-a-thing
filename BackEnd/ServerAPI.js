@@ -118,5 +118,17 @@ app
         await server.json({ items })
     })
 
+  .get('/item/:id', async (server) => {
+    const { id } = server.params
+    
+    const item = (await client.queryObject(`
+    SELECT id, name, description, is_available, category_id, owner_id, age_restriction
+    FROM items
+    WHERE id = $1`,
+    id)).rows
+
+    await server.json(item)
+  })
+
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
