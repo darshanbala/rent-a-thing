@@ -18,7 +18,7 @@ class App extends Component {
     state = { isLoggedIn: false, user: '' };
 
     async componentWillMount() {
-      await this.cookieCheck()
+        await this.cookieCheck()
     }
 
     async cookieCheck(){  //Checks who is signed in and if anyone is, sets the user and toggles isLoggedIn
@@ -102,11 +102,10 @@ class App extends Component {
                     </Route>
                 </Switch>
                 <div className="footer">
-                  <p>Legal stuff | Contact Info | etc.</p>
-                  {  isLoggedIn && <p>logged in as {user.first_name}</p>  }
+                    <p>Legal stuff | Contact Info | etc.</p>
+                    {isLoggedIn && <p>logged in as {user.first_name}</p>}
                 </div>
-              </Router>
-
+            </Router>
         );
     }
 }

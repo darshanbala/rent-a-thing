@@ -24,8 +24,8 @@ class Things extends Component {
         //console.log(this.state)
     }
 
-    getID(id) {
-        console.log(id)
+    handleItemClick(id) {
+       console.log(id)
 
     }
 
@@ -39,8 +39,8 @@ class Things extends Component {
             return (
                 <div className="item-list">
                     {items.items.map(({ id, name, is_available }) =>
-                        <Card key={id} name={name} is_available={is_available}
-                            handleItemClick={() => this.getID(id)}
+                        <Card key={id} id={id} name={name} is_available={is_available}
+                            handleItemClick={() => this.handleItemClick(id)}
                         />
                     )}
                 </div>

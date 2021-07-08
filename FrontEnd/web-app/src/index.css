@@ -1,139 +1,136 @@
-.header{
-    padding: 0.5em;
-    font-size: 30px;
-    /*margin: 1em;*/
-    background: #e7530b;
-    color: white;
-    text-align: center;
+.header {
+  padding: 0.5em;
+  font-size: 30px;
+  /*margin: 1em;*/
+  background: #e7530b;
+  color: white;
+  text-align: center;
 }
 
-.navBar{
-    /*padding: 1em;*/
-    /*margin: 1em;*/
-    /*display: flex;*/
-    /*justify-content: space-around;*/
-    background: black;
-    color: black;
+.navBar {
+  /*padding: 1em;*/
+  /*margin: 1em;*/
+  /*display: flex;*/
+  /*justify-content: space-around;*/
+  background: black;
+  color: black;
+  margin-bottom: 2em;
 }
 
-.navButton{
-    background-color: #e7530b;
-    color: black;
-    font-size: 20px;
-    padding: 0.5em;
-    margin: 0.5em;
-    border-radius: 12px;
-    transition-duration: 0.2s;
-    display: inline-block;
+.navButton {
+  background-color: #e7530b;
+  color: black;
+  font-size: 20px;
+  padding: 0.5em;
+  margin: 0.5em;
+  border-radius: 12px;
+  transition-duration: 0.2s;
+  display: inline-block;
 }
 
-.navButton:hover{
-    /*background-color: #a53c07;*/
-    color: white;
+.navButton:hover {
+  /*background-color: #a53c07;*/
+  color: white;
 }
 
-.footer{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 1em;
-    /*margin: 1em;*/
-    display: flex;
-    justify-content: space-around;
-    background: #e7530b;
-    color: black;
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 1em;
+  /*margin: 1em;*/
+  display: flex;
+  justify-content: space-around;
+  background: #e7530b;
+  color: black;
 }
 
-.searchBar{
-    padding: 1em;
-    margin: 1em;
-    display: flex;
-    justify-content: space-evenly;
+.searchBar {
+  padding: 1em;
+  margin: 1em;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-  
-  
-  
-  .arial{
-    font-family: Arial;
-  }
-  
-  
-  
-  .active{
-    color: #fff;
-    font-weight: bold;
-    border: 1px solid #fff;
-  }
-  
-  .floatRight{
-    float: right;
-  }
-  
-  .SubmissionForm{
-    background: #fff;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .SubmissionForm section{
-    text-align: left;
-    margin: 1em 0;
-  }
-  
-  .SubmissionForm input[type=text]{
-    width: 400px;
-  }
-  
-  .SubmissionForm button{
-    margin: 0.5em;
-    padding: 0.5em;
-    background: black;
-    color: #e7530b;
-    display: inline-block;
-    cursor: pointer;
-    border-radius: 12px;
-    outline: none;
-    border: none;
-  }
-  
-  .SubmissionForm button:hover{
-    color: #fff;
-  }
-  
-  .SubmissionForm button[disabled]{
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .SubmissionForm .error{
-    font-size: 90%;
-    color: #f33;
-  }
-  
-  .centered{
-    text-align: center;
-  }
+.arial {
+  font-family: Arial;
+}
 
-  .noUnderline{
-    text-decoration: none;
-  }
+.active {
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid #fff;
+}
 
-  .highlight{
-    color: #e7530b;
-  }
+.floatRight {
+  float: right;
+}
 
+.SubmissionForm {
+  background: #fff;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.SubmissionForm section {
+  text-align: left;
+  margin: 1em 0;
+}
+
+.SubmissionForm input[type=text] {
+  width: 400px;
+}
+
+.SubmissionForm button {
+  margin: 0.5em;
+  padding: 0.5em;
+  background: black;
+  color: #e7530b;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 12px;
+  outline: none;
+  border: none;
+}
+
+.SubmissionForm button:hover {
+  color: #fff;
+}
+
+.SubmissionForm button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.SubmissionForm .error {
+  font-size: 90%;
+  color: #f33;
+}
+
+.centered {
+  text-align: center;
+}
+
+.noUnderline {
+  text-decoration: none;
+}
+
+.highlight {
+  color: #e7530b;
+}
 
 /* RAW HTML ELEMENTS, THEESE COME LAST */
+
 body {
   margin: 0px !important;
   font-family: 'Inter', Arial, sans-serif;
+  padding-bottom: 10em;
 }
 
-main{
+main {
   width: 800px;
   margin: 2em auto;
   text-align: center;
