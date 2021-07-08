@@ -4,8 +4,14 @@
 -- INSERT INTO users(first_name, last_name, email, salted_password, date_of_birth, phone_number, address, city, created_at, updated_at) VALUES ('David', 'Ajayi', 'david.ajayi@sigmalabs.xyz', '$2a$08$yTFtWn138aeHFNVgxnQ26OkQsQTM2w3uk1FTiz9PqpzYsei0gwu7i', '2000-01-04', '+447000 000 004', '4 Example Lane, London, N1 1AA', 'London', NOW(), NOW());
 -- INSERT INTO users(first_name, last_name, email, salted_password, date_of_birth, phone_number, address, city, created_at, updated_at) VALUES ('Milo', 'Boucher', 'milo.boucher@sigmalabs.xyz', '$2a$08$KHapHptcjjTiqQjadYwvIuXZ9mZkVs4FQI0T447TNMlAWoMeAjZxW', '2000-01-05', '+447000 000 005', '5 Example Lane, London, N1 1AA', 'London', NOW(), NOW());
 
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Chainsaw', 'Great condition only used once', TRUE, 1, 1, 18);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Chainsaw', 'Great condition only used once', FALSE, 1, 1, 18);
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Drill', 'Like new', TRUE, 2, 2, 18);
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Ladder', 'Strong and sturdy', TRUE, 3, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('PS4', 'Strong and sturdy', TRUE, 3, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('PS4', 'Strong and sturdy', FALSE, 3, 3, 16);
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Hedge Cuttter', 'Strong and sturdy', TRUE, 3, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Lawn Mower', 'Not used much', TRUE, 3, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Monitor', 'Not used much', TRUE, 3, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Xbox', 'Strong and sturdy', FALSE, 3, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('MacBook', 'Strong and sturdy', TRUE, 3, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Headphones', 'Not used much', FAlSE, 3, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Camera', 'Not used much', TRUE, 3, 3, 16);
