@@ -1,0 +1,17 @@
+.my-rentals-container {
+    display: flex;
+    margin: 2em;
+}
+
+.lending {
+    width: 50%;
+}
+
+.borrowing {
+    width: 50%;
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
+}

@@ -125,16 +125,30 @@ app
     await server.json(true);
   })
 
-  .post("/postItem", async server => {
+.post("/postItem", async server => {
     const { name, description, category, age_restriction, ownerID  } = await server.body
     console.log(name, description, category, age_restriction, ownerID )
     const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, owner_id, age_restriction) VALUES ($1, $2, $3, $4, $5)",name, description, category,age_restriction,ownerID).rows)
     
+ })
 
-    //await server.json({ownerID})
+
+ .get('/item/:id', async (server) => {
+    const { id } = server.params
     
+    const item = (await client.queryObject(`
+    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction,
+      users.first_name, users.last_name, users.star_rating
+    FROM items JOIN users ON items.owner_id = users.id
+    WHERE items.id = $1`,
+    id)).rows
 
+    await server.json(item)
+  
   })
+
+
+  
 
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
