@@ -2,17 +2,14 @@ import React from 'react';
 import './Card.css';
 
 
-function Card({ name, isAvailable }) {
-
-    console.log(isAvailable, 'Card Component - isAvailable')
+export default function Card({ name, is_available, handleItemClick }) {
 
     return (
-        <div className="item-card">
+        <div className="item-card" onClick={() => handleItemClick()}>
             <img src="logo192.png" alt={name} />
-            <div className="container">
+            <div className="container" >
                 <h4><b>{name}</b></h4>
-                <p>Availability: {isAvailable}</p>
-                {/* { isAvailable && <p>available: {isAvailable.toString()}</p>} */}
+                <p>Availability: {is_available.toString()}</p>
                 <p>£19.99/day</p>
             </div>
         </div>
@@ -20,4 +17,3 @@ function Card({ name, isAvailable }) {
 
 }
 
-export default Card;
