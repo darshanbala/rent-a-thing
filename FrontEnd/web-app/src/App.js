@@ -9,12 +9,16 @@ import {
 import Home from './Home';
 import CreateAccount from './CreateAccount';
 import Login from './Login';
-import Things from './Things'
-import Item from './Item'
+import Things from './Things';
+import Item from './Item';
+import Profile from './Profile.js';
 
 class App extends Component {
 
-    state = { isLoggedIn: false, user: '' };
+    constructor() {
+      super();
+      this.state = { isLoggedIn: false, user: '' };
+    }
 
     async componentWillMount() {
       await this.cookieCheck()
@@ -49,6 +53,7 @@ class App extends Component {
 
     render() {
         const { isLoggedIn, user } = this.state;
+        console.log('app.js user: '+JSON.stringify(user))
         return (
 
             <Router>
@@ -65,7 +70,7 @@ class App extends Component {
                 { isLoggedIn &&
                   <nav className="navBar">
                       <NavLink className="navButton" to="/" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton floatRight" to="/myAccount" activeClassName="active">Account</NavLink>
+                      <NavLink className="navButton floatRight" to="/myProfile" activeClassName="active">Account</NavLink>
                       <NavLink className="navButton floatRight" to="/postItem" activeClassName="active">Post a new item</NavLink>
                   </nav>
                 }
@@ -84,6 +89,9 @@ class App extends Component {
                     </Route>
                     <Route path="/Item">
                         <Item />
+                    </Route>
+                    <Route path="/myProfile">
+                        <Profile user={user} setUser={(arg) => this.setUser(arg)} toggleLoggedIn={(arg) => this.toggleLoggedIn(arg)} checkWhoIsSignedIn={() => this.checkWhoIsSignedIn()} cookieCheck={() => this.cookieCheck()} />
                     </Route>
                 </Switch>
                 <div className="footer">

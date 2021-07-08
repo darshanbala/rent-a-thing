@@ -118,5 +118,17 @@ app
         await server.json({ items })
     })
 
+    .post("getUserReviews", async server => {
+      const  user  = await server.body.user
+      console.log(user)
+      //CHECK DB FOR REVIEWS HERE
+      //Return in format: [{review1}, {review2}, {review3}]
+      //TODO replace temporary reviews
+      //Review structure: { user: {user object}, reviewContent: some_review_text, howLongAgo: formatted_string_of_how_long_ago, rating: star_rating_x/5 }
+      if(await user){
+        return ([{user: await user, content: 'Always returns items quickly!', howLongAgo: '3 weeks ago', rating: 5}, {user: user, reviewContent: "DONT RENT TO HIM, HE WON'T GIVE YOUR ITEM BACK!!!!", howLongAgo: 'yesterday', rating: 1}])
+      }
+    })
+
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
