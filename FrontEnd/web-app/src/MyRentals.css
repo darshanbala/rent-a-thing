@@ -1,14 +1,17 @@
 .my-rentals-container {
     display: flex;
-    background-color: red;
-    justify-content: center;
     margin: 2em;
 }
 
 .lending {
-    background-color: royalblue;
+    width: 50%;
 }
 
 .borrowing {
-    background-color: salmon;
+    width: 50%;
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
 }
