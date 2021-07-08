@@ -7,7 +7,7 @@ config({ path: `./.env.${DENO_ENV}`, export: true })
 const client = new Client(Deno.env.get("PG_URL"))
 await client.connect()
 
-await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items;`);
+await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories;`);
 
 await client.queryObject(
   `CREATE TABLE users (
@@ -39,6 +39,15 @@ await client.queryObject(
 )
 
 await client.queryObject(
+  `CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    imgURL TEXT NOT NULL
+  )`
+)
+
+await client.queryObject(
   `CREATE TABLE items (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
@@ -46,7 +55,8 @@ await client.queryObject(
     is_available BOOLEAN NOT NULL DEFAULT TRUE,
     category_id INTEGER,
     owner_id INTEGER,
-    age_restriction INTEGER
+    age_restriction INTEGER,
+    FOREIGN KEY (category_id) REFERENCES categories (id)
   )`
 )
 
@@ -63,3 +73,4 @@ await client.queryObject(
     FOREIGN KEY (reviewee_id) REFERENCES users (id)
   )`
 )
+

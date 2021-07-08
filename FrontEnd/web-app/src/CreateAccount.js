@@ -27,9 +27,9 @@ class CreateAccount extends Component {
         console.log("");
     }
 
-    componentDidMount() {
-        console.log("");
-    }
+    async componentDidMount() {
+      this.props.cookieCheck();
+  }
 
     componentDidUpdate() {
         console.log("");

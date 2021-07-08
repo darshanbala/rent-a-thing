@@ -5,7 +5,7 @@
 
 .item-page-image {
     flex: 1;
-    padding: 2em;
+    padding: 0em 2em;
 }
 
 .item-page-image img {
@@ -14,7 +14,7 @@
 }
 
 .item-page-content-container {
-    padding: 2em;
+    padding: 0em 2em;
     
     flex: 2;
     
@@ -24,12 +24,15 @@
 }
 
 .item-page-content-container h1 {
-    font-size: 1.6em;
-    padding: 0 .6em;
+    font-size: 1.6em;;
 }
 
 .item-page-content-container h2 {
     font-size: 1.2em;
+}
+
+.item-page-name {
+    padding: 0 .6em;
 }
 
 .item-page-info {

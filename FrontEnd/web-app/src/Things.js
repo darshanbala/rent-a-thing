@@ -11,6 +11,8 @@ class Things extends Component {
     }
 
     async componentDidMount() {
+        this.props.cookieCheck();
+        
         const response = await fetch('http://localhost:8080/items', {
             method: 'GET',
             credentials: 'include'
@@ -22,29 +24,25 @@ class Things extends Component {
         //console.log(this.state)
     }
 
+    handleItemClick(id) {
+       console.log(id)
+
+    }
 
     render() {
         const { items } = this.state
 
-        // if (items.length !== 0) {
-        //     const available = items.items[0].is_available
-        //     console.log(available)
-        // }
-
-        // return(
-        //     <h1>{JSON.stringify(items)}</h1>
-        // )
-
         if (items.length === 0) {
             return (<p>Loading....</p>)
         } else {
-            //console.log(items.items[0].is_available)
+
             return (
-                <div className="item-list">
-                    {items.items.map(({id, name, isAvailable }) =>
-                        <Card key={id} name={name} isAvailable={isAvailable} />
+                <div className='item-list'>
+                    {items.items.map(({ id, name, is_available }) =>
+                        <Card key={id} id={id} name={name} is_available={is_available} cardType='things-page-card'/>
                     )}
                 </div>
+
             )
         }
     }
