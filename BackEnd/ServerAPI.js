@@ -111,6 +111,14 @@ app
 
     await server.json({ items })
   })
+  .get('/categories', async (server) => {
+
+    const categories = (await client.queryObject(`
+        SELECT id, name, description, imgURL FROM categories
+      `)).rows
+
+    await server.json(categories)
+  })
   .post("/logout", async server => {
     console.log("Logging out...")
     server.setCookie({
