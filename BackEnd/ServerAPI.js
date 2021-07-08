@@ -122,9 +122,10 @@ app
     const { id } = server.params
     
     const item = (await client.queryObject(`
-    SELECT id, name, description, is_available, category_id, owner_id, age_restriction
-    FROM items
-    WHERE id = $1`,
+    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction,
+      users.first_name, users.last_name, users.star_rating
+    FROM items JOIN users ON items.owner_id = users.id
+    WHERE items.id = $1`,
     id)).rows
 
     await server.json(item)

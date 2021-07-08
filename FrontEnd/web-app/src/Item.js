@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useReducer } from 'react'
 import { Redirect } from 'react-router-dom'
 import './index.css'
 import './Item.css'
@@ -35,6 +35,7 @@ class Item extends Component {
                 <div className='item-page-content-container'>
                     <div className="item-page-name">
                         <h1>{item.name}</h1>
+                        <p>Offered by {item.first_name} {item.last_name}</p>
                     </div>
                     <div className="item-page-info">
                         <h2>Description</h2>
