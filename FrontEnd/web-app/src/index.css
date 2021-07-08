@@ -135,3 +135,15 @@ main {
   margin: 2em auto;
   text-align: center;
 }
+
+.category{
+  padding: 0.5em;
+  border: 5px solid #e7530b;
+  border-radius: 12px;
+  margin: 0.5em;
+  cursor: pointer;
+}
+
+.category:hover{
+  background: grey;
+}

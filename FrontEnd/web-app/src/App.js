@@ -14,6 +14,7 @@ import Item from './Item'
 import Logout from './Logout';
 import PostItem from './PostItem';
 import MyRentals from './MyRentals'
+import Categories from './Categories';
 
 
 class App extends Component {
@@ -72,6 +73,7 @@ class App extends Component {
                 { !isLoggedIn &&
                   <nav className="navBar">
                       <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
                   </nav>
@@ -79,6 +81,7 @@ class App extends Component {
                 { isLoggedIn &&
                   <nav className="navBar">
                       <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/logout" activeClassName="active">Logout</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
@@ -86,16 +89,19 @@ class App extends Component {
                 }
                 <Switch>
                     <Route exact path="/">
-                        <Home cookieCheck={() => this.cookieCheck()}></Home>
+                        <Home cookieCheck={() => this.cookieCheck()} />
+                    </Route>
+                    <Route exact path="/Categories">
+                        <Categories cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/CreateAccount">
                         <CreateAccount cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/Login">
-                        <Login cookieCheck={() => this.cookieCheck()}></Login>
+                        <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Logout">
-                        <Logout cookieCheck={() => this.cookieCheck()}></Logout>
+                        <Logout cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Things">
                         <Things cookieCheck={() => this.cookieCheck()}/>
