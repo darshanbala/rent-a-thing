@@ -10,6 +10,8 @@ class Item extends Component {
     }
 
     async componentDidMount() {
+        this.props.cookieCheck();
+      
         // Get id from the url
         const url = window.location.href
         const urlSplit = url.split('/')
@@ -22,7 +24,6 @@ class Item extends Component {
         // Set state
         this.setState({ item })
     }
-
 
     render() {
         const item = this.state.item

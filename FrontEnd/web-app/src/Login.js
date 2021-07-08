@@ -22,7 +22,7 @@ class Login extends Component {
     }
 
     async componentDidMount() {
-        //this.checkForUser();
+        this.props.cookieCheck();
     }
 
     markAsTouched(field) {
