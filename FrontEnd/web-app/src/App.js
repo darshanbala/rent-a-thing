@@ -101,7 +101,7 @@ class App extends Component {
                     <Route path="/myAccount">
                         <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route>
+                    <Route path="/login">
                         <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Logout">
