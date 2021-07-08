@@ -11,6 +11,8 @@ class Things extends Component {
     }
 
     async componentDidMount() {
+        this.props.cookieCheck();
+        
         const response = await fetch('http://localhost:8080/items', {
             method: 'GET',
             credentials: 'include'
