@@ -24,12 +24,15 @@
 }
 
 .item-page-content-container h1 {
-    font-size: 1.6em;
-    padding: 0 .6em;
+    font-size: 1.6em;;
 }
 
 .item-page-content-container h2 {
     font-size: 1.2em;
+}
+
+.item-page-name {
+    padding: 0 .6em;
 }
 
 .item-page-info {
