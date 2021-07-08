@@ -12,6 +12,7 @@ import Login from './Login';
 import Things from './Things'
 import Item from './Item'
 import Logout from './Logout';
+import PostItem from './PostItem';
 
 class App extends Component {
 
@@ -99,6 +100,9 @@ class App extends Component {
                     </Route>
                     <Route path="/Item">
                         <Item cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
+                    <Route path="/postItem">
+                        <PostItem  userID = {user.id} cookieCheck={() => this.cookieCheck()()}/>
                     </Route>
                 </Switch>
                 <div className="footer">

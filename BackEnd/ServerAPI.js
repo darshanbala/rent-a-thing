@@ -125,5 +125,16 @@ app
     await server.json(true);
   })
 
+  .post("/postItem", async server => {
+    const { name, description, category, age_restriction, ownerID  } = await server.body
+    console.log(name, description, category, age_restriction, ownerID )
+    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, owner_id, age_restriction) VALUES ($1, $2, $3, $4, $5)",name, description, category,age_restriction,ownerID).rows)
+    
+
+    //await server.json({ownerID})
+    
+
+  })
+
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
