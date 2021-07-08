@@ -12,10 +12,10 @@ import Login from './Login';
 import Things from './Things'
 import Item from './Item'
 import Logout from './Logout';
+import Profile from './Profile.js';
 import PostItem from './PostItem';
 import MyRentals from './MyRentals'
 import Categories from './Categories';
-
 
 class App extends Component {
 
@@ -89,6 +89,7 @@ class App extends Component {
                 }
                 <Switch>
                     <Route exact path="/">
+
                         <Home cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route exact path="/Categories">
@@ -97,7 +98,9 @@ class App extends Component {
                     <Route path="/CreateAccount">
                         <CreateAccount cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/Login">
+                    <Route path="/myAccount">
+                        <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
                         <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Logout">
