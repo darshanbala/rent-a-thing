@@ -49,3 +49,17 @@ await client.queryObject(
     age_restriction INTEGER
   )`
 )
+
+await client.queryObject(
+  `CREATE TABLE user_reviews (
+    id SERIAL PRIMARY KEY,
+    reviewer_id INTEGER NOT NULL,
+    reviewee_id INTEGER NOT NULL,
+    review_title TEXT NOT NULL,
+    review_content TEXT NOT NULL,
+    star_rating INTEGER,
+    created_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (reviewer_id) REFERENCES users (id),
+    FOREIGN KEY (reviewee_id) REFERENCES users (id)
+  )`
+)

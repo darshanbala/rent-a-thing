@@ -35,8 +35,8 @@ class UserReviews extends React.Component {
 
   async getReviews() {
     const { user } = this.state
-    console.log('USER REVIEWS PROPS '+JSON.stringify(this.props))
-    console.log('USER = '+JSON.stringify(user))
+    //console.log('USER REVIEWS PROPS '+JSON.stringify(this.props))
+    //console.log('USER = '+JSON.stringify(user))
 
     const response = await fetch(
         `${process.env.REACT_APP_API_URL}/getUserReviews`,
@@ -50,7 +50,7 @@ class UserReviews extends React.Component {
         }
     );
     const reviews = await response.json()
-    console.log(await reviews)
+    //console.log(await reviews)
     this.setState({ reviews: await reviews});
   }
 
@@ -58,10 +58,11 @@ class UserReviews extends React.Component {
     const { reviews } = this.state;
       return(
         <div id="review_container">
-        {reviews.map((review) => {
+        {reviews.map((review, index) => {
+
           return(
             <div>
-              <UserReview review={review}/>
+              <UserReview key={index} review={review}/>
               </div>
           )
         })}
@@ -73,7 +74,6 @@ class UserReviews extends React.Component {
     const { user } = this.props
     const { reviews } = this.state
     //console.log('user @ overall reviews page: '+JSON.stringify(user))
-    //console.log('current reviews state: '+JSON.stringify(this.state))
     if(reviews[0]){
     return(
       <div  id='reviews'>
@@ -88,7 +88,7 @@ class UserReviews extends React.Component {
       return(
         <section id='reviews'>
           <h2>{`${user.first_name}'s`} reviews</h2>
-          <p>no reviews yet...</p>
+          <p>Loading...</p>
           {user && <AddUserReview user={user} />}
         </section>
       )
