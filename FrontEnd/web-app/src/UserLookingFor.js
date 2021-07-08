@@ -17,7 +17,7 @@ class UserLookingFor extends React.Component {
       <section>
         <h1>{user.first_name} is looking for</h1>
         <div id="posts">
-        <Things />
+        
         </div>
       </section>
     );

@@ -7,7 +7,7 @@ config({ path: `./.env.${DENO_ENV}`, export: true })
 const client = new Client(Deno.env.get("PG_URL"))
 await client.connect()
 
-await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories;`);
+await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories, user_reviews;`);
 
 await client.queryObject(
   `CREATE TABLE users (
@@ -73,4 +73,3 @@ await client.queryObject(
     FOREIGN KEY (reviewee_id) REFERENCES users (id)
   )`
 )
-

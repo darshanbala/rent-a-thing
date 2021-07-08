@@ -16,7 +16,7 @@ class UserPosts extends React.Component {
       <section>
         <h1>{user.first_name} is lending</h1>
         <div id="posts">
-        <Things />
+        
         </div>
       </section>
     );
