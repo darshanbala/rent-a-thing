@@ -67,7 +67,7 @@ class Home extends Component {
     }
 */
     submitSearch(arg) {
-        console.log(arg);
+        //console.log(arg);
         this.setState({ submissionConfirmed: true, searchCriteria: arg });
     }
 
