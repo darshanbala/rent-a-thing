@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import './index.css';
 import SearchBar from './SearchBar';
-import Things from './Things';
+import ThingsHandler from './ThingsHandler';
 
 class Home extends Component {
 
@@ -60,7 +60,7 @@ class Home extends Component {
         //const response = await fetch(.../thing);
         //const data = await response.jsonStringify();
         //if(data === 200){
-        //    redirect to things 
+        //    redirect to things
         //} else {
         //    redirect to error page
         //}
@@ -80,7 +80,7 @@ class Home extends Component {
             return (
                 <>
                     <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
-                    <Things searchCriteria={searchCriteria} />
+                    <ThingsHandler searchCriteria={ searchCriteria } cookieCheck={this.props.cookieCheck}/>
                 </>
             );
         }

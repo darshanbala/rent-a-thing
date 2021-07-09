@@ -138,13 +138,13 @@ app
     const { name, description, category, age_restriction, ownerID  } = await server.body
     console.log(name, description, category, age_restriction, ownerID )
     const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, owner_id, age_restriction) VALUES ($1, $2, $3, $4, $5)",name, description, category,age_restriction,ownerID).rows)
-    
+
  })
 
 
  .get('/item/:id', async (server) => {
     const { id } = server.params
-    
+
     const item = (await client.queryObject(`
     SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction,
       users.first_name, users.last_name, users.star_rating
@@ -153,11 +153,11 @@ app
     id)).rows
 
     await server.json(item)
-  
+
   })
 
 
-  
+
 
     .post("getUserReviews", async server => {
       const  body  = await server.body
@@ -212,6 +212,16 @@ app
       if(!isNaN(avg)){
         server.json({rating: avg})
       }
+    })
+    .post('searchByCategory', async server => {
+      const body = await server.body;
+      const { category_id } = await body;
+      console.log(category_id)
+      const items = (await client.queryObject(`
+          SELECT * FROM items WHERE category_id = $1
+        `, await category_id)).rows;
+        console.log(await items)
+      return items
     })
 
   .start({ port: PORT })

@@ -16,6 +16,7 @@ import Profile from './Profile.js';
 import PostItem from './PostItem';
 import MyRentals from './MyRentals'
 import Categories from './Categories';
+import ThingsHandler from './ThingsHandler';
 
 class App extends Component {
 
@@ -59,11 +60,19 @@ class App extends Component {
         this.setState(state => ({ ...state, user: updatedUserValue }));
     }
 
+/*
+    async submitSearch(params) {
+        this.setState({
+          hasSearched: true,
+          searchParams: params
+        })
+    }
+*/
 
     render() {
-        const { isLoggedIn, user } = this.state;
-        console.log("USER:")
-        console.log(user);
+        const { isLoggedIn, user, hasSearched, searchParams } = this.state;
+        //console.log("USER:")
+        //console.log(user);
         return (
 
             <Router>
@@ -89,8 +98,7 @@ class App extends Component {
                 }
                 <Switch>
                     <Route exact path="/">
-
-                        <Home cookieCheck={() => this.cookieCheck()} />
+                        <Home cookieCheck={ () => this.cookieCheck() } /> 
                     </Route>
                     <Route exact path="/Categories">
                         <Categories cookieCheck={() => this.cookieCheck()} />
@@ -120,6 +128,7 @@ class App extends Component {
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                 </Switch>
+
                 <div className="footer">
                     <p>Legal stuff | Contact Info | etc.</p>
                     {isLoggedIn && <p>logged in as {user.first_name}</p>}
