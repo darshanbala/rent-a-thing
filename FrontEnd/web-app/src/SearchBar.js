@@ -22,7 +22,7 @@ class SearchBar extends Component {
 
     componentDidUpdate(PrevProps, PrevState) {
         if(this.state.item!== PrevState.item){
-          console.log(this.state)
+          //console.log(this.state)
           this.props.submitSearch(this.state)
         }
 

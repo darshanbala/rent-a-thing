@@ -34,7 +34,7 @@ class ThingsHandler extends React.Component {
     //console.log(this.props)
 
     if(categoryId){
-      console.log('category search: '+categoryId)
+      //console.log('category search: '+categoryId)
       const response = await fetch(
           `${process.env.REACT_APP_API_URL}/searchByCategory`,
           {
@@ -52,7 +52,7 @@ class ThingsHandler extends React.Component {
         this.setState({items: await itemList})
       }
     }else if (searchCriteria) {
-      console.log('searchbar search')
+      //console.log('searchbar search')
       const response = await fetch(
           `${process.env.REACT_APP_API_URL}/searchByFilter`,
           {
@@ -65,7 +65,7 @@ class ThingsHandler extends React.Component {
           }
       );
       const itemList = await response.json();
-      console.log(await itemList)
+      //console.log(await itemList)
       if(await itemList[0]) {
         this.setState({items: await itemList})
       }else{
@@ -92,7 +92,7 @@ class ThingsHandler extends React.Component {
 
   render() {
     const { items, categoryId, searchParams, date_from, date_to, all } = this.state
-    console.log(this.props)
+    //console.log(this.props)
     if(!items) {
       return(
         <p>Loading...</p>
