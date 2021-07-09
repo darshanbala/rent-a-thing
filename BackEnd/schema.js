@@ -10,6 +10,10 @@ await client.connect()
 await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories, user_reviews;`);
 
 await client.queryObject(
+  `CREATE EXTENSION fuzzystrmatch;`
+)
+
+await client.queryObject(
   `CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     first_name TEXT NOT NULL,
