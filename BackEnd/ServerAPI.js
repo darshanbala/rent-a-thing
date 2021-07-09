@@ -95,7 +95,7 @@ app
     });
     await server.json({ code: 200 })
   })
-  .post("/isValidNewEmail", async server => {
+  .post("/Email", async server => {
     const { email } = await server.body
     const check = (await client.queryObject("SELECT * FROM users WHERE email = $1", await email)).rows;
 
@@ -111,7 +111,7 @@ app
         SELECT id, name, is_available FROM items
       `)).rows
 
-    await server.json({ items })
+    return (await items)
   })
   .get('/categories', async (server) => {
 
@@ -156,26 +156,73 @@ app
     const { name, description, category, age_restriction, ownerID  } = await server.body
     console.log(name, description, category, age_restriction, ownerID )
     const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, owner_id, age_restriction) VALUES ($1, $2, $3, $4, $5)",name, description, category,age_restriction,ownerID).rows)
-    
+
  })
 
 
  .get('/item/:id', async (server) => {
     const { id } = server.params
     
-    const item = (await client.queryObject(`
+    const sessionId = server.cookies['sessionId']
+    const user = await getCurrentUser(sessionId)
+
+    const itemInArray = (await client.queryObject(`
     SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
-    id)).rows
+      id)).rows
 
-    await server.json(item)
-  
+    // Check if this is the logged in user's own item
+    const usersOwnItem = (user.id === itemInArray[0].owner_id) ? true : false
+
+    await server.json({ itemInArray, usersOwnItem })
   })
 
+  .post('/rentItem', async (server) => {
+    const { itemId, rentFrom, rentUntil } = await server.body
+    let errorMessage = ''
 
+    if (!rentFrom || !rentUntil) {
+      errorMessage = 'Please enter a valid rent from and rent until date'
+      await server.json({ errorMessage })
+      return
+    }
   
+    if (rentFrom > rentUntil) {
+      errorMessage = 'You cannot time travel (please set the return date to be later than the rental date)'
+      await server.json({ errorMessage })
+      return
+    }
+
+    const sessionId = server.cookies['sessionId']
+    const borrower = await getCurrentUser(sessionId)
+
+    const [clashes] = (await client.queryObject(`
+    SELECT SUM(CASE (DATE($1) - 1, DATE($2) + 1) OVERLAPS (rented_from, rented_until) WHEN TRUE THEN 1 ELSE 0 END)::integer AS num_of_clashes
+    FROM rentals
+    WHERE item_id = $3`,
+    rentFrom, rentUntil, itemId)).rows
+
+    const [item] = (await client.queryObject(`SELECT owner_id FROM items WHERE id = $1`, itemId)).rows
+
+    if (!borrower) {
+      errorMessage = 'You need to be logged in to rent an item'
+      await server.json({ errorMessage })
+    } else if (clashes.num_of_clashes) {
+      errorMessage = 'This item is not available for some part of the requested time period'
+      await server.json({ errorMessage })
+    } else if (borrower.id === item.owner_id) {
+      errorMessage = 'You cannot rent your own item'
+      await server.json({ errorMessage })
+    } else {
+      await client.queryObject(`
+        INSERT INTO rentals (item_id, borrower_id, rented_from, rented_until)
+        VALUES ($1, $2, $3, $4)`,
+        itemId, borrower.id, rentFrom, rentUntil).rows
+      await server.json({ errorMessage })
+    }
+  })
 
     .post("getUserReviews", async server => {
       const  body  = await server.body
@@ -230,6 +277,59 @@ app
       if(!isNaN(avg)){
         server.json({rating: avg})
       }
+    })
+    .post('searchByCategory', async server => {
+      const body = await server.body;
+      const { category_id } = await body;
+      console.log(category_id)
+      const items = (await client.queryObject(`
+          SELECT * FROM items WHERE category_id = $1
+        `, await category_id)).rows;
+        console.log(await items)
+      return items
+    })
+    .post('searchByFilter', async server => {
+      const body = await server.body;
+      const searchCriteria = await body.searchCriteria
+      console.log(await searchCriteria)
+      if(await searchCriteria.item && await !searchCriteria.location) {
+            //SEARCH BY JUST ITEM
+            let items = [];
+            console.log(searchCriteria.item.length)
+            if( searchCriteria.item.length < 3 ){
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                `, await searchCriteria.item)).rows;
+            }else if( searchCriteria.item.length < 6 && searchCriteria.item.length > 2 ){
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                `, await searchCriteria.item)).rows;
+            }else if( searchCriteria.item.length < 7 && searchCriteria.item.length > 5 ){
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4;
+                `, await searchCriteria.item)).rows;
+            } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6 ) {
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5;
+                `, await searchCriteria.item)).rows;
+            } else {
+                items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6;
+                `, await searchCriteria.item)).rows;
+            }
+              try{
+                return (items);
+              }catch{
+                return [];
+              }
+
+        }else {
+            //SEARCH BY ALL
+            console.log('b')
+        }
+
+
+
     })
 
   .start({ port: PORT })

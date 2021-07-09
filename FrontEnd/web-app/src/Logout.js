@@ -27,8 +27,10 @@ class Logout extends Component {
 
     render() {
         const { successfullyLoggedOut } = this.state;
+
         if(successfullyLoggedOut){
             return (<Redirect to="/"/>);
+
         }
         return (
             <main>
@@ -39,4 +41,3 @@ class Logout extends Component {
 }
 
 export default Logout;
-
