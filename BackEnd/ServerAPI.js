@@ -72,6 +72,7 @@ app
   })
   .post("/createAccount", async server => {
     const new_user = await server.body
+    console.log(new_user);
     let encrypted_password = ''
     let salt = ''
     if (new_user.password1 === new_user.password2) {
@@ -80,7 +81,7 @@ app
     } else {
       server.json({ code: 500, error: 'Passwords do not match' })
     }
-    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW(), $12)", new_user.first_name, new_user.last_name, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
+    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW(), $12)", new_user.first_name, new_user.last_name, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
     const sessionId = v4.generate();
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", new_user.email)).rows;
     const insert_session = (await client.queryObject("INSERT INTO sessions (uuid, user_id, created_at) VALUES ($1, $2, NOW())", sessionId, user[0].id)).rows;
@@ -119,6 +120,23 @@ app
       `)).rows
 
     await server.json(categories)
+  })
+  .get('/cities', async (server) => {
+
+    const cities = (await client.queryObject(`
+        SELECT id, name FROM location
+      `)).rows;
+
+    console.log(cities);
+
+    await server.json(cities);
+  })
+  .post('/getCity', async (server) => {
+    const { cityName } = await server.body;
+    console.log(cityName);
+    const cityId = (await client.queryObject(`SELECT id FROM location WHERE name = $1`, cityName)).rows;
+    console.log(cityId);
+    await server.json(cityId);
   })
   .post("/logout", async server => {
     console.log("Logging out...")

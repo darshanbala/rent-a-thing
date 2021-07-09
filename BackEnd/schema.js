@@ -7,7 +7,14 @@ config({ path: `./.env.${DENO_ENV}`, export: true })
 const client = new Client(Deno.env.get("PG_URL"))
 await client.connect()
 
-await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories, user_reviews;`);
+await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories, user_reviews, location;`);
+
+await client.queryObject(
+  `CREATE TABLE location (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
+  )`
+)
 
 await client.queryObject(
   `CREATE TABLE users (
@@ -21,11 +28,12 @@ await client.queryObject(
     phone_number TEXT NOT NULL,
     address1 TEXT NOT NULL,
     address2 TEXT NOT NULL,
-    city TEXT NOT NULL,
+    city_id INTEGER,
     postcode TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
-    salt TEXT NOT NULL
+    salt TEXT NOT NULL,
+    FOREIGN KEY (city_id) REFERENCES location (id)
   )`
 )
 
