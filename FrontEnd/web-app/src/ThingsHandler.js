@@ -29,8 +29,8 @@ class ThingsHandler extends React.Component {
 */
 
   async filterBy() {
-    const { categoryId, searchbar, all } = this.props
-    console.log(this.props)
+    const { categoryId, searchCriteria, all } = this.props
+    //console.log(this.props)
 
     if(categoryId){
       console.log('category search: '+categoryId)
@@ -49,8 +49,19 @@ class ThingsHandler extends React.Component {
       if(await itemList) {
         this.setState({items: await itemList})
       }
-    }else if (searchbar) {
+    }else if (searchCriteria) {
       console.log('searchbar search')
+      const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/searchByFilter`,
+          {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ searchCriteria: searchCriteria })
+          }
+      );
     }else if (all) {
       console.log('all search')
     }

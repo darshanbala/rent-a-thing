@@ -33,7 +33,7 @@ class Things extends Component {
 
     render() {
         const { items } = this.state
-        console.log(items)
+        //console.log(items)
         if (!items) {
             return (<p>Loading....</p>)
         } else {

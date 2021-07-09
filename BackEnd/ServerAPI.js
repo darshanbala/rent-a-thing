@@ -223,6 +223,21 @@ app
         console.log(await items)
       return items
     })
+    .post('searchByFilter', async server => {
+      const body = await server.body;
+      const searchCriteria = await body.searchCriteria
+      console.log(await searchCriteria)
+      if(await searchCriteria.item && await !searchCriteria.location) {
+            //SEARCH BY JUST ITEM
+            console.log('a')
+        }else {
+            //SEARCH BY ALL
+            console.log('b')
+        }
+
+
+        return 'Not finished yet'
+    })
 
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
