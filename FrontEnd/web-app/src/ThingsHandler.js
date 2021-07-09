@@ -72,7 +72,18 @@ class ThingsHandler extends React.Component {
         this.setState({items: null})
       }
     }else if (all) {
-      console.log('all search')
+      const response = await fetch('http://localhost:8080/items', {
+          method: 'GET',
+          credentials: 'include'
+      })
+      //respose is making the request
+      const itemList = await response.json()
+      //console.log(items.items)
+      if(await itemList[0]) {
+        this.setState({items: await itemList})
+      }else{
+        this.setState({items: null})
+      }
     }
 
   }

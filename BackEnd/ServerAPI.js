@@ -110,7 +110,7 @@ app
         SELECT id, name, is_available FROM items
       `)).rows
 
-    await server.json({ items })
+    return (await items)
   })
   .get('/categories', async (server) => {
 
