@@ -12,7 +12,11 @@ import Login from './Login';
 import Things from './Things'
 import Item from './Item'
 import Logout from './Logout';
+import Profile from './Profile.js';
+import PostItem from './PostItem';
 import MyRentals from './MyRentals'
+import Categories from './Categories';
+import ThingsHandler from './ThingsHandler';
 
 class App extends Component {
 
@@ -56,11 +60,19 @@ class App extends Component {
         this.setState(state => ({ ...state, user: updatedUserValue }));
     }
 
+/*
+    async submitSearch(params) {
+        this.setState({
+          hasSearched: true,
+          searchParams: params
+        })
+    }
+*/
 
     render() {
-        const { isLoggedIn, user } = this.state;
-        console.log("USER:")
-        console.log(user);
+        const { isLoggedIn, user, hasSearched, searchParams } = this.state;
+        //console.log("USER:")
+        //console.log(user);
         return (
 
             <Router>
@@ -70,6 +82,7 @@ class App extends Component {
                 { !isLoggedIn &&
                   <nav className="navBar">
                       <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
                   </nav>
@@ -77,6 +90,7 @@ class App extends Component {
                 { isLoggedIn &&
                   <nav className="navBar">
                       <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/logout" activeClassName="active">Logout</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
@@ -84,16 +98,22 @@ class App extends Component {
                 }
                 <Switch>
                     <Route exact path="/">
-                        <Home cookieCheck={() => this.cookieCheck()}></Home>
+                        <Home cookieCheck={ () => this.cookieCheck() } /> 
+                    </Route>
+                    <Route exact path="/Categories">
+                        <Categories cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/CreateAccount">
                         <CreateAccount cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/Login">
-                        <Login cookieCheck={() => this.cookieCheck()}></Login>
+                    <Route path="/myAccount">
+                        <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
+                    <Route path="/login">
+                        <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Logout">
-                        <Logout cookieCheck={() => this.cookieCheck()}></Logout>
+                        <Logout cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Things">
                         <Things cookieCheck={() => this.cookieCheck()}/>
@@ -101,10 +121,14 @@ class App extends Component {
                     <Route path="/Item">
                         <Item cookieCheck={() => this.cookieCheck()}/>
                     </Route>
+                    <Route path="/postItem">
+                        <PostItem  userID = {user.id} cookieCheck={() => this.cookieCheck()()}/>
+                    </Route>
                     <Route path="/MyRentals">
-                        <MyRentals cookieCheck={() => this.cookieCheck()}/>
+                         <MyRentals cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                 </Switch>
+
                 <div className="footer">
                     <p>Legal stuff | Contact Info | etc.</p>
                     {isLoggedIn && <p>logged in as {user.first_name}</p>}
