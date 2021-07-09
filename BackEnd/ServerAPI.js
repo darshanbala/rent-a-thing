@@ -93,7 +93,7 @@ app
     });
     await server.json({ code: 200 })
   })
-  .post("/isValidNewEmail", async server => {
+  .post("/Email", async server => {
     const { email } = await server.body
     const check = (await client.queryObject("SELECT * FROM users WHERE email = $1", await email)).rows;
 
@@ -127,15 +127,39 @@ app
 
   .get('/item/:id', async (server) => {
     const { id } = server.params
-    
+
     const item = (await client.queryObject(`
     SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
-    id)).rows
+      id)).rows
 
     await server.json(item)
+  })
+
+  .post('/rentItem', async (server) => {
+    const { itemId, rentFrom, rentUntil } = await server.body
+
+    const sessionId = server.cookies['sessionId']
+    const borrower = await getCurrentUser(sessionId)
+
+    const [clashes] = (await client.queryObject(`
+    SELECT SUM(CASE (DATE($1) - 1, DATE($2) + 1) OVERLAPS (rented_from, rented_until) WHEN TRUE THEN 1 ELSE 0 END)::integer AS num_of_clashes
+    FROM rentals
+    WHERE item_id = $3`,
+    rentFrom, rentUntil, itemId)).rows
+
+    // If not logged in or if item reserved on requested date, do not allow item to be rented
+    if (!borrower || clashes.num_of_clashes) {
+      await server.json(false)
+    } else {
+      await client.queryObject(`
+        INSERT INTO rentals (item_id, borrower_id, rented_from, rented_until)
+        VALUES ($1, $2, $3, $4)`,
+        itemId, borrower.id, rentFrom, rentUntil).rows
+      await server.json(true)
+    }
   })
 
   .start({ port: PORT })
