@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import './index.css';
 import './Things.css'
 import Category from './Category';
+import ThingsHandler from './ThingsHandler.js'
 
 class Categories extends Component {
 
@@ -30,11 +31,11 @@ class Categories extends Component {
     }
 
     render() {
-        const { categories, hasChosen } = this.state
+        const { categories, hasChosen, chosenValue } = this.state
 
         if(hasChosen){
             //call parent method that goes to things with chosenValue
-            return (<Redirect to="/things"/>);
+            return ( <ThingsHandler categoryId={ chosenValue } /> );
         }
 
         //console.log(categories);
@@ -55,4 +56,3 @@ class Categories extends Component {
     }
 
 } export default Categories;
-
