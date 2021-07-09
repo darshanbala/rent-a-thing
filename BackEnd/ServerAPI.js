@@ -229,14 +229,42 @@ app
       console.log(await searchCriteria)
       if(await searchCriteria.item && await !searchCriteria.location) {
             //SEARCH BY JUST ITEM
-            console.log('a')
+            let items = [];
+            console.log(searchCriteria.item.length)
+            if( searchCriteria.item.length < 3 ){
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                `, await searchCriteria.item)).rows;
+            }else if( searchCriteria.item.length < 6 && searchCriteria.item.length > 2 ){
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                `, await searchCriteria.item)).rows;
+            }else if( searchCriteria.item.length < 7 && searchCriteria.item.length > 5 ){
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4;
+                `, await searchCriteria.item)).rows;
+            } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6 ) {
+              items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5;
+                `, await searchCriteria.item)).rows;
+            } else {
+                items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6;
+                `, await searchCriteria.item)).rows;
+            }
+              try{
+                return (items);
+              }catch{
+                return [];
+              }
+
         }else {
             //SEARCH BY ALL
             console.log('b')
         }
 
 
-        return 'Not finished yet'
+
     })
 
   .start({ port: PORT })

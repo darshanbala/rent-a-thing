@@ -18,15 +18,16 @@ class ThingsHandler extends React.Component {
     };
   }
 
-  async componentDidMount() {
-        await this.filterBy()
+  async componentDidUpdate(PrevProps, PrevState) {
+        if(this.props != PrevProps){
+          await this.filterBy()
+        }
   }
 
-/*
-  async componentDidUpdate(PrevProps, Prevstate) {
-    if(this.props)
+
+  async componentDidMount() {
+    await this.filterBy()
   }
-*/
 
   async filterBy() {
     const { categoryId, searchCriteria, all } = this.props
@@ -47,6 +48,7 @@ class ThingsHandler extends React.Component {
       );
       const itemList = await response.json();
       if(await itemList) {
+
         this.setState({items: await itemList})
       }
     }else if (searchCriteria) {
@@ -62,6 +64,13 @@ class ThingsHandler extends React.Component {
               body: JSON.stringify({ searchCriteria: searchCriteria })
           }
       );
+      const itemList = await response.json();
+      console.log(await itemList)
+      if(await itemList[0]) {
+        this.setState({items: await itemList})
+      }else{
+        this.setState({items: null})
+      }
     }else if (all) {
       console.log('all search')
     }
