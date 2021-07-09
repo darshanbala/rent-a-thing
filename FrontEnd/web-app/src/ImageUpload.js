@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function ImageUpload() {
+const ImageUpload = ({ handleImgUrl }) => {
 
     const [fileName, setFileName] = useState('')
     const [previewSourceUrl, setPreviewSourceUrl] = useState('')
@@ -13,37 +13,40 @@ export default function ImageUpload() {
             setPreviewSourceUrl(reader.result)
             setFileName(file.name)
         }
+
     }
+
 
     const handFileChange = (e) => {
         const file = e.target.files[0]
-        console.log(typeof file.name)
         previewFile(file)
-
     }
 
-    // const handleFileSubmit = (e) => {
-    //     console.log('Submitting on ImageUpload.js')
-    //     e.preventDefault()
 
-    //     if (!previewSourceUrl) return;
-    //     console.log(previewSourceUrl)
+    const handleFileSubmit = (e) => {
+        //console.log('Submitting on ImageUpload.js')
+        e.preventDefault()
 
-    //     // const reader = new FileReader()
-    //     // reader.readAsDataURL(selectedFile)
-    // }
+        if (!previewSourceUrl) return;
+        //console.log(previewSourceUrl)
+        handleImgUrl(previewSourceUrl)
 
+        // const reader = new FileReader()
+        // reader.readAsDataURL(selectedFile)
+    }
 
 
     return (
         <div>
-            <input
-                className="img-upload"
-                type='file'
-                name={fileName}
-                onChange={handFileChange}>
-
-            </input>
+            <form onSubmit={handleFileSubmit}>
+                <input
+                    className="img-upload"
+                    type='file'
+                    name={fileName}
+                    onChange={handFileChange}>
+                </input>
+                <button type="submit">Upload</button>
+            </form>
             {previewSourceUrl && (
                 <img src={previewSourceUrl} alt={fileName} style={{ height: '300px' }} />
             )}
@@ -51,6 +54,8 @@ export default function ImageUpload() {
 
     )
 }
+
+export default ImageUpload;
 
 
 
