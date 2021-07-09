@@ -11,8 +11,9 @@ class Item extends Component {
             rentFrom: '',
             rentUntil: '',
         },
-        validDateRange: true,
         rentalConfirmed: false,
+        errorMessage: '',
+        usersOwnItem: false,
     }
 
     state = this.initialState
@@ -26,11 +27,21 @@ class Item extends Component {
         const id = urlSplit[urlSplit.length - 1]
 
         // Fetch API response
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/item/${id}`)
-        const [item] = await response.json()
+        const response = await fetch(
+            `${process.env.REACT_APP_API_URL}/item/${id}`,
+            {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }
+        )
+        const { itemInArray, usersOwnItem } = await response.json()
+        const item = itemInArray[0]
 
         // Set state
-        this.setState({ item })
+        this.setState({ item, usersOwnItem })
     }
 
     handleChange = (event) => {
@@ -41,7 +52,7 @@ class Item extends Component {
                 ...prevState.fields,
                 [name]: value,
             },
-            validDateRange: true,
+            errorMessage: '',
             rentalConfirmed: false,
         }))
     }
@@ -49,6 +60,15 @@ class Item extends Component {
     submitForm = async () => {
         const itemId = this.state.item.id
         const { rentFrom, rentUntil } = this.state.fields
+
+        if (!rentFrom || !rentUntil) {
+            this.setState({ errorMessage: 'Please enter a valid rent from and rent until date' })
+            return
+        }
+        
+        if (rentFrom > rentUntil) {
+            this.setState({ errorMessage: 'You cannot time travel (please set the return date to be later than the rental date)' })
+        }
 
         const response = await fetch(
             `${process.env.REACT_APP_API_URL}/rentItem`,
@@ -61,14 +81,11 @@ class Item extends Component {
                 body: JSON.stringify({ itemId, rentFrom, rentUntil })
             }
         )
-        const rentalSubmitted = await response.json()
+        const { errorMessage } = await response.json()
 
-        if (!rentalSubmitted) {
-            // TODO: Handle unsuccessful rental submission
-            this.setState({ validDateRange: false })
-        }
-        else {
-            // TODO: Handle successful rental submission
+        if (errorMessage) {
+            this.setState({ errorMessage })
+        } else {
             this.setState({
                 fields: this.initialState.fields,
                 rentalConfirmed: true,
@@ -80,8 +97,9 @@ class Item extends Component {
     render() {
         const item = this.state.item
         const { rentFrom, rentUntil } = this.state.fields
-        const validDateRange = this.state.validDateRange
+        const errorMessage = this.state.errorMessage
         const rentalConfirmed = this.state.rentalConfirmed
+        const usersOwnItem = this.state.usersOwnItem
 
         return (
             <div className='item-page-container'>
@@ -101,6 +119,7 @@ class Item extends Component {
                         <h2>Reviews</h2>
                     </div>
                     <div className="item-page-rent">
+                        {!usersOwnItem &&
                         <form>
                             <span className="item-page-form-field">
                                 <label htmlFor="rentFrom">Rent from: </label>
@@ -126,9 +145,10 @@ class Item extends Component {
                                 value="Rent item"
                                 onClick={this.submitForm} />
                             <br />
-                            {!validDateRange && <p>Item is not available during this date range</p>}
+                            {errorMessage && <p>{ errorMessage }</p>}
                             {rentalConfirmed && <p>Item successfully rented</p>}
                         </form>
+                        }
                     </div>
                 </div>
             </div>
