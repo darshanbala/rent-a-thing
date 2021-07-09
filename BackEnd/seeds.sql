@@ -26,3 +26,24 @@ INSERT INTO items(name, description, is_available, category_id, owner_id, age_re
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('MacBook', 'Strong and sturdy', TRUE, 9, 3, 16);
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Headphones', 'Not used much', FAlSE, 9, 3, 16);
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Camera', 'Not used much', TRUE, 10, 3, 16);
+
+INSERT INTO location(name) VALUES ('London');
+INSERT INTO location(name) VALUES ('Birmingham');
+INSERT INTO location(name) VALUES ('Glasgow');
+INSERT INTO location(name) VALUES ('Liverpool');
+INSERT INTO location(name) VALUES ('Bristol');
+INSERT INTO location(name) VALUES ('Manchester');
+INSERT INTO location(name) VALUES ('Sheffield');
+INSERT INTO location(name) VALUES ('Leeds');
+INSERT INTO location(name) VALUES ('Edinburgh');
+INSERT INTO location(name) VALUES ('Leicester');
+INSERT INTO location(name) VALUES ('Coventry');
+INSERT INTO location(name) VALUES ('Bradford');
+INSERT INTO location(name) VALUES ('Cardiff');
+INSERT INTO location(name) VALUES ('Belfast');
+INSERT INTO location(name) VALUES ('Nottingham');
+INSERT INTO location(name) VALUES ('Kingston upon Tyne');
+INSERT INTO location(name) VALUES ('Newcastle upon Tyne');
+INSERT INTO location(name) VALUES ('Stock-on-Trent');
+INSERT INTO location(name) VALUES ('Southampton');
+INSERT INTO location(name) VALUES ('Derby');
