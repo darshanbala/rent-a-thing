@@ -19,9 +19,10 @@ class Things extends Component {
         })
         //respose is making the request
         const items = await response.json()
-        //console.log(items.items)
+        console.log(items)
+        
         this.setState({ items })
-        //console.log(this.state)
+       
     }
 
     handleItemClick(id) {
@@ -38,8 +39,8 @@ class Things extends Component {
 
             return (
                 <div className='item-list'>
-                    {items.items.map(({ id, name, is_available }) =>
-                        <Card key={id} id={id} name={name} is_available={is_available} cardType='things-page-card'/>
+                    {items.map(({ id, name, is_available, img_url }) =>
+                        <Card key={id} id={id} name={name} is_available={is_available} img_url={img_url} cardType='things-page-card'/>
                     )}
                 </div>
 

@@ -107,10 +107,10 @@ app
   .get('/items', async (server) => {
 
     const items = (await client.queryObject(`
-        SELECT id, name, is_available FROM items
+        SELECT id, name, is_available, img_url FROM items
       `)).rows
 
-    await server.json({ items })
+    await server.json(items)
   })
   .get('/categories', async (server) => {
 
