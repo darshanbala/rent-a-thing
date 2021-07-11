@@ -49,4 +49,3 @@ class Things extends Component {
     }
 
 } export default Things;
-

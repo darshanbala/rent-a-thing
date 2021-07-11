@@ -170,7 +170,7 @@ app
     const { id } = server.params
 
     const item = (await client.queryObject(`
-    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction,
+    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
