@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
-import City from './City';
+import '../../index.css';
+import City from '../framework/City';
 
 class CreateAccount extends Component {
 
@@ -337,10 +337,12 @@ class CreateAccount extends Component {
               <section>
               <div className="cityParent">
                 <label htmlFor="city" value="City : " >City : </label>
+                <br/>
                 {/*<input type="text" name="city" id="city" value={city} onChange={(e) => this.updateInfo(e)} />*/}
-
-                { !hasChosenCountry && cityOptions.map(({ id, name }) => <span className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</span>)}
-                { hasChosenCountry && <span>{cityName}</span>}
+                <section id='cities_section'>
+                { !hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
+                { hasChosenCountry && <div className="chosenCityCard" onClick={(e) => this.changeCity(e)} value={cityName}>{cityName}</div>}
+                </section>
                 {/*<City key={id} id={id} name={name} />*/}
                 {/*
                 <div className="dropdown">

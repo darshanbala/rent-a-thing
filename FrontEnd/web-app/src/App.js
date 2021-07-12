@@ -6,16 +6,15 @@ import {
     Route,
     NavLink
 } from 'react-router-dom';
-import Home from './Home';
-import CreateAccount from './CreateAccount';
-import Login from './Login';
-import Things from './Things'
-import Item from './Item'
-import Profile from './Profile.js';
-import PostItem from './PostItem';
-import MyRentals from './MyRentals'
-import Categories from './Categories';
-import ThingsHandler from './ThingsHandler';
+import Home from './components/home/Home';
+import CreateAccount from './components/user/CreateAccount';
+import Login from './components/user/Login';
+import Item from './components/products/Item'
+import Profile from './components/user/profile/Profile.js';
+import PostItem from './components/products/PostItem';
+import MyRentals from './components/user/profile/MyRentals'
+import Categories from './components/products/Categories';
+import ThingsHandler from './components/framework/ThingsHandler.js';
 
 class App extends Component {
 
@@ -96,7 +95,7 @@ class App extends Component {
                 </div>
                 { !isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
                       <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
@@ -104,7 +103,7 @@ class App extends Component {
                 }
                 { isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton noUnderline" to="/" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
                       <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
                       <div className="navButton floatRight noUnderline" onClick={ () => { this.logout() } }>Logout</div>
                       <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
@@ -112,7 +111,7 @@ class App extends Component {
                   </nav>
                 }
                 <Switch>
-                    <Route exact path="/">
+                    <Route exact path="/Home">
                         <Home cookieCheck={ () => this.cookieCheck() } />
                     </Route>
                     <Route exact path="/Categories">
@@ -126,9 +125,6 @@ class App extends Component {
                     </Route>
                     <Route path="/login">
                         <Login cookieCheck={() => this.cookieCheck()} />
-                    </Route>
-                    <Route path="/Things">
-                        <Things cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/Item">
                         <Item cookieCheck={() => this.cookieCheck()}/>

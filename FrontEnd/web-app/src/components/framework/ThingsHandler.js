@@ -1,5 +1,5 @@
 import React from 'react';
-import Things from './Things.js'
+import Things from '../products/Things.js'
 
 class ThingsHandler extends React.Component {
 

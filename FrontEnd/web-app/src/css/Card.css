@@ -1,16 +1,17 @@
 
 /* Add shadows to create the "card" effect */
 .things-page-card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.2s;
   border-radius: 5px;
+  margin: 0 5px 0 5px;
 }
 
 .myrentals-page-card {
   display: flex;
   background-color: rgba(184, 194, 197, 0.507);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.2s;
   border-radius: 5px;
   margin: 1em;
 }
@@ -28,10 +29,5 @@
 
 /* On mouse-over, add a deeper shadow */
 .things-page-card:hover, .myrentals-page-card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
 }
-
-
-
-
-

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
+import '../../index.css';
 
 class SearchBar extends Component {
 

@@ -2,8 +2,8 @@
   padding: 0.5em;
   font-size: 30px;
   /*margin: 1em;*/
-  background: #e7530b;
-  color: white;
+  background: #ffffff;
+  color: #2ec4b6;
   text-align: center;
 }
 
@@ -12,25 +12,27 @@
   /*margin: 1em;*/
   /*display: flex;*/
   /*justify-content: space-around;*/
-  background: black;
+  background: #cbf3f0;
   color: black;
   margin-bottom: 2em;
+  box-shadow: 2px -1px 5px #2ec4b6;
 }
 
 .navButton {
-  background-color: #e7530b;
+  background-color: #ffffff;
   color: black;
   font-size: 20px;
   padding: 0.5em;
   margin: 0.5em;
-  border-radius: 12px;
+  border-radius: 15px;
+  border: 3px solid #ff9f1c;
   transition-duration: 0.2s;
   display: inline-block;
 }
 
 .navButton:hover {
   /*background-color: #a53c07;*/
-  color: white;
+  border: 3px solid #2ec4b6;
 }
 
 .footer {
@@ -42,7 +44,7 @@
   /*margin: 1em;*/
   display: flex;
   justify-content: space-around;
-  background: #e7530b;
+  background: #cbf3f0;
   color: black;
 }
 
@@ -58,9 +60,9 @@
 }
 
 .active {
-  color: #fff;
-  font-weight: bold;
-  border: 1px solid #fff;
+  color: black;
+  background-color: white;
+  border: 3px solid #2ec4b6;
 }
 
 .floatRight {
@@ -119,7 +121,7 @@
 }
 
 .highlight {
-  color: #e7530b;
+  color: #ff9f1c;
 }
 
 /* RAW HTML ELEMENTS, THEESE COME LAST */
@@ -136,27 +138,26 @@ main {
   text-align: center;
 }
 
-.category{
-  padding: 0.5em;
-  border: 5px solid #e7530b;
-  border-radius: 12px;
-  margin: 0.5em;
-  cursor: pointer;
-}
 
-.category:hover{
-  background: grey;
-}
 
 .cityCard{
   padding: 1em;
-  border: 2px solid #e7530b;
+  border: 2px solid #ff9f1c;
+  margin: 1em;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.chosenCityCard{
+  padding: 1em;
+  border: 2px solid #2ec4b6;
   margin: 1em;
   border-radius: 12px;
 }
 
 .cityCard:hover{
-  background: grey;
+  border: 2px solid #2ec4b6;
+  transition: 0.5s;
 }
 
 .cityParent{
@@ -216,3 +217,24 @@ main {
 .dropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
+
+#cities_section {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 90%;
+}
+
+#cityCard {
+  width: 25%;
+}
+
+input[type=text], textarea, select, input[type=date] {
+  padding: 10px 10px 10px 10px;
+  margin: 0 3px 10px 3px;
+  border-radius: 6px;
+  border-width: thin;
+}
+input[type=submit] {
+  margin-top: 20px;
+  padding: 6px 20px 6px 20px;
+}

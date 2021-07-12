@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
-import './Things.css'
+import '../../index.css';
+import '../../css/Things.css'
 
 class Category extends Component {
 
@@ -12,16 +12,20 @@ class Category extends Component {
     render() {
         return (
             <div className="category" onClick={() => this.props.handleClick(this.props.id)}>
-                <h2>{this.props.name}</h2>
-                <h2>{this.props.description}</h2>
+                <div id="info_container">
+                  <h2>{this.props.name}</h2>
+                  <h2>{this.props.description}</h2>
+                </div>
                 {/*<h2>{imgurl}</h2>*/}
-                <img src={this.props.imgurl} alt={this.props.id}/>
+                <div id="img_container">
+                  <img id="category_card_img" src={this.props.imgurl} alt={this.props.id}/>
+                </div>
             </div>
-    
+
         )
     }
 
-} 
+}
 
 /*
 handleClick(arg) {
@@ -39,9 +43,8 @@ export default function Category({ id, name, description, imgurl }) {
         </div>
 
     )
-    
+
 }
 */
 
 export default Category;
-
