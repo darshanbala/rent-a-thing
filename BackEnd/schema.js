@@ -94,6 +94,9 @@ await client.queryObject(
     item_id INTEGER NOT NULL,
     borrower_id INTEGER NOT NULL,
     rented_from DATE NOT NULL,
-    rented_until DATE NOT NULL
+    rented_until DATE NOT NULL,
+    FOREIGN KEY (item_id) REFERENCES items (id),
+    FOREIGN KEY (borrower_id) REFERENCES users (id)
+
   )`
 )

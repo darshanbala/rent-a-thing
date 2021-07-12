@@ -38,6 +38,7 @@ class Item extends Component {
             }
         )
         const { itemInArray, usersOwnItem } = await response.json()
+
         const item = itemInArray[0]
 
         // Set state
