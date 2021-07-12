@@ -1,12 +1,13 @@
 .item-list {
   display: flex;
+  padding-bottom: 3em;
 }
 
 .category{
   padding: 0.5em;
-
-  border: 3px solid #ff9f1c;
-  border-radius: 12px;
+  background-color: white;
+  border: 3px solid #FFBF69;
+  border-radius: 10px;
   margin: 0.5em;
   cursor: pointer;
   width: 350px;
@@ -21,19 +22,25 @@
 
 .category:hover{
   /*background: #ff9f1c;*/
-  box-shadow: 0px 0px 6px #2ec4b6;
+  box-shadow: 0px 0px 8px grey;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
   border: 3px solid #2ec4b6;
-  transition: 0.2s;
+  transition: 0.4s;
 }
 
 #category_card_img {
   width: 100%;
   margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px black;
+  border: 1px solid black;
 }
 
 #info_container {
   margin-top: 10px;
   flex: 4;
+
 }
 
 #img_container {

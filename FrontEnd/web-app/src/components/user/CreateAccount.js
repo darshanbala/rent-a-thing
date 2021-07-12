@@ -243,6 +243,7 @@ class CreateAccount extends Component {
 
   async changeCity(e) {
     //console.log(e.target.innerHTML);
+    e.preventDefault();
     const cityName = e.target.innerHTML; // Get city string i.e. Glasgow
     console.log(cityName);
     //this.setState({ city });
@@ -275,8 +276,7 @@ class CreateAccount extends Component {
 
     if (!valid_new_user) {
       return (
-        <main>
-          <div>
+        <section>
             <h1>CreateAccount</h1>
             <form className="SubmissionForm">
               <section>
@@ -299,14 +299,12 @@ class CreateAccount extends Component {
                 {validationMessage && <p className="error">{validationMessage}</p>}
               </section>
             </form>
-          </div>
-        </main>
+        </section>
       );
     }
     else {
       return (
-        <main>
-          <div>
+        <section>
             <h1>User details:</h1>
             <form className="SubmissionForm">
               <section>
@@ -371,8 +369,7 @@ class CreateAccount extends Component {
                 {validationMessage && <p className="error">{validationMessage}</p>}
               </section>
             </form>
-          </div>
-        </main>
+        </section>
       )
     }
   }
