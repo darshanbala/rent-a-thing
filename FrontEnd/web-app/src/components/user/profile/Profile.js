@@ -1,5 +1,5 @@
 import React from 'react';
-import './Profile_page.css';
+import '../../../css/Profile_page.css';
 import UserReviews from './UserReviews.js';
 import UserPosts from './UserPosts.js';
 import UserLookingFor from './UserLookingFor';
@@ -71,10 +71,6 @@ class Profile extends React.Component {
               <UserReviews user={user} />
             </div>
           </section>
-          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
-          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
-          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
-          <p>QUICKFIX FOR PAGE SPACING... REMOVE ME AND FIX CSS</p>
         </main>
       )
     }else{

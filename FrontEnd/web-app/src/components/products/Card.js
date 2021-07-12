@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns'
-import './Card.css';
+import '../../css/Card.css';
 
 const checkCardType = ['things-page-card', 'myrentals-page-card']
 
@@ -54,4 +54,3 @@ export default function Card({
         )
     }
 }
-

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './MyRentals.css'
-import Card from './Card'
+import '../../../css/MyRentals.css'
+import Card from '../../products/Card'
 
 import { format } from 'date-fns'
 

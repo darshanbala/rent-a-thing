@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
+import '../../index.css';
 
 class SearchBar extends Component {
 
@@ -52,16 +52,19 @@ class SearchBar extends Component {
     render() {
         const { item, dateFrom, dateTo, location } = this.state;
         return (
-            <main>
-                <h1></h1>
+            <section>
                 <form type="submit" className="searchBar">
+                    <div>
                     <span><input type="text" name="item" id="item" value={item} onChange={(e) => this.handleChange(e)} placeholder='item' /></span>
                     <span><input type="date" name="dateFrom" id="dateFrom" value={dateFrom} onChange={(e) => this.handleChange(e)} placeholder='dateFrom' /></span>
                     <span><input type="date" name="dateTo" id="dateTo" value={dateTo} onChange={(e) => this.handleChange(e)} placeholder='dateTo' /></span>
                     <span><input type="text" name="location" id="location" value={location} onChange={(e) => this.handleChange(e)} placeholder='location' /></span>
-                    <span><button onClick={(e) => this.formSubmission(e)} >Click Me!</button></span>
+                    </div>
+                    <div>
+                    <input id='search_submit' type='submit' onClick={(e) => this.formSubmission(e)} value='GO'/>
+                    </div>
                 </form>
-            </main>
+            </section>
         );
     }
 }

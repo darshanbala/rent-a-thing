@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
+import '../../index.css';
 
 class Login extends Component {
 
@@ -120,7 +120,8 @@ class Login extends Component {
                         </label>
                         {this.passwordErrors() && <p className='error'>{this.passwordErrors()}</p>}
                     </section>
-                    <button type='submit' disabled={!touched.email || !touched.password || this.emailErrors() || this.passwordErrors()} >Login</button>
+                    {/*<button type='submit' disabled={!touched.email || !touched.password || this.emailErrors() || this.passwordErrors()} >Login</button>*/}
+                    <input type='submit' value='Login' disabled={this.emailErrors() || this.passwordErrors()} />
                 </form>
             </main>
         );

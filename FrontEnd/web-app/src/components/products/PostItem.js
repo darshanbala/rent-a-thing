@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
-import ImageUpload from './ImageUpload'
+import '../../index.css';
+import ImageUpload from '../framework/ImageUpload'
 
 class PostItem extends Component {
 
@@ -20,6 +20,7 @@ class PostItem extends Component {
     resetForm() {
         this.setState(this.initialState);
     }
+
 
     handleImgUrl = (url) => {
         //console.log(url,'Url on PostItem')
@@ -41,7 +42,8 @@ class PostItem extends Component {
 
     async handleSubmit(e) {
         //console.log('Submitting on PostItem.js')
-        
+
+
         e.preventDefault();
         this.resetForm();
 
@@ -110,7 +112,7 @@ class PostItem extends Component {
                     </select>
 
 
-                    <button type='submit'>PostItem</button>
+                    <input type='submit' value='Post rental' />
                 </form>
                 <ImageUpload handleImgUrl={this.handleImgUrl}/>
             </main>
