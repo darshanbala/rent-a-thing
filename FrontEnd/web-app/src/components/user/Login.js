@@ -121,7 +121,7 @@ class Login extends Component {
                         {this.passwordErrors() && <p className='error'>{this.passwordErrors()}</p>}
                     </section>
                     {/*<button type='submit' disabled={!touched.email || !touched.password || this.emailErrors() || this.passwordErrors()} >Login</button>*/}
-                    <input type='submit' value='Login' />
+                    <input type='submit' value='Login' disabled={this.emailErrors() || this.passwordErrors()} />
                 </form>
             </main>
         );

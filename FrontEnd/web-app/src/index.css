@@ -1,6 +1,7 @@
 .header {
-  padding: 0.5em;
-  font-size: 30px;
+  padding: 2px;
+  font-size: 60px;
+  font-family: 'Yomogi', cursive;
   /*margin: 1em;*/
   background: #ffffff;
   color: #2ec4b6;
@@ -128,7 +129,7 @@
 
 body {
   margin: 0px !important;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: 'Varela Round', sans-serif;
   padding-bottom: 10em;
 }
 
@@ -237,4 +238,13 @@ input[type=text], textarea, select, input[type=date] {
 input[type=submit] {
   margin-top: 20px;
   padding: 6px 20px 6px 20px;
+  border-radius: 6px;
+  border-width: 2px;
+  transition: 0.2s;
+}
+input[type=submit]:hover {
+  border: 2px solid #2ec4b6;
+  border-radius: 6px;
+  transition: 0.3s;
+  box-shadow: 0 0 4px grey;
 }

@@ -82,14 +82,12 @@ class PostItem extends Component {
                 <option>Please select Age restrction</option>
                 <option value='0'>No restriction</option>
                 <option value="18">18 and over</option>
-
-
             </select>
 
 
 
 
-            <button type='submit'>PostItem</button>
+            <input type='submit' value='Post rental' />
                 </form>
             </main>
         );
