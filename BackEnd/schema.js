@@ -6,17 +6,19 @@ config({ path: `./.env.${DENO_ENV}`, export: true })
 
 const client = new Client(Deno.env.get("PG_URL"))
 await client.connect()
-
+/*
 await client.queryObject(
   `CREATE EXTENSION fuzzystrmatch;`
 )
-
+*/
 await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories, user_reviews, rentals, location;`);
 
 await client.queryObject(
   `CREATE TABLE location (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    latitude TEXT NOT NULL,
+    longitude TEXT NOT NULL
   )`
 )
 
@@ -69,7 +71,9 @@ await client.queryObject(
     owner_id INTEGER,
     age_restriction INTEGER,
     img_url TEXT,
-    FOREIGN KEY (category_id) REFERENCES categories (id)
+    city_id INTEGER,
+    FOREIGN KEY (category_id) REFERENCES categories (id),
+    FOREIGN KEY (city_id) REFERENCES location (id)
   )`
 )
 
