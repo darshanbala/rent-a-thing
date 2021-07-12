@@ -11,7 +11,7 @@ class UserReview extends React.Component {
         <h1 id="reviewer_name">{review.first_name} {review.last_name}</h1>
         <h1 id='review-title'>{review.title}</h1>
         <h2 id="review_content">{review.content}</h2>
-        <p id="how_long_ago">{review.howLongAgo}</p>
+        <p id="how_long_ago">{review.howLongAgo} ago</p>
         <p id='rating'>rating: {review.rating}/5</p>
       </section>
     )

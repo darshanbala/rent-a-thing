@@ -7,6 +7,7 @@ class PostItem extends Component {
 
     initialState = {
         name: '',
+        categories: null,
         description: '',
         category: null,
         age_restriction: null,
@@ -16,6 +17,15 @@ class PostItem extends Component {
     }
 
     state = this.initialState;
+
+    async componentDidMount() {
+        const response = await fetch('http://localhost:8080/categories', {
+            method: 'GET',
+            credentials: 'include'
+        })
+        const categories = await response.json()
+        this.setState({ categories })
+    }
 
     resetForm() {
         this.setState(this.initialState);
@@ -42,8 +52,6 @@ class PostItem extends Component {
 
     async handleSubmit(e) {
         //console.log('Submitting on PostItem.js')
-
-
         e.preventDefault();
         this.resetForm();
 
@@ -79,7 +87,7 @@ class PostItem extends Component {
 
 
     render() {
-        const { name, description, category, age_restriction } = this.state;
+        const { name, description, category, age_restriction, categories } = this.state;
 
         return (
 
@@ -93,15 +101,15 @@ class PostItem extends Component {
 
 
 
+                      { categories &&
+                        <select name="category" value={category} onChange={this.handleChange}>
+                            <option>Please Select Category</option>
+                              {categories.map(({ id, name, description, imgurl }) =>
+                                  <option key={id} id={id} name={category} value={id}>{name}</option>
+                              )}
+                        </select>
+                      }
 
-                    <select name="category" value={category} onChange={this.handleChange}>
-                        <option>Please Select Category</option>
-                        <option value="1">Landscape</option>
-                        <option value="2">Indoor</option>
-                        <option value="3">Sport</option>
-                        <option value="4">Gaming</option>
-
-                    </select>
 
                     <select name="age_restriction" value={age_restriction} onChange={this.handleChange}>
                         <option>Please select Age restrction</option>

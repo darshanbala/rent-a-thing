@@ -5,9 +5,8 @@ class UserPosts extends React.Component {
   constructor() {
     super();
     this.state = {
-
+      
     };
-
   }
 
   render() {
