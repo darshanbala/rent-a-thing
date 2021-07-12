@@ -32,7 +32,7 @@ class ThingsHandler extends React.Component {
   async filterBy() {
     const { categoryId, searchCriteria, all } = this.props
     //console.log(this.props)
-
+    let itemList = [];
     if(categoryId){
       //console.log('category search: '+categoryId)
       const response = await fetch(
@@ -46,12 +46,11 @@ class ThingsHandler extends React.Component {
               body: JSON.stringify({ category_id: categoryId })
           }
       );
-      const itemList = await response.json();
+      itemList = await response.json();
       if(await itemList) {
-
         this.setState({items: await itemList})
       }
-    }else if (searchCriteria) {
+    }else if (searchCriteria && searchCriteria.item) {
       //console.log('searchbar search')
       const response = await fetch(
           `${process.env.REACT_APP_API_URL}/searchByFilter`,
@@ -64,12 +63,12 @@ class ThingsHandler extends React.Component {
               body: JSON.stringify({ searchCriteria: searchCriteria })
           }
       );
-      const itemList = await response.json();
+      itemList = await response.json();
       //console.log(await itemList)
       if(await itemList[0]) {
         this.setState({items: await itemList})
       }else{
-        this.setState({items: null})
+        this.setState({items: []})
       }
     }else if (all) {
       const response = await fetch('http://localhost:8080/items', {
@@ -77,13 +76,15 @@ class ThingsHandler extends React.Component {
           credentials: 'include'
       })
       //respose is making the request
-      const itemList = await response.json()
+      itemList = await response.json()
       //console.log(items.items)
       if(await itemList[0]) {
         this.setState({items: await itemList})
       }else{
-        this.setState({items: null})
+        this.setState({items: []})
       }
+    }else{
+      this.setState({items: []})
     }
 
   }
