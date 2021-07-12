@@ -36,14 +36,14 @@ INSERT INTO categories(name, description, imgURL) VALUES ('Gaming', 'Video games
 INSERT INTO categories(name, description, imgURL) VALUES ('Hardware', 'Computer hardware', 'https://imagizer.imageshack.com/v2/320x240q90/922/4uUqpO.jpg');
 INSERT INTO categories(name, description, imgURL) VALUES ('Stationary/Art appliances', 'Any items or objects used in the creative arts', 'https://imagizer.imageshack.com/v2/320x240q90/923/2QqCg7.jpg');
 
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Chainsaw', 'Great condition only used once', FALSE, 1, 1, 18);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Drill', 'Like new', TRUE, 1, 2, 18);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Ladder', 'Strong and sturdy', TRUE, 2, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('PS4', 'Strong and sturdy', FALSE, 8, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Hedge Cutter', 'Strong and sturdy', TRUE, 1, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Lawn Mower', 'Not used much', TRUE, 3, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Monitor', 'Not used much', TRUE, 9, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Xbox', 'Strong and sturdy', FALSE, 8, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('MacBook', 'Strong and sturdy', TRUE, 9, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Headphones', 'Not used much', FAlSE, 9, 3, 16);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction) VALUES ('Camera', 'Not used much', TRUE, 10, 3, 16);
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Chainsaw', 'Great condition only used once', FALSE, 1, 1, 18, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Drill', 'Like new', TRUE, 1, 2, 18, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Ladder', 'Strong and sturdy', TRUE, 2, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('PS4', 'Strong and sturdy', FALSE, 8, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Hedge Cutter', 'Strong and sturdy', TRUE, 1, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Lawn Mower', 'Not used much', TRUE, 3, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Monitor', 'Not used much', TRUE, 9, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Xbox', 'Strong and sturdy', FALSE, 8, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('MacBook', 'Strong and sturdy', TRUE, 9, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Headphones', 'Not used much', FAlSE, 9, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Camera', 'Not used much', TRUE, 10, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
