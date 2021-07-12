@@ -156,7 +156,7 @@ main {
 
   text-align: center;
   background-color: inherit;
-  backdrop-filter:  blur(1px) brightness(105%) ;
+  backdrop-filter: brightness(105%) ;
   min-height: 100vh;
 }
 
