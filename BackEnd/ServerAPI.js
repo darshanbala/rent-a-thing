@@ -196,7 +196,7 @@ app
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
-
+    console.log(itemInArray)
     // Check if this is the logged in user's own item
     const usersOwnItem = (user.id === itemInArray[0].owner_id) ? true : false
 
@@ -353,8 +353,29 @@ app
       console.log('b')
     }
 
+  })
 
+  .get('/myrentals', async (server) => {
+    const sessionId = server.cookies['sessionId'];
+    const user = await getCurrentUser(sessionId);
+    //console.log(user)
 
+    if (!user) {
+      return;
+    } else {
+      const rentals = (await client.queryObject(`
+    SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until, 
+    items.name, items.owner_id, items.img_url
+    FROM rentals JOIN items ON rentals.item_id = items.id
+    WHERE items.owner_id  = $1 
+    OR rentals.borrower_id = $1`,
+        user.id)).rows
+
+      const lending = rentals.filter(e => e.owner_id === user.id)
+      const borrowing = rentals.filter(e => e.borrower_id === user.id)
+
+      await server.json({ lending, borrowing })
+    }
   })
 
   .start({ port: PORT })
