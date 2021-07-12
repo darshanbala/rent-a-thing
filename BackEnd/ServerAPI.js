@@ -203,9 +203,9 @@ app
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
-
+    console.log(itemInArray)
     // Check if this is the logged in user's own item
-    const usersOwnItem = (user.id === itemInArray[0].owner_id) ? true : false
+    const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
     await server.json({ itemInArray, usersOwnItem })
   })
@@ -323,45 +323,101 @@ app
   .post('searchByFilter', async server => {
     const body = await server.body;
     const searchCriteria = await body.searchCriteria
-    console.log(await searchCriteria)
+    console.log('string to search: '+await searchCriteria.item)
     if (await searchCriteria.item && await !searchCriteria.location) {
       //SEARCH BY JUST ITEM
       let items = [];
-      console.log(searchCriteria.item.length)
-      if (searchCriteria.item.length < 3) {
+
+      if (searchCriteria.item.length < 3 && searchCriteria.item.length > 0) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria.item}%' OR name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
+                console.log(await items)
       } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 7 && searchCriteria.item.length > 5) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4;
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5;
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
-      } else {
+      } else if (searchCriteria.item.length > 10) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6;
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       }
-      try {
+
+      console.log(items)
+    //  try {
         return (items);
-      } catch {
+    //  } catch {
         return [];
-      }
+    //  }
 
     } else {
       //SEARCH BY ALL
       console.log('b')
     }
 
+  })
+
+  .get('/myrentals', async (server) => {
+    const sessionId = server.cookies['sessionId'];
+    const user = await getCurrentUser(sessionId);
+    //console.log(user)
+
+    if (!user) {
+      return;
+    } else {
+      const rentals = (await client.queryObject(`
+    SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until, 
+    items.name, items.owner_id, items.img_url,
+    users_borrowing.first_name AS borrowers_first_name, users_borrowing.last_name AS borrowers_last_name,
+    users_lending.first_name AS lenders_first_name, users_lending.last_name AS lenders_last_name
+    FROM rentals 
+    JOIN items ON rentals.item_id = items.id
+    JOIN users AS users_borrowing ON rentals.borrower_id = users_borrowing.id
+    JOIN users AS users_lending ON items.owner_id = users_lending.id
+    WHERE items.owner_id  = $1 
+    OR rentals.borrower_id = $1`,
+        user.id)).rows
+
+      let lending = rentals.filter(e => e.owner_id === user.id)
+      
+      lending = lending.map(e => { 
+        delete e.lenders_first_name
+        delete e.lenders_last_name
+        e.trader_first_name = e.borrowers_first_name
+        e.trader_last_name = e.borrowers_last_name
+        delete e.borrowers_first_name
+        delete e.borrowers_last_name
+        return e
+      })
+        
+      
+      let borrowing = rentals.filter(e => e.borrower_id === user.id)
+      borrowing = borrowing.map(e => { 
+        delete e.borrowers_first_name
+        delete e.borrowers_last_name
+        e.trader_first_name = e.lenders_first_name
+        e.trader_last_name = e.lenders_last_name
+        delete e.lenders_first_name
+        delete e.lenders_last_name
+        return e
+      })
 
 
+
+      // console.log(lending, "lending")
+      // console.log(borrowing, "borrowing")
+
+
+      await server.json({ lending, borrowing })
+    }
   })
 
   .start({ port: PORT })

@@ -48,4 +48,5 @@ INSERT INTO items(name, description, is_available, category_id, owner_id, age_re
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Headphones', 'Not used much', FAlSE, 9, 3, 16, '', 5);
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Camera', 'Not used much', TRUE, 10, 3, 16, '', 1);
 
-
+INSERT INTO rentals(item_id, borrower_id, rented_from, rented_until) VALUES (2, 1, NOW(), NOW());
+INSERT INTO rentals(item_id, borrower_id, rented_from, rented_until) VALUES (1, 4, NOW(), NOW());
