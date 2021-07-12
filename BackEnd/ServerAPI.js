@@ -198,7 +198,7 @@ app
       id)).rows
 
     // Check if this is the logged in user's own item
-    const usersOwnItem = (user.id === itemInArray[0].owner_id) ? true : false
+    const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
     await server.json({ itemInArray, usersOwnItem })
   })
