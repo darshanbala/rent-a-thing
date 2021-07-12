@@ -21,18 +21,7 @@ class PostItem extends Component {
         this.setState(this.initialState);
     }
 
-<<<<<<< HEAD:FrontEnd/web-app/src/components/products/PostItem.js
 
-
-
-
-    async handleSubmit(e) {
-        // const user = this.props.checkWhoIsSignedIn()
-
-
-        const { name, description, category, age_restriction } = this.state;
-        const ownerID = this.props.userID
-=======
     handleImgUrl = (url) => {
         //console.log(url,'Url on PostItem')
         this.setState({img_url: url})
@@ -54,7 +43,7 @@ class PostItem extends Component {
     async handleSubmit(e) {
         //console.log('Submitting on PostItem.js')
 
->>>>>>> Main:FrontEnd/web-app/src/PostItem.js
+
         e.preventDefault();
         this.resetForm();
 
