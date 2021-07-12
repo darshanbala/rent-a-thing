@@ -39,6 +39,39 @@ class CreateAccount extends Component {
     })
     const cityOptions = await response.json()
     this.setState({ cityOptions });
+
+    // NEW GeoDB STUFF
+    /*
+    const newResponse = await fetch(
+      "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
+      {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          "x-rapidapi-key": "b97ae692c1msh0cd7be3cd458128p1504dajsn77a8dde2b6be",
+          "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+        }
+      }
+    );
+    const isSuccess = await newResponse.json();
+    console.log(isSuccess);
+    */
+
+    /*
+    fetch("https://wft-geo-db.p.rapidapi.com/v1/geo/cities", {
+      "method": "GET",
+      "headers": {
+        "x-rapidapi-key": "b97ae692c1msh0cd7be3cd458128p1504dajsn77a8dde2b6be",
+        "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+      }
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+      */
   }
 
   componentDidUpdate() {
@@ -263,13 +296,13 @@ class CreateAccount extends Component {
     const cityId = await response.json(); // Get city id associated with i.e. Glasgow
     //const cityOptions = await response.json()
     console.log(cityId[0].id);
-    this.setState({ city: cityId[0].id, hasChosenCountry: true, cityName: cityName});  // set user city to this id so in future user and other components can searh for location id and get city name back
+    this.setState({ city: cityId[0].id, hasChosenCountry: true, cityName: cityName });  // set user city to this id so in future user and other components can searh for location id and get city name back
   }
 
   render() {
     const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, cityName } = this.state
-    console.log("CITIES:");
-    console.log(cityOptions);
+    //console.log("CITIES:");
+    //console.log(cityOptions);
     if (successfullySubmitted) {
       return (<Redirect to="/" />);
     }

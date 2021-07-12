@@ -47,6 +47,13 @@ app
       await server.json(false);
     }
   })
+  .get('/checkUserLocation', async server => {
+    /*
+    const { user } = await server.body;
+    const userLocation = (await client.queryObject("SELECT city_id FROM users WHERE ", email)).rows;
+    await server.json(userLocation);
+    */
+  })
   .post("/login", async server => {
     const { email, password } = await server.body;
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", email)).rows;
