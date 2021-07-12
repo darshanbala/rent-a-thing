@@ -46,7 +46,7 @@ class ThingsHandler extends React.Component {
   }
 
   async changeCity(e) {
-    const cityName = e.target.innerHTML; 
+    const cityName = e.target.innerHTML;
     //console.log(cityName);
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/getCity`,
@@ -65,8 +65,8 @@ class ThingsHandler extends React.Component {
 
     let { items, locationFilteredItemList } = this.state;
     locationFilteredItemList = await this.filterByLocation(items);
-    console.log("locationFilteredItems:");
-    console.log(locationFilteredItemList);
+    //console.log("locationFilteredItems:");
+    //console.log(locationFilteredItemList);
     this.setState({ locationFilteredItemList });
   }
 
@@ -95,8 +95,8 @@ class ThingsHandler extends React.Component {
     //console.log("Item List: ");
     //console.log(itemList);
     const { currentLocationId } = await this.state;
-    console.log("Filtering by location id:")
-    console.log(currentLocationId);//[0].id);
+    //console.log("Filtering by location id:")
+    //console.log(currentLocationId);//[0].id);
     if (currentLocationId) {
       //console.log("Filtering...");
       const filteredItems = itemList.filter(item => item.city_id === currentLocationId);
@@ -128,12 +128,12 @@ class ThingsHandler extends React.Component {
       let itemList = await response.json();
       if (await itemList) {
         //FURTHER FILTER BY LOCATION HERE
-        console.log("ItemList:");
-        console.log(itemList);
+        //console.log("ItemList:");
+        //console.log(itemList);
         const locationFilteredItems = await this.filterByLocation(itemList);
-        console.log("locationFilteredItems:");
-        console.log(locationFilteredItems);
-        this.setState({ items: await itemList, locationFilteredItemList: locationFilteredItems  })
+        //console.log("locationFilteredItems:");
+        //console.log(locationFilteredItems);
+        this.setState({ items: await itemList, locationFilteredItemList: locationFilteredItems });
       }
     } else if (searchCriteria) {
       //console.log('searchbar search')
@@ -152,7 +152,9 @@ class ThingsHandler extends React.Component {
       //console.log(await itemList)
       if (await itemList[0]) {
         //FURTHER FILTER BY LOCATION HERE
-        this.setState({ items: await itemList })
+        const locationFilteredItems = await this.filterByLocation(itemList);
+
+        this.setState({ items: await itemList, locationFilteredItemList: locationFilteredItems });
       } else {
         this.setState({ items: null })
       }
@@ -166,7 +168,9 @@ class ThingsHandler extends React.Component {
       //console.log(items.items)
       if (await itemList[0]) {
         //FURTHER FILTER BY LOCATION HERE
-        this.setState({ items: await itemList })
+        const locationFilteredItems = await this.filterByLocation(itemList);
+
+        this.setState({ items: await itemList, locationFilteredItemList: locationFilteredItems });
       } else {
         this.setState({ items: null })
       }
@@ -178,7 +182,10 @@ class ThingsHandler extends React.Component {
 
   render() {
     const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, locationFilteredItemList } = this.state
-    //console.log(locationFilteredItemList);
+    console.log("Category filtered items:");
+    console.log(items);
+    console.log("Location filtered items:");
+    console.log(locationFilteredItemList);
     if (!items) {
       return (
         <p>Loading...</p>
@@ -186,6 +193,9 @@ class ThingsHandler extends React.Component {
     } {
       return (
         <>
+          <h1>ThingsHandler.js</h1>
+          <h2>category ID: {categoryId}</h2>
+
           <div>
             <button onClick={(e) => this.showMenu(e)}>
               Show menu
@@ -203,7 +213,7 @@ class ThingsHandler extends React.Component {
                 )
             }
           </div>
-          <Things items={items} cookieCheck={this.props.cookieCheck} />
+          <Things items={locationFilteredItemList} cookieCheck={this.props.cookieCheck} />
         </>
       )
     }
