@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
+import '../../index.css';
 import SearchBar from './SearchBar';
-import ThingsHandler from './ThingsHandler';
+import ThingsHandler from '../framework/ThingsHandler';
 
 class Home extends Component {
 
@@ -76,22 +76,22 @@ class Home extends Component {
 
         if (submissionConfirmed) {
             return (
-                <>
+                <section>
                     <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
                     <ThingsHandler searchCriteria={ searchCriteria } cookieCheck={this.props.cookieCheck}/>
-                </>
+                </section>
             );
         }
         else {
             return (
-                <>
+                <section>
                     <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
                     <main>
                         <h1>Welcome! Fill in the boxes above if you know what your after!</h1>
                         <h1>If you are not sure what you want, check out the <span className="highlight">Categories</span> page!</h1>
-                        <h1>If you just want to browse, go straight to the <span className="highlight">Things</span> page!</h1>
+
                     </main>
-                </>
+                </section>
             );
         }
     }

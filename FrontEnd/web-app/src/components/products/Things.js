@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
-import './Things.css';
+import '../../index.css';
+import '../../css/Things.css';
 import Card from './Card';
 
 class Things extends Component {

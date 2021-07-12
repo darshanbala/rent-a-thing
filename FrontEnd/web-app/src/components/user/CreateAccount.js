@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
-import City from './City';
+import '../../index.css';
+import City from '../framework/City';
 
 class CreateAccount extends Component {
 
@@ -243,6 +243,7 @@ class CreateAccount extends Component {
 
   async changeCity(e) {
     //console.log(e.target.innerHTML);
+    e.preventDefault();
     const cityName = e.target.innerHTML; // Get city string i.e. Glasgow
     console.log(cityName);
     //this.setState({ city });
@@ -275,8 +276,7 @@ class CreateAccount extends Component {
 
     if (!valid_new_user) {
       return (
-        <main>
-          <div>
+        <section>
             <h1>CreateAccount</h1>
             <form className="SubmissionForm">
               <section>
@@ -299,14 +299,12 @@ class CreateAccount extends Component {
                 {validationMessage && <p className="error">{validationMessage}</p>}
               </section>
             </form>
-          </div>
-        </main>
+        </section>
       );
     }
     else {
       return (
-        <main>
-          <div>
+        <section>
             <h1>User details:</h1>
             <form className="SubmissionForm">
               <section>
@@ -337,10 +335,12 @@ class CreateAccount extends Component {
               <section>
               <div className="cityParent">
                 <label htmlFor="city" value="City : " >City : </label>
+                <br/>
                 {/*<input type="text" name="city" id="city" value={city} onChange={(e) => this.updateInfo(e)} />*/}
-
-                { !hasChosenCountry && cityOptions.map(({ id, name }) => <span className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</span>)}
-                { hasChosenCountry && <span>{cityName}</span>}
+                <section id='cities_section'>
+                { !hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
+                { hasChosenCountry && <div className="chosenCityCard" onClick={(e) => this.changeCity(e)} value={cityName}>{cityName}</div>}
+                </section>
                 {/*<City key={id} id={id} name={name} />*/}
                 {/*
                 <div className="dropdown">
@@ -369,8 +369,7 @@ class CreateAccount extends Component {
                 {validationMessage && <p className="error">{validationMessage}</p>}
               </section>
             </form>
-          </div>
-        </main>
+        </section>
       )
     }
   }

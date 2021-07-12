@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Card.css';
+import '../../css/Card.css';
 
 const checkCardType = ['things-page-card', 'myrentals-page-card']
 
@@ -46,4 +46,3 @@ export default function Card({ id, name, is_available, cardType, img_url }) {
         )
     }
 }
-

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import './index.css';
-import './Things.css'
+import '../../index.css';
+import '../../css/categories.css';
 import Category from './Category';
-import ThingsHandler from './ThingsHandler.js'
+import ThingsHandler from '../framework/ThingsHandler.js'
 
 class Categories extends Component {
 

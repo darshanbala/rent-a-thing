@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import '../../../css/reviews.css';
 
 class AddUserReview extends React.Component {
 
@@ -56,13 +57,11 @@ class AddUserReview extends React.Component {
 
 
       return(
-        <div>
-          <br/>
+        <section id="review-body">
           <p>Leave a review:</p>
           <form>
-          <label htmlFor="title" value="title">Review title: </label>
-          <input type="text" name="title" id="title" value={title} onChange={(e) => this.textInput(e)} />
-          <textarea name="review" rows="4" id="new_review" type="text" value={review} onChange={(e) => this.textInput(e)} /> <br/><br/>
+          <input id='new_review_title' placeholder="Review title" type="text" name="title" id="title" value={title} onChange={(e) => this.textInput(e)} />
+          <textarea id='new_review_input' name="review" rows="4" id="new_review" type="text" value={review} onChange={(e) => this.textInput(e)} /> <br/><br/>
           <select name="rating" id="rating" onChange={(e) => this.changeStarRating(e)}>
               <option value="">Give {user.first_name} a star rating</option>
               <option value="1">1</option>
@@ -71,12 +70,10 @@ class AddUserReview extends React.Component {
               <option value="4">4</option>
               <option value="5">5</option>
           </select>
-          <br/><br/>
-          <input type="submit" value="Submit review" onClick={(e) => {this.submitUserReview(e)}}/>
+          <br/>
+          <input id='submit' type="submit" value="Submit review" onClick={(e) => {this.submitUserReview(e)}}/>
           </form>
-          <br/>
-          <br/>
-        </div>
+        </section>
       )
     }
 }

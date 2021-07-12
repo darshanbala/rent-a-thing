@@ -1,7 +1,7 @@
 import React, { Component, useReducer } from 'react'
 import { Redirect } from 'react-router-dom'
-import './index.css'
-import './Item.css'
+import '../../index.css'
+import '../../css/Item.css'
 
 class Item extends Component {
 
@@ -65,7 +65,7 @@ class Item extends Component {
             this.setState({ errorMessage: 'Please enter a valid rent from and rent until date' })
             return
         }
-        
+
         if (rentFrom > rentUntil) {
             this.setState({ errorMessage: 'You cannot time travel (please set the return date to be later than the rental date)' })
         }

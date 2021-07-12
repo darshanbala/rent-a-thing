@@ -1,7 +1,8 @@
 import React from 'react';
-import Things from './Things.js';
+import Things from '../../products/Things.js';
 
-class UserPosts extends React.Component {
+
+class UserLookingFor extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -14,13 +15,13 @@ class UserPosts extends React.Component {
     const { user } = this.props;
     return(
       <section>
-        <h1>{user.first_name} is lending</h1>
+        <h1>{user.first_name} is looking for</h1>
         <div id="posts">
-        
+
         </div>
       </section>
     );
   }
 }
 
-export default UserPosts;
+export default UserLookingFor;
