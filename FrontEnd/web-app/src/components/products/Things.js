@@ -13,7 +13,22 @@ class Things extends Component {
     async componentDidMount() {
         const items  = this.props.items
         this.setState({ items })
-       
+
+    }
+
+    async componentDidUpdate(prevProps, prevState) {
+      console.log(this.props)
+      if(prevProps !== this.props){
+        
+        if(!this.props.items[0]){
+          this.setState({
+            items: false
+          })
+        }
+        this.setState({
+          items: this.props.items
+        })
+      }
     }
 
     handleItemClick(id) {
