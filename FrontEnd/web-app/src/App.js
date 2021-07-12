@@ -110,6 +110,7 @@ class App extends Component {
                       <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
                   </nav>
                 }
+                <main>
                 <Switch>
                     <Route exact path="/Home">
                         <Home cookieCheck={ () => this.cookieCheck() } />
@@ -136,6 +137,7 @@ class App extends Component {
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                 </Switch>
+                </main>
 
                 <div className="footer">
                     <p>Legal stuff | Contact Info | etc.</p>

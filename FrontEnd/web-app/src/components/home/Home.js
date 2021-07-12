@@ -76,22 +76,22 @@ class Home extends Component {
 
         if (submissionConfirmed) {
             return (
-                <>
+                <section>
                     <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
                     <ThingsHandler searchCriteria={ searchCriteria } cookieCheck={this.props.cookieCheck}/>
-                </>
+                </section>
             );
         }
         else {
             return (
-                <>
+                <section>
                     <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
                     <main>
                         <h1>Welcome! Fill in the boxes above if you know what your after!</h1>
                         <h1>If you are not sure what you want, check out the <span className="highlight">Categories</span> page!</h1>
 
                     </main>
-                </>
+                </section>
             );
         }
     }

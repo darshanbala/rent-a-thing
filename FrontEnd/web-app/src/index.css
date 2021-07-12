@@ -1,10 +1,10 @@
 .header {
   padding: 2px;
-  font-size: 60px;
+  font-size: 30px;
   font-family: 'Yomogi', cursive;
   /*margin: 1em;*/
   background: #ffffff;
-  color: #2ec4b6;
+  color: black;
   text-align: center;
 }
 
@@ -13,10 +13,10 @@
   /*margin: 1em;*/
   /*display: flex;*/
   /*justify-content: space-around;*/
-  background: #cbf3f0;
+  background: #FFBF69;
   color: black;
-  margin-bottom: 2em;
-  box-shadow: 2px -1px 5px #2ec4b6;
+  margin-bottom: 0;
+  box-shadow: 2px 0px 5px #2ec4b6;
 }
 
 .navButton {
@@ -38,14 +38,16 @@
 
 .footer {
   position: fixed;
+  height: 30px;
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: 1em;
+  padding: .6em 0 .7em;
   /*margin: 1em;*/
   display: flex;
   justify-content: space-around;
-  background: #cbf3f0;
+  align-items: center;
+  background: #FFBF69;
   color: black;
 }
 
@@ -139,13 +141,25 @@
 body {
   margin: 0px !important;
   font-family: 'Varela Round', sans-serif;
-  padding-bottom: 10em;
+  padding-bottom: 0;
+  background: rgb(46,180,166);
+  background: linear-gradient(146deg, rgba(46,180,166,0.23153011204481788) 0%, rgba(203,243,240,0.5060399159663865) 13%, rgba(255,171,56,0.09427521008403361) 100%);
 }
 
 main {
-  width: 800px;
-  margin: 2em auto;
+  width: 1200px;
+  margin: 0 auto ;
+  margin-bottom: 0 ;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
   text-align: center;
+  background-color: inherit;
+  backdrop-filter:  brightness(104%) ;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  height: 100%;
+  min-height: 100vh;
 }
 
 
@@ -261,5 +275,5 @@ input[type=submit]:hover {
   border: 2px solid #2ec4b6;
   border-radius: 6px;
   transition: 0.3s;
-  box-shadow: 0 0 4px grey;
+  box-shadow: 0 0 4px white;
 }

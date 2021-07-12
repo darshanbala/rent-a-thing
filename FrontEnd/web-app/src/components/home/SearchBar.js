@@ -52,7 +52,7 @@ class SearchBar extends Component {
     render() {
         const { item, dateFrom, dateTo, location } = this.state;
         return (
-            <main>
+            <section>
                 <form type="submit" className="searchBar">
                     <div>
                     <span><input type="text" name="item" id="item" value={item} onChange={(e) => this.handleChange(e)} placeholder='item' /></span>
@@ -64,7 +64,7 @@ class SearchBar extends Component {
                     <input id='search_submit' type='submit' onClick={(e) => this.formSubmission(e)} value='GO'/>
                     </div>
                 </form>
-            </main>
+            </section>
         );
     }
 }

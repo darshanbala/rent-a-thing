@@ -1,6 +1,7 @@
 .flex_container {
   display: inline-flex;
-  min-width: 120%;
+  min-width: 70%;
+  max-width: 80%;
   justify-content: stretch;
 
 }
