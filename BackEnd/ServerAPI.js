@@ -72,6 +72,7 @@ app
   })
   .post("/createAccount", async server => {
     const new_user = await server.body
+    console.log(new_user);
     let encrypted_password = ''
     let salt = ''
     if (new_user.password1 === new_user.password2) {
@@ -80,7 +81,7 @@ app
     } else {
       server.json({ code: 500, error: 'Passwords do not match' })
     }
-    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW(), $12)", new_user.first_name, new_user.last_name, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
+    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW(), $12)", new_user.first_name, new_user.last_name, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
     const sessionId = v4.generate();
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", new_user.email)).rows;
     const insert_session = (await client.queryObject("INSERT INTO sessions (uuid, user_id, created_at) VALUES ($1, $2, NOW())", sessionId, user[0].id)).rows;
@@ -94,7 +95,7 @@ app
     });
     await server.json({ code: 200 })
   })
-  .post("/isValidNewEmail", async server => {
+  .post("/Email", async server => {
     const { email } = await server.body
     const check = (await client.queryObject("SELECT * FROM users WHERE email = $1", await email)).rows;
 
@@ -110,7 +111,7 @@ app
         SELECT id, name, is_available, img_url FROM items
       `)).rows
 
-    await server.json(items)
+    return (await items)
   })
   .get('/categories', async (server) => {
 
@@ -119,6 +120,23 @@ app
       `)).rows
 
     await server.json(categories)
+  })
+  .get('/cities', async (server) => {
+
+    const cities = (await client.queryObject(`
+        SELECT id, name FROM location
+      `)).rows;
+
+    console.log(cities);
+
+    await server.json(cities);
+  })
+  .post('/getCity', async (server) => {
+    const { cityName } = await server.body;
+    console.log(cityName);
+    const cityId = (await client.queryObject(`SELECT id FROM location WHERE name = $1`, cityName)).rows;
+    console.log(cityId);
+    await server.json(cityId);
   })
   .post("/logout", async server => {
     console.log("Logging out...")
@@ -136,7 +154,7 @@ app
 
   .post("/postItem", async server => {
     const { name, description, category, age_restriction, ownerID, img_url } = await server.body
-    
+
     const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, age_restriction, owner_id, img_url) VALUES ($1, $2, $3, $4, $5, $6)", name, description, category, age_restriction, ownerID, img_url).rows)
     //console.log(insertItem, "insertItem")
     // Returns items table with new values:
@@ -169,18 +187,66 @@ app
   .get('/item/:id', async (server) => {
     const { id } = server.params
 
-    const item = (await client.queryObject(`
+    const sessionId = server.cookies['sessionId']
+    const user = await getCurrentUser(sessionId)
+
+    const itemInArray = (await client.queryObject(`
     SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
 
-    await server.json(item)
+    // Check if this is the logged in user's own item
+    const usersOwnItem = (user.id === itemInArray[0].owner_id) ? true : false
 
+    await server.json({ itemInArray, usersOwnItem })
   })
 
+  .post('/rentItem', async (server) => {
+    const { itemId, rentFrom, rentUntil } = await server.body
+    let errorMessage = ''
 
+    if (!rentFrom || !rentUntil) {
+      errorMessage = 'Please enter a valid rent from and rent until date'
+      await server.json({ errorMessage })
+      return
+    }
+
+    if (rentFrom > rentUntil) {
+      errorMessage = 'You cannot time travel (please set the return date to be later than the rental date)'
+      await server.json({ errorMessage })
+      return
+    }
+
+    const sessionId = server.cookies['sessionId']
+    const borrower = await getCurrentUser(sessionId)
+
+    const [clashes] = (await client.queryObject(`
+    SELECT SUM(CASE (DATE($1) - 1, DATE($2) + 1) OVERLAPS (rented_from, rented_until) WHEN TRUE THEN 1 ELSE 0 END)::integer AS num_of_clashes
+    FROM rentals
+    WHERE item_id = $3`,
+      rentFrom, rentUntil, itemId)).rows
+
+    const [item] = (await client.queryObject(`SELECT owner_id FROM items WHERE id = $1`, itemId)).rows
+
+    if (!borrower) {
+      errorMessage = 'You need to be logged in to rent an item'
+      await server.json({ errorMessage })
+    } else if (clashes.num_of_clashes) {
+      errorMessage = 'This item is not available for some part of the requested time period'
+      await server.json({ errorMessage })
+    } else if (borrower.id === item.owner_id) {
+      errorMessage = 'You cannot rent your own item'
+      await server.json({ errorMessage })
+    } else {
+      await client.queryObject(`
+        INSERT INTO rentals (item_id, borrower_id, rented_from, rented_until)
+        VALUES ($1, $2, $3, $4)`,
+        itemId, borrower.id, rentFrom, rentUntil).rows
+      await server.json({ errorMessage })
+    }
+  })
 
 
   .post("getUserReviews", async server => {
@@ -236,6 +302,59 @@ app
     if (!isNaN(avg)) {
       server.json({ rating: avg })
     }
+  })
+  .post('searchByCategory', async server => {
+    const body = await server.body;
+    const { category_id } = await body;
+    console.log(category_id)
+    const items = (await client.queryObject(`
+          SELECT * FROM items WHERE category_id = $1
+        `, await category_id)).rows;
+    console.log(await items)
+    return items
+  })
+  .post('searchByFilter', async server => {
+    const body = await server.body;
+    const searchCriteria = await body.searchCriteria
+    console.log(await searchCriteria)
+    if (await searchCriteria.item && await !searchCriteria.location) {
+      //SEARCH BY JUST ITEM
+      let items = [];
+      console.log(searchCriteria.item.length)
+      if (searchCriteria.item.length < 3) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                `, await searchCriteria.item)).rows;
+      } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
+                `, await searchCriteria.item)).rows;
+      } else if (searchCriteria.item.length < 7 && searchCriteria.item.length > 5) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4;
+                `, await searchCriteria.item)).rows;
+      } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5;
+                `, await searchCriteria.item)).rows;
+      } else {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6;
+                `, await searchCriteria.item)).rows;
+      }
+      try {
+        return (items);
+      } catch {
+        return [];
+      }
+
+    } else {
+      //SEARCH BY ALL
+      console.log('b')
+    }
+
+
+
   })
 
   .start({ port: PORT })

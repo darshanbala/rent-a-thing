@@ -20,7 +20,12 @@ class SearchBar extends Component {
         console.log("");
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(PrevProps, PrevState) {
+        if(this.state.item!== PrevState.item){
+          //console.log(this.state)
+          this.props.submitSearch(this.state)
+        }
+
         console.log("");
     }
 
