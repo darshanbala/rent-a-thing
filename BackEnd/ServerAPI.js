@@ -365,14 +365,46 @@ app
     } else {
       const rentals = (await client.queryObject(`
     SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until, 
-    items.name, items.owner_id, items.img_url
-    FROM rentals JOIN items ON rentals.item_id = items.id
+    items.name, items.owner_id, items.img_url,
+    users_borrowing.first_name AS borrowers_first_name, users_borrowing.last_name AS borrowers_last_name,
+    users_lending.first_name AS lenders_first_name, users_lending.last_name AS lenders_last_name
+    FROM rentals 
+    JOIN items ON rentals.item_id = items.id
+    JOIN users AS users_borrowing ON rentals.borrower_id = users_borrowing.id
+    JOIN users AS users_lending ON items.owner_id = users_lending.id
     WHERE items.owner_id  = $1 
     OR rentals.borrower_id = $1`,
         user.id)).rows
 
-      const lending = rentals.filter(e => e.owner_id === user.id)
-      const borrowing = rentals.filter(e => e.borrower_id === user.id)
+      let lending = rentals.filter(e => e.owner_id === user.id)
+      
+      lending = lending.map(e => { 
+        delete e.lenders_first_name
+        delete e.lenders_last_name
+        e.trader_first_name = e.borrowers_first_name
+        e.trader_last_name = e.borrowers_last_name
+        delete e.borrowers_first_name
+        delete e.borrowers_last_name
+        return e
+      })
+        
+      
+      let borrowing = rentals.filter(e => e.borrower_id === user.id)
+      borrowing = borrowing.map(e => { 
+        delete e.borrowers_first_name
+        delete e.borrowers_last_name
+        e.trader_first_name = e.lenders_first_name
+        e.trader_last_name = e.lenders_last_name
+        delete e.lenders_first_name
+        delete e.lenders_last_name
+        return e
+      })
+
+
+
+      // console.log(lending, "lending")
+      // console.log(borrowing, "borrowing")
+
 
       await server.json({ lending, borrowing })
     }
