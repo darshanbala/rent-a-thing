@@ -47,3 +47,6 @@ INSERT INTO items(name, description, is_available, category_id, owner_id, age_re
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('MacBook', 'Strong and sturdy', TRUE, 9, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Headphones', 'Not used much', FAlSE, 9, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
 INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url) VALUES ('Camera', 'Not used much', TRUE, 10, 3, 16, 'https://www.mooneyesusa.com/v/vspfiles/photos/FD001-2T.jpg?v-cache=1393002378');
+
+INSERT INTO rentals(item_id, borrower_id, rented_from, rented_until) VALUES (2, 1, NOW(), NOW());
+INSERT INTO rentals(item_id, borrower_id, rented_from, rented_until) VALUES (1, 4, NOW(), NOW());
