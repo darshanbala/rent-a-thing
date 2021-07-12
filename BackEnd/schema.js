@@ -69,6 +69,7 @@ await client.queryObject(
     category_id INTEGER,
     owner_id INTEGER,
     age_restriction INTEGER,
+    img_url TEXT,
     FOREIGN KEY (category_id) REFERENCES categories (id)
   )`
 )

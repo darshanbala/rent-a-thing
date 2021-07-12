@@ -108,7 +108,7 @@ app
   .get('/items', async (server) => {
 
     const items = (await client.queryObject(`
-        SELECT id, name, is_available FROM items
+        SELECT id, name, is_available, img_url FROM items
       `)).rows
 
     return (await items)
@@ -152,29 +152,53 @@ app
     await server.json(true);
   })
 
-.post("/postItem", async server => {
-    const { name, description, category, age_restriction, ownerID  } = await server.body
-    console.log(name, description, category, age_restriction, ownerID )
-    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, owner_id, age_restriction) VALUES ($1, $2, $3, $4, $5)",name, description, category,age_restriction,ownerID).rows)
+  .post("/postItem", async server => {
+    const { name, description, category, age_restriction, ownerID, img_url } = await server.body
 
- })
+    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, age_restriction, owner_id, img_url) VALUES ($1, $2, $3, $4, $5, $6)", name, description, category, age_restriction, ownerID, img_url).rows)
+    //console.log(insertItem, "insertItem")
+    // Returns items table with new values:
+    const result = (await client.queryObject(`SELECT * FROM items WHERE owner_id = $1`, ownerID)).rows
+    console.log("DATABASE SEARCH: ")
+    console.log(result)
+
+    // Returns boolean to check if submitted item is successful:
+    const submitted = result.some(item =>
+      item.name === name &&
+      item.description === description &&
+      item.category_id === category &&
+      item.age_restriction === age_restriction &&
+      item.owner_id === ownerID &&
+      item.img_url === img_url
+    )
+    // console.log("SUBMITTED: ")
+    // console.log(submitted)
+    // console.log("FROM FRONTEND: ")
+    // console.log(name, description, category, age_restriction, ownerID)
+    // console.log("Data-type: ")
+    // console.log(typeof category)
+
+    //SELECT name, description, category_id, age_restriction, owner_id FROM items;
+
+    await server.json({ submitted })
+  })
 
 
- .get('/item/:id', async (server) => {
+  .get('/item/:id', async (server) => {
     const { id } = server.params
-    
+
     const sessionId = server.cookies['sessionId']
     const user = await getCurrentUser(sessionId)
 
     const itemInArray = (await client.queryObject(`
-    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction,
+    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
 
     // Check if this is the logged in user's own item
-    const usersOwnItem = (user.id === itemInArray[0].owner_id) ? true : false
+    const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
     await server.json({ itemInArray, usersOwnItem })
   })
@@ -188,7 +212,7 @@ app
       await server.json({ errorMessage })
       return
     }
-  
+
     if (rentFrom > rentUntil) {
       errorMessage = 'You cannot time travel (please set the return date to be later than the rental date)'
       await server.json({ errorMessage })
@@ -202,7 +226,7 @@ app
     SELECT SUM(CASE (DATE($1) - 1, DATE($2) + 1) OVERLAPS (rented_from, rented_until) WHEN TRUE THEN 1 ELSE 0 END)::integer AS num_of_clashes
     FROM rentals
     WHERE item_id = $3`,
-    rentFrom, rentUntil, itemId)).rows
+      rentFrom, rentUntil, itemId)).rows
 
     const [item] = (await client.queryObject(`SELECT owner_id FROM items WHERE id = $1`, itemId)).rows
 
@@ -224,190 +248,191 @@ app
     }
   })
 
-    .post("getUserReviews", async server => {
-      const  body  = await server.body
-      //console.log(await server.body)
-      const user = await body.user
-      //console.log(await user)
+
+  .post("getUserReviews", async server => {
+    const body = await server.body
+    //console.log(await server.body)
+    const user = await body.user
+    //console.log(await user)
 
 
-      const reviews = (await client.queryObject(`
+    const reviews = (await client.queryObject(`
           SELECT * FROM user_reviews WHERE reviewee_id = $1
         `, await user.id)).rows
-        const formattedReviews = await formattedUserReviews(await reviews)
-        return(await formattedReviews)
+    const formattedReviews = await formattedUserReviews(await reviews)
+    return (await formattedReviews)
 
 
 
-      //CHECK DB FOR REVIEWS HERE
-      //Return in format: [{review1}, {review2}, {review3}]
-      //TODO replace temporary reviews
-      //Review structure: { user: {user object}, reviewContent: some_review_text, howLongAgo: formatted_string_of_how_long_ago, rating: star_rating_x/5 }
-      if(await user){
-        return([{user: await user, content: 'Always returns items quickly!', howLongAgo: '3 weeks ago', rating: 5}, {user: user, content: "DONT RENT TO HER, SHE WON'T GIVE YOUR ITEM BACK!!!!", howLongAgo: 'yesterday', rating: 1}])
-      }
-    })
-    .post("postUserReview", async server => {   //TODO WRITE REAL POST REVIEW HANDLER
-      const sessionId = server.cookies['sessionId'];
-      const user = await getCurrentUser(sessionId);
-      //console.log(JSON.stringify(user)+' is logged in')
-      const body = await server.body
-      //console.log(await body)
-      //if(user.id !== await body.user.id) {
-        const review = (await client.queryObject(`
+    //CHECK DB FOR REVIEWS HERE
+    //Return in format: [{review1}, {review2}, {review3}]
+    //TODO replace temporary reviews
+    //Review structure: { user: {user object}, reviewContent: some_review_text, howLongAgo: formatted_string_of_how_long_ago, rating: star_rating_x/5 }
+    if (await user) {
+      return ([{ user: await user, content: 'Always returns items quickly!', howLongAgo: '3 weeks ago', rating: 5 }, { user: user, content: "DONT RENT TO HER, SHE WON'T GIVE YOUR ITEM BACK!!!!", howLongAgo: 'yesterday', rating: 1 }])
+    }
+  })
+  .post("postUserReview", async server => {   //TODO WRITE REAL POST REVIEW HANDLER
+    const sessionId = server.cookies['sessionId'];
+    const user = await getCurrentUser(sessionId);
+    //console.log(JSON.stringify(user)+' is logged in')
+    const body = await server.body
+    //console.log(await body)
+    //if(user.id !== await body.user.id) {
+    const review = (await client.queryObject(`
           INSERT INTO user_reviews(reviewer_id, reviewee_id, review_title, review_content, star_rating, created_at) VALUES ($1, $2, $3, $4, $5, NOW())
           `, user.id, body.user.id, body.title, body.review, body.star_rating)).rows
     //  }
-    })
-    .post('getStarRating', async server => {
-      const body = await server.body
-      const user_id = body.id
-      //console.log(await server.body)
-      //console.log('user id: '+await user_id)
-      const reviews = (await client.queryObject(`
+  })
+  .post('getStarRating', async server => {
+    const body = await server.body
+    const user_id = body.id
+    //console.log(await server.body)
+    //console.log('user id: '+await user_id)
+    const reviews = (await client.queryObject(`
           SELECT * FROM user_reviews WHERE reviewee_id = $1
         `, await user_id)).rows;
-      let total = 0;
-      let count = 0;
-      for await (const review of await reviews){
-        total += review.star_rating;
-        count++;
-      }
-      const avg = (total/count).toFixed(2)
-      if(!isNaN(avg)){
-        server.json({rating: avg})
-      }
-    })
-    .post('searchByCategory', async server => {
-      const body = await server.body;
-      const { category_id } = await body;
-      console.log(category_id)
-      const items = (await client.queryObject(`
+    let total = 0;
+    let count = 0;
+    for await (const review of await reviews) {
+      total += review.star_rating;
+      count++;
+    }
+    const avg = (total / count).toFixed(2)
+    if (!isNaN(avg)) {
+      server.json({ rating: avg })
+    }
+  })
+  .post('searchByCategory', async server => {
+    const body = await server.body;
+    const { category_id } = await body;
+    console.log(category_id)
+    const items = (await client.queryObject(`
           SELECT * FROM items WHERE category_id = $1
         `, await category_id)).rows;
-        console.log(await items)
-      return items
-    })
-    .post('searchByFilter', async server => {
-      const body = await server.body;
-      const searchCriteria = await body.searchCriteria
-      console.log(await searchCriteria)
-      if(await searchCriteria.item && await !searchCriteria.location) {
-            //SEARCH BY JUST ITEM
-            let items = [];
-            console.log(searchCriteria.item.length)
-            if( searchCriteria.item.length < 3 ){
-              items = (await client.queryObject(`
+    console.log(await items)
+    return items
+  })
+  .post('searchByFilter', async server => {
+    const body = await server.body;
+    const searchCriteria = await body.searchCriteria
+    console.log(await searchCriteria)
+    if (await searchCriteria.item && await !searchCriteria.location) {
+      //SEARCH BY JUST ITEM
+      let items = [];
+      console.log(searchCriteria.item.length)
+      if (searchCriteria.item.length < 3) {
+        items = (await client.queryObject(`
                   SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
                 `, await searchCriteria.item)).rows;
-            }else if( searchCriteria.item.length < 6 && searchCriteria.item.length > 2 ){
-              items = (await client.queryObject(`
+      } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
+        items = (await client.queryObject(`
                   SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3;
                 `, await searchCriteria.item)).rows;
-            }else if( searchCriteria.item.length < 7 && searchCriteria.item.length > 5 ){
-              items = (await client.queryObject(`
+      } else if (searchCriteria.item.length < 7 && searchCriteria.item.length > 5) {
+        items = (await client.queryObject(`
                   SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4;
                 `, await searchCriteria.item)).rows;
-            } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6 ) {
-              items = (await client.queryObject(`
+      } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6) {
+        items = (await client.queryObject(`
                   SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5;
                 `, await searchCriteria.item)).rows;
-            } else {
-                items = (await client.queryObject(`
+      } else {
+        items = (await client.queryObject(`
                   SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6;
                 `, await searchCriteria.item)).rows;
-            }
-              try{
-                return (items);
-              }catch{
-                return [];
-              }
+      }
+      try {
+        return (items);
+      } catch {
+        return [];
+      }
 
-        }else {
-            //SEARCH BY ALL
-            console.log('b')
-        }
+    } else {
+      //SEARCH BY ALL
+      console.log('b')
+    }
 
 
 
-    })
+  })
 
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
 
 
-  async function formattedUserReviews(reviewsRaw) {
-    const newReviews = [];
-    for await(const review of reviewsRaw){
-      const user = (await client.queryObject(`
+async function formattedUserReviews(reviewsRaw) {
+  const newReviews = [];
+  for await (const review of reviewsRaw) {
+    const user = (await client.queryObject(`
           SELECT first_name, last_name FROM users WHERE id = $1
         `, review.reviewer_id)).rows
-      const timeSinceReview = howLongAgoCalculator(review.created_at)
-      const reviewObject = {first_name: await user[0].first_name, last_name: await user[0].last_name, title: review.review_title, content: review.review_content, howLongAgo: timeSinceReview, rating: review.star_rating}
-      newReviews.push(reviewObject)
+    const timeSinceReview = howLongAgoCalculator(review.created_at)
+    const reviewObject = { first_name: await user[0].first_name, last_name: await user[0].last_name, title: review.review_title, content: review.review_content, howLongAgo: timeSinceReview, rating: review.star_rating }
+    newReviews.push(reviewObject)
+  }
+  return newReviews
+}
+
+function howLongAgoCalculator(when) {  //Takes a timestamp and returns a formatted string containing only one time unit
+
+  const now = Date.now();
+  //console.log(now)
+  const made_at = new Date(when);
+
+  const time = new intervalToDuration({   //gets duration between now and christmas
+    start: made_at,
+    end: now
+  })
+
+  //console.log(time)
+  if (time.years > 0) {
+    if (time.years === 1) {
+      return `${time.years} year`
+    } else {
+      return `${time.years} years`
     }
-    return newReviews
   }
-
-  function howLongAgoCalculator(when) {  //Takes a timestamp and returns a formatted string containing only one time unit
-
-      const now = Date.now();
-      //console.log(now)
-      const made_at = new Date(when);
-
-      const time = new intervalToDuration({   //gets duration between now and christmas
-        start: made_at,
-        end: now
-      })
-
-      //console.log(time)
-      if(time.years>0){
-        if(time.years===1){
-          return `${time.years} year`
-        }else{
-          return `${time.years} years`
-        }
-      }
-      if(time.months>0){
-        if(time.months===1){
-          return `${time.months} month`
-        }else{
-          return `${time.months} months`
-        }
-      }
-      if(time.weeks>0 ){
-        if(time.weeks===1){
-          return `${time.weeks} week`
-        }else{
-          return `${time.weeks} weeks`
-        }
-      }
-      if(time.days>0 ){
-        if(time.days===1){
-          return `${time.days} day`
-        }else{
-          return `${time.days} days`
-        }
-      }
-      if(time.hours>1 ){
-        if(time.hours===1){
-          return `${time.hours} hour`
-        }else{
-          return `${time.hours} hours`
-        }
-      }
-      if(time.minutes>0 ){
-        if(time.minutes===1){
-          return `${time.minutes} minute`
-        }else{
-          return `${time.minutes} minutes`
-        }
-      }
-      if(time.seconds>-1 ){
-        if(time.seconds===1){
-          return `${time.seconds} second`
-        }else{
-          return `${time.seconds} seconds`
-        }
-      }
+  if (time.months > 0) {
+    if (time.months === 1) {
+      return `${time.months} month`
+    } else {
+      return `${time.months} months`
+    }
   }
+  if (time.weeks > 0) {
+    if (time.weeks === 1) {
+      return `${time.weeks} week`
+    } else {
+      return `${time.weeks} weeks`
+    }
+  }
+  if (time.days > 0) {
+    if (time.days === 1) {
+      return `${time.days} day`
+    } else {
+      return `${time.days} days`
+    }
+  }
+  if (time.hours > 1) {
+    if (time.hours === 1) {
+      return `${time.hours} hour`
+    } else {
+      return `${time.hours} hours`
+    }
+  }
+  if (time.minutes > 0) {
+    if (time.minutes === 1) {
+      return `${time.minutes} minute`
+    } else {
+      return `${time.minutes} minutes`
+    }
+  }
+  if (time.seconds > -1) {
+    if (time.seconds === 1) {
+      return `${time.seconds} second`
+    } else {
+      return `${time.seconds} seconds`
+    }
+  }
+}

@@ -104,7 +104,7 @@ class Item extends Component {
         return (
             <div className='item-page-container'>
                 <div className='item-page-image'>
-                    <img src="https://www.radmoretucker.co.uk/wp-content/uploads/2018/01/Husqvarna-435-Mark-II-Petrol-Chainsaw-15-600x600.jpg" />
+                    <img src={item.img_url} alt={item.name} style={{ height: '500px' }} />
                 </div>
                 <div className='item-page-content-container'>
                     <div className="item-page-name">
