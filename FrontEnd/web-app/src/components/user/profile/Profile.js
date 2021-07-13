@@ -79,7 +79,7 @@ class Profile extends React.Component {
     const{ newLoad } = this.state
     console.log(newLoad)
     try{
-      const { justVisiting } = this.props.location.state
+        justVisiting  = this.props.location.state
 
       if(justVisiting){
         user = this.props.location.state.user
@@ -87,7 +87,7 @@ class Profile extends React.Component {
     }catch{
 
     }
-    console.log(this.props)
+    console.log(justVisiting)
     //console.log('user @ profile render: '+JSON.stringify(user))
     if(user){
       return(
