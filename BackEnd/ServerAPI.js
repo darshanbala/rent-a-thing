@@ -138,6 +138,16 @@ app
 
     await server.json(cities);
   })
+  .get('/teamMembers', async (server) => {
+
+    const teamMembers = (await client.queryObject(`
+        SELECT id, name, description, email, number, cv_img, linked_in_Link FROM team_members
+      `)).rows;
+
+    console.log(teamMembers);
+
+    await server.json(teamMembers);
+  })
   .post('/getCity', async (server) => {
     const { cityName } = await server.body;
     console.log(cityName);
