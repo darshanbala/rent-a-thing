@@ -13,7 +13,7 @@ class Profile extends React.Component {
     super();
     this.state = {
       user: {},
-      star_rating: 'loading...',
+      star_rating: `No reviews...`,
       justVisiting: null,
       newLoad: true
     };
@@ -71,6 +71,7 @@ class Profile extends React.Component {
         star_rating: rating
       })
     }
+
   }
 
   render() {
@@ -96,7 +97,7 @@ class Profile extends React.Component {
             <div id='left'>
               <img src={profile_picture} id='profile_picture'/>
               <h1>{`${user.first_name} ${user.last_name}`}</h1>
-              <p>email: {user.email}</p>
+              <p>email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
               <p>average rating: {this.state.star_rating}</p>
               <p>city: {user.city}</p>
               <p>User since: {user.created_at.slice(0,4)}</p>
@@ -106,7 +107,7 @@ class Profile extends React.Component {
               { !justVisiting &&
                 <MyRentals />
               }
-                <UserReviews user={user} />
+                <UserReviews justVisiting={justVisiting} user={user} />
             </div>
           </section>
         </main>
