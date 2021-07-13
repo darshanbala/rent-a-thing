@@ -116,6 +116,10 @@ class Item extends Component {
                         <h2>Description</h2>
                         <p>{item.description}</p>
                     </div>
+                    <div className="item-page-info">
+                        <h2>Price</h2>
+                        <p>{item.price}</p>
+                    </div>
                     <div className="item-page-reviews">
                         <h2>Reviews</h2>
                     </div>

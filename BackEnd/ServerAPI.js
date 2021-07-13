@@ -208,12 +208,12 @@ app
     const user = await getCurrentUser(sessionId)
 
     const itemInArray = (await client.queryObject(`
-    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
+    SELECT items.id, items.name, items.description, items.price, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
-    //console.log(itemInArray)
+    console.log(itemInArray)
     // Check if this is the logged in user's own item
     const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
