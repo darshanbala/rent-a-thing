@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import '../../../css/MyRentals.css'
 import Card from '../../products/Card'
 
-import { format } from 'date-fns'
-
 class MyRentals extends Component {
 
     state = {

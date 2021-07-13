@@ -1,5 +1,6 @@
 import React, { Component, useReducer } from 'react'
 import { Redirect } from 'react-router-dom'
+import { format } from 'date-fns'
 import '../../index.css'
 import '../../css/Item.css'
 
@@ -129,6 +130,7 @@ class Item extends Component {
                                     name="rentFrom"
                                     id="rentFrom"
                                     value={rentFrom}
+                                    min={format(new Date(), 'y-MM-d')}
                                     onChange={(e) => this.handleChange(e)} />
                             </span>
                             <span className="item-page-form-field">
@@ -138,6 +140,7 @@ class Item extends Component {
                                     name="rentUntil"
                                     id="rentUntil"
                                     value={rentUntil}
+                                    min={format(new Date(), 'y-MM-d')}
                                     onChange={(e) => this.handleChange(e)} />
                             </span>
                             <input
