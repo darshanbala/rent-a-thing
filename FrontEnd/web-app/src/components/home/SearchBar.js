@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { format } from 'date-fns'
 import '../../index.css';
 
 class SearchBar extends Component {
@@ -56,8 +57,8 @@ class SearchBar extends Component {
                 <form type="submit" className="searchBar">
                     <div>
                     <span><input type="text" name="item" id="item" value={item} onChange={(e) => this.handleChange(e)} placeholder='item' /></span>
-                    <span><input type="date" name="dateFrom" id="dateFrom" value={dateFrom} onChange={(e) => this.handleChange(e)} placeholder='dateFrom' /></span>
-                    <span><input type="date" name="dateTo" id="dateTo" value={dateTo} onChange={(e) => this.handleChange(e)} placeholder='dateTo' /></span>
+                    <span><input type="date" name="dateFrom" id="dateFrom" value={dateFrom} min={format(new Date(), 'y-MM-d')} onChange={(e) => this.handleChange(e)} placeholder='dateFrom' /></span>
+                    <span><input type="date" name="dateTo" id="dateTo" value={dateTo} min={format(new Date(), 'y-MM-d')} onChange={(e) => this.handleChange(e)} placeholder='dateTo' /></span>
                     <span><input type="text" name="location" id="location" value={location} onChange={(e) => this.handleChange(e)} placeholder='location' /></span>
                     </div>
                     <div>

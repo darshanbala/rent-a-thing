@@ -72,3 +72,23 @@
     cursor: pointer;
     transition-duration: 0.4s;
 }
+
+.item-page-set-unavailable {
+    background-color: red;
+    color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 12px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.item-page-set-available {
+    background-color: green;
+    color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 12px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}

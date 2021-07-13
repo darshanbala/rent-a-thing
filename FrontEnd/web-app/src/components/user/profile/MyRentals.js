@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import '../../../css/MyRentals.css'
 import Card from '../../products/Card'
 
-import { format } from 'date-fns'
-
 class MyRentals extends Component {
 
     state = {
@@ -33,15 +31,6 @@ class MyRentals extends Component {
               borrowing: fromBackend.borrowing
           })
         }
-
-
-        //const [test] = this.state.lending
-
-        //const test1 = format(new Date(test.rented_from), 'E dd MMMM, y');
-        //console.log(test1)
-
-
-
     }
 
 
