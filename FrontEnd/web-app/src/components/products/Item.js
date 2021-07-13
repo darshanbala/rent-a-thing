@@ -16,7 +16,8 @@ class Item extends Component {
         rentalConfirmed: false,
         errorMessage: '',
         usersOwnItem: false,
-        isInEditMode: false,
+        itemIsInEditMode: false,
+        descriptionIsInEditMode: false,
     }
 
     state = this.initialState
@@ -102,17 +103,32 @@ class Item extends Component {
 
     // Functions relating to editing a user's own item
 
-    changeEditMode = () => {
+    changeEditModeItem = () => {
         const usersOwnItem = this.state.usersOwnItem
 
         // Can only edit your own item
         if (!usersOwnItem) {
             this.setState({
-                isInEditMode: false,
+                itemIsInEditMode: false,
             })
         } else {
             this.setState({
-                isInEditMode: !this.state.isInEditMode,
+                itemIsInEditMode: !this.state.itemIsInEditMode,
+            })
+        }
+    }
+
+    changeEditModeDescription = () => {
+        const usersOwnItem = this.state.usersOwnItem
+
+        // Can only edit your own item
+        if (!usersOwnItem) {
+            this.setState({
+                descriptionIsInEditMode: false,
+            })
+        } else {
+            this.setState({
+                descriptionIsInEditMode: !this.state.descriptionIsInEditMode,
             })
         }
     }
@@ -134,7 +150,7 @@ class Item extends Component {
 
         this.setState({
             item: itemDuringChange,
-            isInEditMode: false,
+            itemIsInEditMode: false,
         })
 
         const itemId = item.id
@@ -154,6 +170,32 @@ class Item extends Component {
         )
     }
 
+    updateItemDescriptionValue = async () => {
+        const item = this.state.item
+        const itemDuringChange = this.state.itemDuringChange
+
+        this.setState({
+            item: itemDuringChange,
+            descriptionIsInEditMode: false,
+        })
+
+        const itemId = item.id
+        const ownerId = item.owner_id
+        const changedValue = itemDuringChange.description
+
+        await fetch(
+            `${process.env.REACT_APP_API_URL}/editItemDescription`,
+            {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ itemId, ownerId, changedValue })
+            }
+        )
+    }
+
     render() {
         const item = this.state.item
         const itemDuringChange = this.state.itemDuringChange
@@ -161,7 +203,8 @@ class Item extends Component {
         const errorMessage = this.state.errorMessage
         const rentalConfirmed = this.state.rentalConfirmed
         const usersOwnItem = this.state.usersOwnItem
-        const isInEditMode = this.state.isInEditMode
+        const itemIsInEditMode = this.state.itemIsInEditMode
+        const descriptionIsInEditMode = this.state.descriptionIsInEditMode
 
         return (
             <div className='item-page-container'>
@@ -170,7 +213,7 @@ class Item extends Component {
                 </div>
                 <div className='item-page-content-container'>
                     <div className="item-page-name">
-                        {isInEditMode ?
+                        {itemIsInEditMode ?
                             <h1>
                                 <input
                                     type="text"
@@ -179,15 +222,27 @@ class Item extends Component {
                                     value={itemDuringChange.name}
                                     onChange={(e) => this.handleEditChange(e)}
                                 />
-                                <button onClick={this.changeEditMode}>X</button>
+                                <button onClick={this.changeEditModeItem}>X</button>
                                 <button onClick={this.updateItemNameValue}>OK</button>
                             </h1> :
-                            <h1 onDoubleClick={this.changeEditMode}>{item.name}</h1>}
+                            <h1 onDoubleClick={this.changeEditModeItem}>{item.name}</h1>}
                         <p>Offered by {item.first_name} {item.last_name}</p>
                     </div>
                     <div className="item-page-info">
                         <h2>Description</h2>
-                        <p>{item.description}</p>
+                        {descriptionIsInEditMode ?
+                            <p>
+                                <input
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    value={itemDuringChange.description}
+                                    onChange={(e) => this.handleEditChange(e)}
+                                />
+                                <button onClick={this.changeEditModeDescription}>X</button>
+                                <button onClick={this.updateItemDescriptionValue}>OK</button>
+                            </p> :
+                            <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
                     </div>
                     <div className="item-page-reviews">
                         <h2>Reviews</h2>
