@@ -56,8 +56,8 @@ class PostItem extends Component {
         this.resetForm();
 
         const { name, description, category, age_restriction, img_url } = this.state;
-        const ownerID = this.props.userID
-
+        const ownerID = this.props.user.id
+        const cityId = this.props.user.city_id
         const response = await fetch(
             `${process.env.REACT_APP_API_URL}/postItem`,
             {
@@ -66,7 +66,7 @@ class PostItem extends Component {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, description, category, age_restriction, ownerID, img_url })
+                body: JSON.stringify({ name, description, category, age_restriction, ownerID, img_url, cityId })
             }
         );
 
