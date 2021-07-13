@@ -8,6 +8,7 @@ class Item extends Component {
 
     initialState = {
         item: [],
+        itemDuringChange: [],
         fields: {
             rentFrom: '',
             rentUntil: '',
@@ -15,6 +16,7 @@ class Item extends Component {
         rentalConfirmed: false,
         errorMessage: '',
         usersOwnItem: false,
+        isInEditMode: false,
     }
 
     state = this.initialState
@@ -43,8 +45,10 @@ class Item extends Component {
         const item = itemInArray[0]
 
         // Set state
-        this.setState({ item, usersOwnItem })
+        this.setState({ item, itemDuringChange: item, usersOwnItem })
     }
+
+    // Functions relating to the rental form
 
     handleChange = (event) => {
         const { name, value } = event.target
@@ -96,12 +100,68 @@ class Item extends Component {
 
     }
 
+    // Functions relating to editing a user's own item
+
+    changeEditMode = () => {
+        const usersOwnItem = this.state.usersOwnItem
+
+        // Can only edit your own item
+        if (!usersOwnItem) {
+            this.setState({
+                isInEditMode: false,
+            })
+        } else {
+            this.setState({
+                isInEditMode: !this.state.isInEditMode,
+            })
+        }
+    }
+
+    handleEditChange = (event) => {
+        const { name, value } = event.target
+
+        this.setState(prevState => ({
+            itemDuringChange: {
+                ...prevState.itemDuringChange,
+                [name]: value,
+            },
+        }))
+    }
+
+    updateItemNameValue = async () => {
+        const item = this.state.item
+        const itemDuringChange = this.state.itemDuringChange
+
+        this.setState({
+            item: itemDuringChange,
+            isInEditMode: false,
+        })
+
+        const itemId = item.id
+        const ownerId = item.owner_id
+        const changedValue = itemDuringChange.name
+
+        await fetch(
+            `${process.env.REACT_APP_API_URL}/editItemName`,
+            {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ itemId, ownerId, changedValue })
+            }
+        )
+    }
+
     render() {
         const item = this.state.item
+        const itemDuringChange = this.state.itemDuringChange
         const { rentFrom, rentUntil } = this.state.fields
         const errorMessage = this.state.errorMessage
         const rentalConfirmed = this.state.rentalConfirmed
         const usersOwnItem = this.state.usersOwnItem
+        const isInEditMode = this.state.isInEditMode
 
         return (
             <div className='item-page-container'>
@@ -110,7 +170,19 @@ class Item extends Component {
                 </div>
                 <div className='item-page-content-container'>
                     <div className="item-page-name">
-                        <h1>{item.name}</h1>
+                        {isInEditMode ?
+                            <h1>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    value={itemDuringChange.name}
+                                    onChange={(e) => this.handleEditChange(e)}
+                                />
+                                <button onClick={this.changeEditMode}>X</button>
+                                <button onClick={this.updateItemNameValue}>OK</button>
+                            </h1> :
+                            <h1 onDoubleClick={this.changeEditMode}>{item.name}</h1>}
                         <p>Offered by {item.first_name} {item.last_name}</p>
                     </div>
                     <div className="item-page-info">
@@ -122,36 +194,36 @@ class Item extends Component {
                     </div>
                     <div className="item-page-rent">
                         {!usersOwnItem &&
-                        <form>
-                            <span className="item-page-form-field">
-                                <label htmlFor="rentFrom">Rent from: </label>
+                            <form>
+                                <span className="item-page-form-field">
+                                    <label htmlFor="rentFrom">Rent from: </label>
+                                    <input
+                                        type="date"
+                                        name="rentFrom"
+                                        id="rentFrom"
+                                        value={rentFrom}
+                                        min={format(new Date(), 'y-MM-d')}
+                                        onChange={(e) => this.handleChange(e)} />
+                                </span>
+                                <span className="item-page-form-field">
+                                    <label htmlFor="rentUntil">Rent until: </label>
+                                    <input
+                                        type="date"
+                                        name="rentUntil"
+                                        id="rentUntil"
+                                        value={rentUntil}
+                                        min={format(new Date(), 'y-MM-d')}
+                                        onChange={(e) => this.handleChange(e)} />
+                                </span>
                                 <input
-                                    type="date"
-                                    name="rentFrom"
-                                    id="rentFrom"
-                                    value={rentFrom}
-                                    min={format(new Date(), 'y-MM-d')}
-                                    onChange={(e) => this.handleChange(e)} />
-                            </span>
-                            <span className="item-page-form-field">
-                                <label htmlFor="rentUntil">Rent until: </label>
-                                <input
-                                    type="date"
-                                    name="rentUntil"
-                                    id="rentUntil"
-                                    value={rentUntil}
-                                    min={format(new Date(), 'y-MM-d')}
-                                    onChange={(e) => this.handleChange(e)} />
-                            </span>
-                            <input
-                                className="item-page-rent-button item-page-form-field"
-                                type="button"
-                                value="Rent item"
-                                onClick={this.submitForm} />
-                            <br />
-                            {errorMessage && <p>{ errorMessage }</p>}
-                            {rentalConfirmed && <p>Item successfully rented</p>}
-                        </form>
+                                    className="item-page-rent-button item-page-form-field"
+                                    type="button"
+                                    value="Rent item"
+                                    onClick={this.submitForm} />
+                                <br />
+                                {errorMessage && <p>{errorMessage}</p>}
+                                {rentalConfirmed && <p>Item successfully rented</p>}
+                            </form>
                         }
                     </div>
                 </div>
