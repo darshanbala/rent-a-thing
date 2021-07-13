@@ -16,14 +16,16 @@ class CreateAccount extends Component {
     phone_number: "",
     address_1: "",
     address_2: "",
-    city: "",
+    city: {
+      id: null,
+      name: null
+    },
     postcode: "",
     validationMessage: null,
     validEmail: true,
     successfullySubmitted: false,
     cityOptions: null,
     hasChosenCountry: false,
-    cityName: ''
   }
 
   constructor(props) {
@@ -123,7 +125,7 @@ class CreateAccount extends Component {
         phone_number: this.state.phone_number,
         address_1: this.state.address_1,
         address_2: this.state.address_2,
-        city: this.state.city,
+        city: this.state.city.id,
         postcode: this.state.postcode
       }
       const response = await fetch(
@@ -275,10 +277,21 @@ class CreateAccount extends Component {
 */
 
   async changeCity(e) {
+    const { cityOptions } = this.state;
     //console.log(e.target.innerHTML);
     e.preventDefault();
+    //console.log(e.target.innerHTML);
     const cityName = e.target.innerHTML; // Get city string i.e. Glasgow
-    console.log(cityName);
+    //console.log(cityName);
+    const chosenCity = cityOptions.filter(city => {
+      if(city.name === cityName){
+        //console.log(city.id)
+        return city
+      }
+    })
+    //console.log(chosenCity)
+    const cityId = chosenCity[0].id
+
     //this.setState({ city });
 
     //this.props.cookieCheck();
@@ -290,13 +303,12 @@ class CreateAccount extends Component {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ cityName })
+        body: JSON.stringify({ cityId })
       }
     );
-    const cityId = await response.json(); // Get city id associated with i.e. Glasgow
+    const city = await response.json(); // Get city id associated with i.e. Glasgow
     //const cityOptions = await response.json()
-    console.log(cityId[0].id);
-    this.setState({ city: cityId[0].id, hasChosenCountry: true, cityName: cityName });  // set user city to this id so in future user and other components can searh for location id and get city name back
+    this.setState({ city: { id: city[0].id, name: city[0].name}, hasChosenCountry: true, cityName: city[0].name });  // set user city to this id so in future user and other components can searh for location id and get city name back
   }
 
   render() {
@@ -372,7 +384,7 @@ class CreateAccount extends Component {
                 {/*<input type="text" name="city" id="city" value={city} onChange={(e) => this.updateInfo(e)} />*/}
                 <section id='cities_section'>
                 { !hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
-                { hasChosenCountry && <div className="chosenCityCard" onClick={(e) => this.changeCity(e)} value={cityName}>{cityName}</div>}
+                { hasChosenCountry && <div className="chosenCityCard">{city.name}</div>}
                 </section>
                 {/*<City key={id} id={id} name={name} />*/}
                 {/*

@@ -15,7 +15,10 @@ class ThingsHandler extends React.Component {
         location: null
       },
       all: null,
-      currentLocationId: null,
+      currentLocation: {
+        id: null,
+        name: null
+      },
       cityOptions: null,
       showMenu: false,
       locationFilteredItemList: ''
@@ -46,8 +49,13 @@ class ThingsHandler extends React.Component {
   }
 
   async changeCity(e) {
-    const cityName = e.target.innerHTML;
-    //console.log(cityName);
+    let cityId = 1;
+    try{
+     cityId = e.target.value;
+  }catch{
+     cityId = e;
+  }
+    console.log('New cityId: '+cityId);
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/getCity`,
       {
@@ -56,12 +64,17 @@ class ThingsHandler extends React.Component {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ cityName })
+        body: JSON.stringify({ cityId })
       }
     );
-    const cityId = await response.json();
-    //console.log(cityId[0].id);
-    await this.setState({ currentLocationId: cityId[0].id });
+    const city = await response.json();
+    const name = city[0].name;
+    const id = city[0].id;
+    await this.setState({ currentLocation: {
+                            id: id,
+                            name: name
+                            }
+                          });
 
     let { items, locationFilteredItemList } = this.state;
     locationFilteredItemList = await this.filterByLocation(items);
@@ -71,35 +84,36 @@ class ThingsHandler extends React.Component {
   }
 
   async componentDidMount() {
-    //get list of cities for drop down later 
+    await this.filterBy()
+    //get list of cities for drop down later
     await this.getCities();
     //Check if someone is logged in, in for get their city_id to later filter items
     const response = await fetch(`${process.env.REACT_APP_API_URL}/checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
     const user = await response.json();
     if (user) {
       //const response = await fetch(`${process.env.REACT_APP_API_URL}/checkUserLocation`, { method: 'GET', credentials: 'include', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ user }) });
-      const userLocation = user.city_id;
+      const userLocation = await this.changeCity(user.city_id);
       //console.log("User Logged in:");
       //console.log(user);
       //console.log(userLocation);
       this.setState({ currentLocationId: userLocation });
     } else {
       //console.log("User NOT Logged in:");
-      this.setState({ currentLocationId: 0 });
+      await this.changeCity(1)
     }
 
-    await this.filterBy()
+
   }
 
   async filterByLocation(itemList) {
     //console.log("Item List: ");
     //console.log(itemList);
-    const { currentLocationId } = await this.state;
+    const { currentLocation } = await this.state;
     //console.log("Filtering by location id:")
-    //console.log(currentLocationId);//[0].id);
-    if (currentLocationId) {
+    //console.log(currentLocation.id);//[0].id);
+    if (currentLocation.id) {
       //console.log("Filtering...");
-      const filteredItems = itemList.filter(item => item.city_id === currentLocationId);
+      const filteredItems = itemList.filter(item => item.city_id === currentLocation.id);
       return filteredItems;
     } else {
       //console.log("NOT Filtering.");
@@ -176,40 +190,30 @@ class ThingsHandler extends React.Component {
   async
 
   render() {
-    const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, locationFilteredItemList } = this.state
-    console.log("Category filtered items:");
-    console.log(items);
-    console.log("Location filtered items:");
-    console.log(locationFilteredItemList);
+    const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, locationFilteredItemList, currentLocation } = this.state
+    //console.log("Category filtered items:");
+    //console.log(items);
+    //console.log("Location filtered items:");
+    //console.log(locationFilteredItemList);
+    //console.log(JSON.stringify(currentLocation))
     if (!items) {
       return (
         <p>Loading...</p>
       )
     } {
       return (
-        <>
-          <h1>ThingsHandler.js</h1>
-          <h2>category ID: {categoryId}</h2>
-
-          <div>
-            <button onClick={(e) => this.showMenu(e)}>
-              Show menu
-            </button>
-
-            {
-              this.state.showMenu
-                ? (
-                  <div className="menu">
-                    {cityOptions.map(({ id, name }) => <span onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</span>)}
-                  </div>
-                )
-                : (
-                  null
-                )
-            }
-          </div>
+        <section>
+                    { cityOptions &&
+                      <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
+                            {cityOptions.map(({ id, name }) =>{
+                                //console.log(id+'  '+name);
+                                return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
+                                }
+                            )}
+                      </select>
+                    }
           <Things items={locationFilteredItemList} cookieCheck={this.props.cookieCheck} />
-        </>
+        </section>
       )
     }
   }

@@ -134,16 +134,16 @@ app
         SELECT id, name FROM location
       `)).rows;
 
-    console.log(cities);
+    //console.log(cities);
 
     await server.json(cities);
   })
   .post('/getCity', async (server) => {
-    const { cityName } = await server.body;
-    console.log(cityName);
-    const cityId = (await client.queryObject(`SELECT id FROM location WHERE name = $1`, cityName)).rows;
-    console.log(cityId);
-    await server.json(cityId);
+    const { cityId } = await server.body;
+    //console.log('CityId: '+cityId);
+    const city = (await client.queryObject(`SELECT id, name FROM location WHERE id = $1`, await cityId)).rows;
+    //console.log(await JSON.stringify(city));
+    await server.json(city);
   })
   .post("/logout", async server => {
     console.log("Logging out...")
@@ -160,9 +160,9 @@ app
   })
 
   .post("/postItem", async server => {
-    const { name, description, category, age_restriction, ownerID, img_url } = await server.body
+    const { name, description, category, age_restriction, ownerID, img_url, cityId } = await server.body
 
-    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, age_restriction, owner_id, img_url) VALUES ($1, $2, $3, $4, $5, $6)", name, description, category, age_restriction, ownerID, img_url).rows)
+    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, age_restriction, owner_id, img_url, city_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", name, description, category, age_restriction, ownerID, img_url, cityId).rows)
     //console.log(insertItem, "insertItem")
     // Returns items table with new values:
     const result = (await client.queryObject(`SELECT * FROM items WHERE owner_id = $1`, ownerID)).rows
@@ -203,7 +203,7 @@ app
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
-    console.log(itemInArray)
+    //console.log(itemInArray)
     // Check if this is the logged in user's own item
     const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
@@ -360,7 +360,7 @@ app
 
     } else {
       //SEARCH BY ALL
-      console.log('b')
+      //console.log('b')
     }
 
   })
@@ -374,21 +374,21 @@ app
       return;
     } else {
       const rentals = (await client.queryObject(`
-    SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until, 
+    SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until,
     items.name, items.owner_id, items.img_url,
     users_borrowing.first_name AS borrowers_first_name, users_borrowing.last_name AS borrowers_last_name,
     users_lending.first_name AS lenders_first_name, users_lending.last_name AS lenders_last_name
-    FROM rentals 
+    FROM rentals
     JOIN items ON rentals.item_id = items.id
     JOIN users AS users_borrowing ON rentals.borrower_id = users_borrowing.id
     JOIN users AS users_lending ON items.owner_id = users_lending.id
-    WHERE items.owner_id  = $1 
+    WHERE items.owner_id  = $1
     OR rentals.borrower_id = $1`,
         user.id)).rows
 
       let lending = rentals.filter(e => e.owner_id === user.id)
-      
-      lending = lending.map(e => { 
+
+      lending = lending.map(e => {
         delete e.lenders_first_name
         delete e.lenders_last_name
         e.trader_first_name = e.borrowers_first_name
@@ -397,10 +397,10 @@ app
         delete e.borrowers_last_name
         return e
       })
-        
-      
+
+
       let borrowing = rentals.filter(e => e.borrower_id === user.id)
-      borrowing = borrowing.map(e => { 
+      borrowing = borrowing.map(e => {
         delete e.borrowers_first_name
         delete e.borrowers_last_name
         e.trader_first_name = e.lenders_first_name
