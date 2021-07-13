@@ -42,7 +42,7 @@ export default function Card({
 
         return (
             <div className={cardType} >
-                <img src={img_url} alt={name} style={{ height: '192px'}}/>
+                <img src={img_url} alt={name} class='rentals-page-card-img'/>
                 <div className={`${cardType}-container`}>
                     <h4><b>{name}</b></h4>
                     <p>Pick up date: {format(new Date(rented_from), 'E dd MMMM, y')}</p>
