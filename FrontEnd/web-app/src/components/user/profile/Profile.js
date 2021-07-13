@@ -13,19 +13,43 @@ class Profile extends React.Component {
     super();
     this.state = {
       user: {},
-      star_rating: 'loading...'
+      star_rating: 'loading...',
+      justVisiting: null,
+      newLoad: true
     };
   }
   async componentDidMount() {
-    this.props.cookieCheck();
-    await this.getStarRating(this.props.user)
+    console.log('redirected')
+
+    try{
+    if(!this.props.location.state.justVisiting){
+      this.props.cookieCheck();
+      await this.getStarRating(this.props.state.user)
+      this.setState({
+        user: this.props.user,
+        justVisiting: false
+      })
+    }
+  }catch{}
+  try{
+      this.setState({
+        user: this.props.location.state.user,
+        justVisiting: true
+      })
+      await this.getStarRating(this.props.location.state.user)
+    }catch{}
+
+
     //this.setState({
     //  user: await this.props.checkWhoIsSignedIn()
     //})
   }
-  async componentDidUpdate() {
+  async componentDidUpdate(PrevProps, prevState) {
     if(this.state.star_rating === 'loading...'){
-      await this.getStarRating(this.props.user)
+      await this.getStarRating(this.state.user)
+    }
+    if(this.props !== PrevProps){
+      this.forceUpdate()
     }
   }
 
@@ -50,8 +74,20 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { user } = this.props
-    //console.log(this.props)
+    let { user } = this.props
+    let justVisiting = false
+    const{ newLoad } = this.state
+    console.log(newLoad)
+    try{
+      const { justVisiting } = this.props.location.state
+
+      if(justVisiting){
+        user = this.props.location.state.user
+      }
+    }catch{
+
+    }
+    console.log(this.props)
     //console.log('user @ profile render: '+JSON.stringify(user))
     if(user){
       return(
@@ -67,8 +103,10 @@ class Profile extends React.Component {
             </div>
             <div id='centre_spacer' />
             <div id='right'>
-              <MyRentals />
-              <UserReviews user={user} />
+              { !justVisiting &&
+                <MyRentals />
+              }
+                <UserReviews user={user} />
             </div>
           </section>
         </main>

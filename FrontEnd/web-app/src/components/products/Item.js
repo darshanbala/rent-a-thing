@@ -1,5 +1,5 @@
 import React, { Component, useReducer } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 import { format } from 'date-fns'
 import '../../index.css'
 import '../../css/Item.css'
@@ -18,6 +18,10 @@ class Item extends Component {
         usersOwnItem: false,
         itemIsInEditMode: false,
         descriptionIsInEditMode: false,
+        redirect: {
+          clicked: false,
+          user: null
+        }
     }
 
     state = this.initialState
@@ -42,7 +46,7 @@ class Item extends Component {
             }
         )
         const { itemInArray, usersOwnItem } = await response.json()
-
+        console.log('User: '+usersOwnItem)
         const item = itemInArray[0]
 
         // Set state
@@ -222,6 +226,30 @@ class Item extends Component {
         )
     }
 
+    async goToUserProfile() {
+      const { item } = this.state
+      const user_id = item.owner_id
+      const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/visitAnotherProfile`,
+          {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ user_id: user_id })
+          }
+      )
+      const user = await response.json()
+      this.setState({
+        redirect: {
+          clicked: true,
+             user: user
+        }
+      })
+
+    }
+
     render() {
         const item = this.state.item
         const itemDuringChange = this.state.itemDuringChange
@@ -231,8 +259,24 @@ class Item extends Component {
         const usersOwnItem = this.state.usersOwnItem
         const itemIsInEditMode = this.state.itemIsInEditMode
         const descriptionIsInEditMode = this.state.descriptionIsInEditMode
+        const  redirectClicked  = this.state.redirect.clicked
+        let redirectUser = null;
+        if(redirectClicked){
+           redirectUser  = this.state.redirect.user
+        }
 
+        console.log('redirect clicked: '+redirectUser)
         return (
+          <>
+          { redirectClicked &&
+            <Redirect
+            to={{
+            pathname: "/visitingUser",
+            state: { user: redirectUser, justVisiting: true }
+            }}
+            />
+          }
+
             <div className='item-page-container'>
                 <div className='item-page-image'>
                     <img src={item.img_url} alt={item.name} style={{ height: '500px' }} />
@@ -252,7 +296,7 @@ class Item extends Component {
                                 <button onClick={this.updateItemNameValue}>OK</button>
                             </h1> :
                             <h1 onDoubleClick={this.changeEditModeItem}>{item.name}</h1>}
-                        <p>Offered by {item.first_name} {item.last_name}</p>
+                        <p>Offered by <span id='user_profile_link' onClick={() => this.goToUserProfile()}>{item.first_name} {item.last_name}</span></p>
                     </div>
                     <div className="item-page-info">
                         <h2>Description</h2>
@@ -327,6 +371,7 @@ class Item extends Component {
                     </div>
                 </div>
             </div>
+            </>
         )
     }
 }

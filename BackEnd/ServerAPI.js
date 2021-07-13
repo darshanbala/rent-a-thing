@@ -299,7 +299,7 @@ app
     const body = await server.body
     //console.log(await server.body)
     const user = await body.user
-    //console.log(await user)
+    console.log(await user)
 
 
     const reviews = (await client.queryObject(`
@@ -348,6 +348,16 @@ app
     if (!isNaN(avg)) {
       server.json({ rating: avg })
     }
+  })
+  .post('/visitAnotherProfile', async server => {
+    const { user_id } = await server.body
+    console.log(user_id)
+    const queryResponse = ( await client.queryObject(`
+          SELECT id, first_name, last_name, email, created_at FROM users WHERE id = ${user_id}`)
+          ).rows
+          console.log(await queryResponse[0])
+    const user = await queryResponse[0]
+    return (user)
   })
   .post('searchByCategory', async server => {
     const body = await server.body;
