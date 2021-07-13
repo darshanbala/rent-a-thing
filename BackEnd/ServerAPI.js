@@ -385,7 +385,7 @@ app
     } else {
       const rentals = (await client.queryObject(`
     SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until,
-    items.name, items.owner_id, items.img_url,
+    items.name, items.owner_id, items.img_url, items.price,
     users_borrowing.first_name AS borrowers_first_name, users_borrowing.last_name AS borrowers_last_name,
     users_lending.first_name AS lenders_first_name, users_lending.last_name AS lenders_last_name
     FROM rentals

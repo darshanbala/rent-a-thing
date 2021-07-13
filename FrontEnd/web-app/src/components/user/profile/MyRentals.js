@@ -55,10 +55,11 @@ class MyRentals extends Component {
                 <h2>Lending</h2>
                 <div className="lending">
                     { lending &&
-                    lending.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
+                    lending.map(({ id, name, price, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
                         <Card
                             key={id}
                             name={name}
+                            price={price}
                             rented_from={rented_from}
                             rented_until={rented_until}
                             img_url={img_url}
@@ -73,10 +74,11 @@ class MyRentals extends Component {
                 <h2>Borrowing</h2>
                 <div className="borrowing">
                     { borrowing &&
-                    borrowing.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
+                    borrowing.map(({ id, name, price, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
                         <Card
                             key={id}
                             name={name}
+                            price={price}
                             rented_from={rented_from}
                             rented_until={rented_until}
                             img_url={img_url}
