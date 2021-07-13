@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import '../../index.css';
 import '../../css/categories.css';
+import '../../css/About.css';
 import Individual from './Individual';
 import ChosenIndividual from './ChosenIndividual';
 
@@ -54,8 +55,8 @@ class About extends Component {
                     <h1>Meet the team!</h1>
                     <h1>Software Engineers:</h1>
                     <div className='item-list'>
-                        {teamMembers.map(({ id, name, description, email, number, cv_img, linked_in_Link }) =>
-                            <Individual key={id} id={id} name={name} description={description} email={email} number={number} CVImg={cv_img} link={linked_in_Link} handleClick={(arg) => this.handleClick(arg)} />
+                        {teamMembers.map(({ id, name, description, email, number, cv_img, linkedin_link }) =>
+                            <Individual key={id} id={id} name={name} description={description} email={email} number={number} CVImg={cv_img} link={linkedin_link} handleClick={(arg) => this.handleClick(arg)} />
                         )}
                     </div>
                 </>

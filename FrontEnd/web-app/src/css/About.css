@@ -1,0 +1,39 @@
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    /*border: 2px solid yellow;*/
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+.teamMemberPic{
+    padding: 0.5em;
+    margin: 0.5em;
+    background-color: white;
+    border: 3px solid #FFBF69;
+    border-radius: 10px;
+}
+
+.teamMemberInfo{
+    padding: 0.5em;
+    margin: 0.5em;
+    background-color: white;
+    border: 3px solid #FFBF69;
+    border-radius: 10px;
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+.infoBox{
+    padding: 0.5em;
+    margin: 0.5em;
+    border: 3px solid #FFBF69;
+    border-radius: 10px;
+}

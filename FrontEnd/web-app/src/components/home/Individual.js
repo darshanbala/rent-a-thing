@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import '../../index.css';
 import '../../css/Things.css'
+import '../../css/Card.css';
 
 class Individual extends Component {
 
@@ -30,7 +31,8 @@ class Individual extends Component {
                         {/*<h2>{this.props.link}</h2>*/}
                     </div>
                     <div id="img_container">
-                        <img id="category_card_img" src={individualData.CVImg} alt={this.props.id} />
+                        <img id="category_card_img" className='things-page-card-img' src="logo192.png" alt={individualData.name} style={{ height: '310px' }} />
+                        {/*<img id="category_card_img" src={"logo192.png"} alt={this.props.id} />*/}
                     </div>
                 </div>
             );

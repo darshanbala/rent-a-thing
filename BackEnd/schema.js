@@ -21,7 +21,7 @@ await client.queryObject(
     email TEXT NOT NULL,
     number TEXT NOT NULL,
     cv_img TEXT NOT NULL,
-    linked_in_Link TEXT NOT NULL
+    linkedin_link TEXT NOT NULL
   )`
 )
 
