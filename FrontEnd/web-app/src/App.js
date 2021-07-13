@@ -137,7 +137,7 @@ class App extends Component {
                         <Item cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/postItem">
-                        <PostItem  userID = {user.id} cookieCheck={() => this.cookieCheck()()}/>
+                        <PostItem  user = {user} cookieCheck={() => this.cookieCheck()()}/>
                     </Route>
                     <Route path="/MyRentals">
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
