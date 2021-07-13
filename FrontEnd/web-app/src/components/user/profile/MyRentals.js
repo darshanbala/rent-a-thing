@@ -21,23 +21,30 @@ class MyRentals extends Component {
 
         const fromBackend = await response.json()
 
-        this.setState({
-            lending: fromBackend.lending,
-            borrowing: fromBackend.borrowing
-        })
-
+        if(await fromBackend.lending){
+          this.setState({
+              lending: fromBackend.lending
+          })
+        }
+        if(await fromBackend.borrowing){
+          this.setState({
+              borrowing: fromBackend.borrowing
+          })
+        }
     }
 
 
     render() {
-        const lending = this.state.lending
-        const borrowing = this.state.borrowing
-
+        let lending = this.state.lending
+        let borrowing = this.state.borrowing
+        
         return (
+
             <div className="my-rentals-container">
+                <h2>Lending</h2>
                 <div className="lending">
-                    <h2>Lending</h2>
-                    {lending.length > 0 ? lending.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
+                    { lending &&
+                    lending.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
                         <Card
                             key={id}
                             name={name}
@@ -47,11 +54,15 @@ class MyRentals extends Component {
                             trader_first_name={trader_first_name}
                             trader_last_name={trader_last_name}
                             cardType='myrentals-page-card' />
-                    ) : `Any items you lend out will appear here`}
+                    )
+                  } { !lending[0] &&
+                      <p>No items lended out</p>
+                  }
                 </div>
+                <h2>Borrowing</h2>
                 <div className="borrowing">
-                    <h2>Borrowing</h2>
-                    {borrowing.length > 0 ? borrowing.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
+                    { borrowing &&
+                    borrowing.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
                         <Card
                             key={id}
                             name={name}
@@ -61,7 +72,10 @@ class MyRentals extends Component {
                             trader_first_name={trader_first_name}
                             trader_last_name={trader_last_name}
                             cardType='myrentals-page-card' />
-                    ) : `Any items you borrow will appear here`}
+                    )
+                  } { !borrowing[0] &&
+                      <p>No items borrowed</p>
+                  }
                 </div>
             </div>
         )

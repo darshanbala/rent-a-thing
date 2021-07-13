@@ -11,7 +11,19 @@ await client.queryObject(
   `CREATE EXTENSION fuzzystrmatch;`
 )
 */
-await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories, user_reviews, rentals, location;`);
+await client.queryArray(`DROP TABLE IF EXISTS users, sessions, items, categories, user_reviews, rentals, location, team_members;`);
+
+await client.queryObject(
+  `CREATE TABLE team_members (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    email TEXT NOT NULL,
+    number TEXT NOT NULL,
+    cv_img TEXT NOT NULL,
+    linkedin_link TEXT NOT NULL
+  )`
+)
 
 await client.queryObject(
   `CREATE TABLE location (
