@@ -23,7 +23,10 @@
 }
 
 #profile_picture {
-  height:150px;
+  height:185px;
+  width: 185px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 #centre_spacer {
