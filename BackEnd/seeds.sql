@@ -1,3 +1,9 @@
+INSERT INTO team_members(name, description, email, number, cv_img, linkedin_link) VALUES ('David Ajayi', 'Hello I am David Ajay this is my test description Hello I am David Ajay this is my test description', 'david@test.com', '0141 444 444', '', 'https://linkedin.com');
+INSERT INTO team_members(name, description, email, number, cv_img, linkedin_link) VALUES ('Darshan Balasigngam', 'Hello I am Darshan Balasigngam this is my test description Hello I am David Ajay this is my test description', 'Darshan@test.com', '0141 444 444', '', 'https://linkedin.com');
+INSERT INTO team_members(name, description, email, number, cv_img, linkedin_link) VALUES ('Kyle Pearce', 'Hello I am Kyle Pearce this is my test description Hello I am David Ajay this is my test description', 'Kyle@test.com', '0141 444 444', '', 'https://linkedin.com');
+INSERT INTO team_members(name, description, email, number, cv_img, linkedin_link) VALUES ('Milo Boucher', 'Hello I am Milo Boucher this is my test description Hello I am David Ajay this is my test description', 'Milo@test.com', '0141 444 444', '', 'https://linkedin.com');
+INSERT INTO team_members(name, description, email, number, cv_img, linkedin_link) VALUES ('Rob Scholey', 'Hello I am Rob Scholey this is my test description Hello I am David Ajay this is my test description', 'Rob@test.com', '0141 444 444', '', 'https://linkedin.com');
+
 INSERT INTO location(name, latitude, longitude) VALUES ('London', '51.5', '-0.1');
 INSERT INTO location(name, latitude, longitude) VALUES ('Birmingham', '52.4', '-1.8');
 INSERT INTO location(name, latitude, longitude) VALUES ('Glasgow', '55.8', '-4.2');

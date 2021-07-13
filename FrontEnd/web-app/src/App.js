@@ -15,6 +15,7 @@ import PostItem from './components/products/PostItem';
 import MyRentals from './components/user/profile/MyRentals'
 import Categories from './components/products/Categories';
 import ThingsHandler from './components/framework/ThingsHandler.js';
+import About from './components/home/About';
 
 class App extends Component {
 
@@ -97,6 +98,7 @@ class App extends Component {
                   <nav className="navBar">
                       <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
                       <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/About" activeClassName="active">About</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
                   </nav>
@@ -105,6 +107,7 @@ class App extends Component {
                   <nav className="navBar">
                       <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
                       <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/About" activeClassName="active">About</NavLink>
                       <div className="navButton floatRight noUnderline" onClick={ () => { this.logout() } }>Logout</div>
                       <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
@@ -123,6 +126,9 @@ class App extends Component {
                     </Route>
                     <Route path="/myAccount">
                         <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
+                    <Route path="/About">
+                        <About cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/login">
                         <Login cookieCheck={() => this.cookieCheck()} />
