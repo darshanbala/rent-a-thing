@@ -196,6 +196,32 @@ class Item extends Component {
         )
     }
 
+    changeItemAvailability = async () => {
+        const item = this.state.item
+        const itemId = item.id
+        const ownerId = item.owner_id
+        const isAvailable = !item.is_available
+
+        this.setState(prevState => ({
+            item: {
+                ...prevState.item,
+                is_available: isAvailable,
+            },
+        }))
+
+        await fetch(
+            `${process.env.REACT_APP_API_URL}/changeItemAvailability`,
+            {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ itemId, ownerId, isAvailable })
+            }
+        )
+    }
+
     render() {
         const item = this.state.item
         const itemDuringChange = this.state.itemDuringChange
@@ -279,6 +305,24 @@ class Item extends Component {
                                 {errorMessage && <p>{errorMessage}</p>}
                                 {rentalConfirmed && <p>Item successfully rented</p>}
                             </form>
+                        }
+                    </div>
+                    <div className="item-page-management">
+                        {usersOwnItem &&
+                            <div>
+                                {item.is_available &&
+                                    <div>
+                                        <span>This item is available to be rented by others:</span>
+                                        <button className="item-page-set-unavailable" onClick={this.changeItemAvailability}>Set unavailable</button>
+                                    </div>
+                                }
+                                {!item.is_available &&
+                                    <div>
+                                        <span>This item is not set as available to be rented by others:</span>
+                                        <button className="item-page-set-available" onClick={this.changeItemAvailability}>Set available</button>
+                                    </div>
+                                }
+                            </div>
                         }
                     </div>
                 </div>

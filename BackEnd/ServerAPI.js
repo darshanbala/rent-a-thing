@@ -275,6 +275,15 @@ app
     if (user.id === ownerId) await (client.queryObject(`UPDATE items SET description = $1 WHERE id = $2`, changedValue, itemId)).rows
   })
 
+  .put('/changeItemAvailability', async (server) => {
+    const { itemId, ownerId, isAvailable } = await server.body
+
+    const sessionId = server.cookies['sessionId']
+    const user = await getCurrentUser(sessionId)
+
+    // If the item is the logged in user's, update it
+    if (user.id === ownerId) await (client.queryObject(`UPDATE items SET is_available = $1 WHERE id = $2`, isAvailable, itemId)).rows
+  })
 
   .post("getUserReviews", async server => {
     const body = await server.body
