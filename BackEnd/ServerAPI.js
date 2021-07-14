@@ -115,7 +115,7 @@ app
   .get('/items', async (server) => {
 
     const items = (await client.queryObject(`
-        SELECT id, name, is_available, img_url FROM items
+        SELECT id, name, price, is_available, img_url FROM items
       `)).rows
 
     return (await items)
@@ -170,19 +170,21 @@ app
   })
 
   .post("/postItem", async server => {
-    const { name, description, category, age_restriction, ownerID, img_url, cityId } = await server.body
+    const { name, description, price, category, age_restriction, ownerID, img_url, cityId } = await server.body
 
-    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, age_restriction, owner_id, img_url, city_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", name, description, category, age_restriction, ownerID, img_url, cityId).rows)
+    const insertItem = (await client.queryObject("INSERT INTO items(name, description, price, category_id, age_restriction, owner_id, img_url, city_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", name, description, price, category, age_restriction, ownerID, img_url, cityId).rows)
     //console.log(insertItem, "insertItem")
     // Returns items table with new values:
     const result = (await client.queryObject(`SELECT * FROM items WHERE owner_id = $1`, ownerID)).rows
     console.log("DATABASE SEARCH: ")
     console.log(result)
+    console.log(price.toString(), "price")
 
     // Returns boolean to check if submitted item is successful:
     const submitted = result.some(item =>
       item.name === name &&
       item.description === description &&
+      item.price === price.toString() &&
       item.category_id === category &&
       item.age_restriction === age_restriction &&
       item.owner_id === ownerID &&
@@ -208,12 +210,16 @@ app
     const user = await getCurrentUser(sessionId)
 
     const itemInArray = (await client.queryObject(`
-    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
+    SELECT items.id, items.name, items.description, items.price, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
-    //console.log(itemInArray)
+    console.log(itemInArray, "itemInArray")
+
+    itemInArray[0].price = parseFloat(itemInArray[0].price).toFixed(2)
+    // console.log(itemInArray[0])
+    // console.log(typeof itemInArray[0].price)
     // Check if this is the logged in user's own item
     const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
@@ -363,16 +369,19 @@ app
     const body = await server.body;
     const { category_id } = await body;
     console.log(category_id)
-    const items = (await client.queryObject(`
+    let items = (await client.queryObject(`
           SELECT * FROM items WHERE category_id = $1
         `, await category_id)).rows;
-    console.log(await items)
+
+    items = items.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
+
+    console.log(await items, "items - searchByCategory")
     return items
   })
   .post('searchByFilter', async server => {
     const body = await server.body;
     const searchCriteria = await body.searchCriteria
-    console.log('string to search: '+await searchCriteria.item)
+    console.log('string to search: ' + await searchCriteria.item)
     if (await searchCriteria.item && await !searchCriteria.location) {
       //SEARCH BY JUST ITEM
       let items = [];
@@ -381,7 +390,7 @@ app
         items = (await client.queryObject(`
                   SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria.item}%' OR name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
-                console.log(await items)
+        console.log(await items)
       } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
         items = (await client.queryObject(`
                   SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '${searchCriteria.item}%';
@@ -401,11 +410,11 @@ app
       }
 
       console.log(items)
-    //  try {
-        return (items);
-    //  } catch {
-        return [];
-    //  }
+      //  try {
+      return (items);
+      //  } catch {
+      return [];
+      //  }
 
     } else {
       //SEARCH BY ALL
@@ -422,9 +431,9 @@ app
     if (!user) {
       return;
     } else {
-      const rentals = (await client.queryObject(`
+      let rentals = (await client.queryObject(`
     SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until,
-    items.name, items.owner_id, items.img_url,
+    items.name, items.owner_id, items.img_url, items.price,
     users_borrowing.first_name AS borrowers_first_name, users_borrowing.last_name AS borrowers_last_name,
     users_lending.first_name AS lenders_first_name, users_lending.last_name AS lenders_last_name
     FROM rentals
@@ -434,6 +443,10 @@ app
     WHERE items.owner_id  = $1
     OR rentals.borrower_id = $1`,
         user.id)).rows
+      
+
+      rentals = rentals.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
+      
 
       let lending = rentals.filter(e => e.owner_id === user.id)
 
