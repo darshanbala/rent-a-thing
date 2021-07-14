@@ -131,7 +131,7 @@ app
   .get('/itemListLocationData', async (server) => {
 
     const itemListLocationData = (await client.queryObject(`
-        SELECT * FROM items JOIN location ON items.city_id = location.id
+        SELECT id, name AS item_name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id FROM items JOIN location ON items.city_id = location.id
       `)).rows
 
     await server.json(itemListLocationData)
@@ -139,7 +139,7 @@ app
   .post('/currentLocationData', async (server) => {
 
     const { currentLocationId } = await server.body;
-
+    console.log(currentLocationId);
     const currentLocationData = (await client.queryObject(`SELECT * FROM location WHERE id = $1`, currentLocationId)).rows
 
     await server.json(currentLocationData)
@@ -337,14 +337,18 @@ app
     }
   })
   .post('searchByCategory', async server => {
-    const body = await server.body;
-    const { category_id } = await body;
-    console.log(category_id)
+    //const body = await server.body;
+    //const { category_id } = await body;
+    const { category_id } = await server.body;
+    console.log(`Category ID: ${category_id}`);
     const items = (await client.queryObject(`
-          SELECT * FROM items WHERE category_id = $1
-        `, await category_id)).rows;
-    console.log(await items)
-    return items
+    SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude FROM items INNER JOIN location ON items.city_id = location.id WHERE items.category_id = $1
+        `, category_id)).rows;
+        // WHERE items.category_id = $1
+        //, category_id
+    console.log("Items:")
+    console.log(items);
+    return items;
   })
   .post('searchByFilter', async server => {
     const body = await server.body;

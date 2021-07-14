@@ -41,7 +41,7 @@ class Things extends Component {
     render() {
         //const { items } = this.state;
         const items = this.props.items;
-        console.log(items);
+        //console.log(items);
         //console.log("Items:")
         //console.log(items)
         if (!items) {
