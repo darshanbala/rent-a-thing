@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { format } from 'date-fns'
 import '../../index.css';
 import City from '../framework/City';
 
@@ -188,13 +189,13 @@ class CreateAccount extends Component {
         break
       case password1: {
         if (password1.length < 8) {
-          return (<p className="error">Password must be at least 8 characters</p>)
+          return (<p className="error errorCreateAccount">Password must be at least 8 characters</p>)
         }
       }
         break
       case password2: {
         if (password2 !== password1) {
-          return (<p className="error">Passwords do not match</p>)
+          return (<p className="error errorCreateAccount">Passwords do not match</p>)
         }
       }
         break
@@ -203,16 +204,16 @@ class CreateAccount extends Component {
       case phone_number: {
         if (phone_number[0] === "+") {
           if (phone_number.length !== 12) {
-            return (<p className="error">Please enter a valid phone number</p>)
+            return (<p className="error errorCreateAccount">Please enter a valid phone number</p>)
           }
         } else {
           if (phone_number.length !== 11) {
-            return (<p className="error">Please enter a valid phone number</p>)
+            return (<p className="error errorCreateAccount">Please enter a valid phone number</p>)
           }
         }
         for (const i of phone_number) {
           if (isNaN(i)) {
-            return (<p className="error">Please enter a valid phone number</p>)
+            return (<p className="error errorCreateAccount">Please enter a valid phone number</p>)
           }
         }
       }
@@ -322,26 +323,26 @@ class CreateAccount extends Component {
     if (!valid_new_user) {
       return (
         <section>
-            <h1>CreateAccount</h1>
-            <form className="SubmissionForm">
+            <h1 className="centered">Create an account</h1>
+            <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
                 <label htmlFor="email" value="Email address: " >Email address: </label>
                 <input type="text" name="email" id="email" value={email} onChange={(e) => this.updateInfo(e)} />
-                {!validEmail && <p className="error" >email address unavailable</p>}
+                {!validEmail && <p className="error errorCreateAccount" >Email address is unavailable</p>}
               </section>
               <section>
                 <label htmlFor="password1" value="Password: " >Password: </label>
-                <input type="text" name="password1" id="password1" value={password1} onChange={(e) => this.updateInfo(e)} />
+                <input type="password" name="password1" id="password1" value={password1} onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password1)}</div>
               </section>
               <section>
                 <label htmlFor="password2" value="Re-enter password: " value={password2} >Re-enter password: </label>
-                <input type="text" name="password2" id="password2" onChange={(e) => this.updateInfo(e)} />
+                <input type="password" name="password2" id="password2" onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password2)}</div>
               </section>
               <section>
-                <input type="submit" onClick={(e) => this.submitEmailInfo(e)} value="Submit" />
-                {validationMessage && <p className="error">{validationMessage}</p>}
+                <input type="submit" onClick={(e) => this.submitEmailInfo(e)} value="Create account" />
+                {validationMessage && <p className="error errorCreateAccount">{validationMessage}</p>}
               </section>
             </form>
         </section>
@@ -350,8 +351,8 @@ class CreateAccount extends Component {
     else {
       return (
         <section>
-            <h1>User details:</h1>
-            <form className="SubmissionForm">
+            <h1>Submit your details</h1>
+            <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
                 <label htmlFor="first_name" value="First name: " >First name: </label>
                 <input type="text" name="first_name" id="first_name" value={first_name} onChange={(e) => this.updateInfo(e)} />
@@ -362,7 +363,7 @@ class CreateAccount extends Component {
               </section>
               <section>
                 <label htmlFor="DoB" value="Date of birth : " >Date of birth : </label>
-                <input type="date" name="DoB" id="DoB" value={DoB} onChange={(e) => this.updateInfo(e)} />
+                <input type="date" name="DoB" id="DoB" value={DoB} max={format(new Date(), 'y-MM-d')} onChange={(e) => this.updateInfo(e)} />
               </section>
               <section>
                 <label htmlFor="phone_number" value="Phone number: " >Phone number: </label>
@@ -410,9 +411,9 @@ class CreateAccount extends Component {
                 <input type="text" name="postcode" id="postcode" value={postcode} onChange={(e) => this.updateInfo(e)} />
               </section>
               <section>
-                <input type="submit" name="submit" value="Submit" onClick={(e) => this.submitUser(e)} />
+                <input type="submit" name="submit" value="Submit details" onClick={(e) => this.submitUser(e)} />
                 {validationMessage && <p className="error">{validationMessage}</p>}
-              </section>
+              </section> 
             </form>
         </section>
       )
