@@ -32,11 +32,15 @@ class ThingsHandler extends React.Component {
   }
 
   async getCities() {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/cities`, {
-      method: 'GET',
-      credentials: 'include'
-    })
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/cities`,
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    )
     const cityOptions = await response.json()
+
     this.setState({ cityOptions });
   }
 
@@ -224,7 +228,7 @@ class ThingsHandler extends React.Component {
     } {
       return (
         <section>
-                    { cityOptions &&
+                    {/* { cityOptions &&
                       <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
                         <option value={0}>all locations</option>
                             {cityOptions.map(({ id, name }) =>{
@@ -233,7 +237,7 @@ class ThingsHandler extends React.Component {
                                 }
                             )}
                       </select>
-                    }
+                    } */}
           { currentLocation.id &&
             <Things items={locationFilteredItemList} cookieCheck={this.props.cookieCheck} />
           }
