@@ -100,6 +100,7 @@ class ThingsHandler extends React.Component {
     //get list of cities for drop down later
     await this.getCities();
     //Check if someone is logged in, in for get their city_id to later filter items
+    /*
     const response = await fetch(`${process.env.REACT_APP_API_URL}/checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
     const user = await response.json();
     if (user) {
@@ -111,8 +112,10 @@ class ThingsHandler extends React.Component {
       this.setState({ currentLocationId: userLocation });
     } else {
       //console.log("User NOT Logged in:");
-      await this.changeCity(1)
+      await this.changeCity(0)
     }
+    */
+    this.setState({currentLocation: { name: 'all'}})
 
 
   }
@@ -217,7 +220,7 @@ class ThingsHandler extends React.Component {
         <section>
                     { cityOptions &&
                       <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
-                        <option value={0}>all</option>
+                        <option value={0}>all locations</option>
                             {cityOptions.map(({ id, name }) =>{
                                 //console.log(id+'  '+name);
                                 return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
