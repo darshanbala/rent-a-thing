@@ -9,6 +9,7 @@ class PostItem extends Component {
         name: '',
         categories: null,
         description: '',
+        price: null,
         category: null,
         age_restriction: null,
         owner_id: null,
