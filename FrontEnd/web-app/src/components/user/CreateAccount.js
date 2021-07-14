@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { format } from 'date-fns'
 import '../../index.css';
 import City from '../framework/City';
+import ImageUpload from '../framework/ImageUpload';
 
 class CreateAccount extends Component {
 
@@ -10,6 +11,7 @@ class CreateAccount extends Component {
     valid_new_user: false,
     first_name: "",
     last_name: "",
+    img_url: "",
     email: "",
     password1: "",
     password2: "",
@@ -119,6 +121,7 @@ class CreateAccount extends Component {
       const toBeSent = {
         first_name: this.state.first_name,
         last_name: this.state.last_name,
+        img_url: this.state.img_url,
         email: this.state.email,
         password1: this.state.password1,
         password2: this.state.password2,
@@ -285,7 +288,7 @@ class CreateAccount extends Component {
     const cityName = e.target.innerHTML; // Get city string i.e. Glasgow
     //console.log(cityName);
     const chosenCity = cityOptions.filter(city => {
-      if(city.name === cityName){
+      if (city.name === cityName) {
         //console.log(city.id)
         return city
       }
@@ -309,8 +312,15 @@ class CreateAccount extends Component {
     );
     const city = await response.json(); // Get city id associated with i.e. Glasgow
     //const cityOptions = await response.json()
-    this.setState({ city: { id: city[0].id, name: city[0].name}, hasChosenCountry: true, cityName: city[0].name });  // set user city to this id so in future user and other components can searh for location id and get city name back
+    this.setState({ city: { id: city[0].id, name: city[0].name }, hasChosenCountry: true, cityName: city[0].name });  // set user city to this id so in future user and other components can searh for location id and get city name back
   }
+
+  handleImgUrl = (url) => {
+    //console.log(url,'Url on PostItem')
+    this.setState({ img_url: url })
+    console.log(this.state.img_url)
+  }
+
 
   render() {
     const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, cityName } = this.state
@@ -352,6 +362,14 @@ class CreateAccount extends Component {
       return (
         <section>
             <h1>Submit your details</h1>
+            <div className="SubmissionForm">
+
+            <section>
+              <label>Profile Picture:</label>
+              <ImageUpload handleImgUrl={this.handleImgUrl} />
+            </section>
+
+          </div>
             <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
                 <label htmlFor="first_name" value="First name: " >First name: </label>
@@ -379,13 +397,14 @@ class CreateAccount extends Component {
                 <input type="text" name="address_2" id="address_2" value={address_2} onChange={(e) => this.updateInfo(e)} />
               </section>
               <section>
+
               <div className="cityParent">
                 <label htmlFor="city" value="City : " >City : </label>
-                <br/>
+                <br />
                 {/*<input type="text" name="city" id="city" value={city} onChange={(e) => this.updateInfo(e)} />*/}
                 <section id='cities_section'>
-                { !hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
-                { hasChosenCountry && <div className="chosenCityCard">{city.name}</div>}
+                  {!hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
+                  {hasChosenCountry && <div className="chosenCityCard">{city.name}</div>}
                 </section>
                 {/*<City key={id} id={id} name={name} />*/}
                 {/*

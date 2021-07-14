@@ -92,12 +92,21 @@ class PostItem extends Component {
 
     }
 
+    allFieldsEntered = () => {
+        const { name, description, price, category, age_restriction, img_url } = this.state;
+
+        const buttonDisabled = !name || !description || !price || !category || !age_restriction || !img_url
+
+        return !buttonDisabled
+    }
+
 
     render() {
-        const { name, description, price, category, age_restriction, categories } = this.state;
+        const { name, description, price, category, age_restriction, categories, img_url } = this.state;
+
 
         return (
-            <section>
+<main>
                 <h1 className="centered">Post an advert for an item to be made available for rental</h1>
 
                 <ImageUpload handleImgUrl={this.handleImgUrl}/>
@@ -137,14 +146,16 @@ class PostItem extends Component {
                         <label>Select age restriction: </label>
                         <select name="age_restriction" value={age_restriction} onChange={this.handleChange}>
                             <option>Please select an age restriction</option>
-                            <option value='0'>No restriction</option>
+                            <option value='1'>No restriction</option>
                             <option value="18">18 and over</option>
                         </select>
                     </section>
 
-                    <input type='submit' value='Post item' />
+                    <input disabled={!this.allFieldsEntered()} type='submit' value='Post item' />
                 </form>
             </section>
+</main>
+
         );
     }
 }

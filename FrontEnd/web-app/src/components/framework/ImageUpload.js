@@ -37,20 +37,24 @@ const ImageUpload = ({ handleImgUrl }) => {
 
 
     return (
-        <div>
+
+        <div className="img-upload">
             <form onSubmit={handleFileSubmit}>
                 <input
-                    className="img-upload"
                     type='file'
                     name={fileName}
                     onChange={handFileChange}>
                 </input>
+
+                {previewSourceUrl && (
+                    <img src={previewSourceUrl} alt={fileName} style={{ height: '300px' }} />
+                )}
+
                 <button type="submit">Upload</button>
             </form>
-            {previewSourceUrl && (
-                <img src={previewSourceUrl} alt={fileName} style={{ height: '300px' }} />
-            )}
-        </div>
+
+        </div >
+
 
     )
 }
