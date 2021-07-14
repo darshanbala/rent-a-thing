@@ -92,7 +92,7 @@ class App extends Component {
 
             <Router>
                 <div className="header">
-                    RENT A THING
+                    RENT-A-THING
                 </div>
                 { !isLoggedIn &&
                   <nav className="navBar">
@@ -115,7 +115,7 @@ class App extends Component {
                 }
                 <main>
                 <Switch>
-                    <Route exact path="/home">
+                    <Route exact path={["/", "/home"]}>
                         <Home cookieCheck={ () => this.cookieCheck() } />
                     </Route>
                     <Route exact path="/categories">
