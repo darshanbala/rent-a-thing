@@ -12,14 +12,14 @@ class Things extends Component {
 
     async componentDidMount() {
         const items = this.props.items
-        console.log("Items:")
-        console.log(items)
+        //console.log("Items:")
+        //console.log(items)
         this.setState({ items })
 
     }
 
     async componentDidUpdate(prevProps, prevState) {
-      console.log(this.props)
+      //console.log(this.props)
       if(prevProps !== this.props){
         
         if(!this.props.items[0]){
@@ -34,14 +34,14 @@ class Things extends Component {
     }
 
     handleItemClick(id) {
-        console.log(id)
+        //console.log(id)
 
     }
 
     render() {
         //const { items } = this.state;
         const items = this.props.items;
-        console.log(items);
+        //console.log(items);
         //console.log("Items:")
         //console.log(items)
         if (!items) {

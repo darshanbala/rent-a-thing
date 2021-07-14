@@ -128,6 +128,22 @@ app
 
     await server.json(categories)
   })
+  .get('/itemListLocationData', async (server) => {
+
+    const itemListLocationData = (await client.queryObject(`
+        SELECT * FROM items JOIN location ON items.city_id = location.id
+      `)).rows
+
+    await server.json(itemListLocationData)
+  })
+  .get('/currentLocationData', async (server) => {
+
+    const currentLocationData = (await client.queryObject(`
+        SELECT id, name, description, imgURL FROM categories
+      `)).rows
+
+    await server.json(currentLocationData)
+  })
   .get('/cities', async (server) => {
 
     const cities = (await client.queryObject(`
