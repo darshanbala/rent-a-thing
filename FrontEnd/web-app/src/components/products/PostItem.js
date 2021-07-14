@@ -92,47 +92,70 @@ class PostItem extends Component {
 
     }
 
+    allFieldsEntered = () => {
+        const { name, description, price, category, age_restriction, img_url } = this.state;
+
+        const buttonDisabled = !name || !description || !price || !category || !age_restriction || !img_url
+
+        return !buttonDisabled
+    }
+
 
     render() {
-        const { name, description, price, category, age_restriction, categories } = this.state;
+        const { name, description, price, category, age_restriction, categories, img_url } = this.state;
+
 
         return (
-
             <main>
-                <h1 className="centered">Post Item</h1>
-                <form className='SubmissionForm' onSubmit={(e) => this.handleSubmit(e)}>
-                    <label>Item Name <input type='text' name='name' value={name}
-                        onChange={(e) => this.setState({ name: e.target.value })}></input></label>
-                    <label>Description <input type='text' name='description' value={description}
-                        onChange={(e) => this.setState({ description: e.target.value })}></input></label>
+                <h1 className="centered">Post an advert for an item to be made available for rental</h1>
 
-                    <label> Price: £
-                    <input type="number" name='price' value={price} onChange={this.handleChange} step="0.01" />
-                    </label>
+                <ImageUpload handleImgUrl={this.handleImgUrl} />
+
+                <form className='SubmissionForm SubmissionFormPostItem' onSubmit={(e) => this.handleSubmit(e)}>
+                    <section>
+                        <label>Item name: </label>
+                        <input type='text' name='name' value={name}
+                            onChange={(e) => this.setState({ name: e.target.value })}></input>
+                    </section>
+                    <section>
+                        <label>Item description: </label>
+                        <input type='text' name='description' value={description}
+                            onChange={(e) => this.setState({ description: e.target.value })}></input>
+                    </section>
+
+
+                    <section>
+                        <label> Price (£): </label>
+                        <input type="number" name='price' value={price} onChange={this.handleChange} step="0.01" min="0" />
+                    </section>
+
 
                     {categories &&
-                        <select name="category" value={category} onChange={this.handleChange}>
-                            <option>Please Select Category</option>
-                            {categories.map(({ id, name, description, imgurl }) =>
-                                <option key={id} id={id} name={category} value={id}>{name}</option>
-                            )}
-                        </select>
+                        <section>
+                            <label>Select category: </label>
+                            <select name="category" value={category} onChange={this.handleChange}>
+                                <option>Please select a category</option>
+                                {categories.map(({ id, name, description, imgurl }) =>
+                                    <option key={id} id={id} name={category} value={id}>{name}</option>
+                                )}
+                            </select>
+                        </section>
                     }
 
+                    <section>
+                        <label>Select age restriction: </label>
+                        <select name="age_restriction" value={age_restriction} onChange={this.handleChange}>
+                            <option>Please select an age restriction</option>
+                            <option value='1'>No restriction</option>
+                            <option value="18">18 and over</option>
+                        </select>
+                    </section>
 
-                    <select name="age_restriction" value={age_restriction} onChange={this.handleChange}>
-                        <option>Please select Age restrction</option>
-                        <option value='0'>No restriction</option>
-                        <option value="18">18 and over</option>
-
-
-                    </select>
-
-
-                    <input type='submit' value='Post rental' />
+                    <input disabled={!this.allFieldsEntered()} type='submit' value='Post item' />
                 </form>
-                <ImageUpload handleImgUrl={this.handleImgUrl} />
-            </main>
+
+            </main >
+
         );
     }
 }
