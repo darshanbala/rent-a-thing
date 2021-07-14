@@ -13,19 +13,43 @@ class Profile extends React.Component {
     super();
     this.state = {
       user: {},
-      star_rating: 'loading...'
+      star_rating: `No reviews...`,
+      justVisiting: null,
+      newLoad: true
     };
   }
   async componentDidMount() {
-    this.props.cookieCheck();
-    await this.getStarRating(this.props.user)
+    console.log('redirected')
+
+    try{
+    if(!this.props.location.state.justVisiting){
+      this.props.cookieCheck();
+      await this.getStarRating(this.props.state.user)
+      this.setState({
+        user: this.props.user,
+        justVisiting: false
+      })
+    }
+  }catch{}
+  try{
+      this.setState({
+        user: this.props.location.state.user,
+        justVisiting: true
+      })
+      await this.getStarRating(this.props.location.state.user)
+    }catch{}
+
+
     //this.setState({
     //  user: await this.props.checkWhoIsSignedIn()
     //})
   }
-  async componentDidUpdate() {
+  async componentDidUpdate(PrevProps, prevState) {
     if(this.state.star_rating === 'loading...'){
-      await this.getStarRating(this.props.user)
+      await this.getStarRating(this.state.user)
+    }
+    if(this.props !== PrevProps){
+      this.forceUpdate()
     }
   }
 
@@ -47,11 +71,24 @@ class Profile extends React.Component {
         star_rating: rating
       })
     }
+
   }
 
   render() {
-    const { user } = this.props
-    //console.log(this.props)
+    let { user } = this.props
+    let justVisiting = false
+    const{ newLoad } = this.state
+    console.log(newLoad)
+    try{
+        justVisiting  = this.props.location.state
+
+      if(justVisiting){
+        user = this.props.location.state.user
+      }
+    }catch{
+
+    }
+    console.log(justVisiting)
     //console.log('user @ profile render: '+JSON.stringify(user))
     if(user){
       return(
@@ -60,15 +97,17 @@ class Profile extends React.Component {
             <div id='left'>
               <img src={profile_picture} id='profile_picture'/>
               <h1>{`${user.first_name} ${user.last_name}`}</h1>
-              <p>email: {user.email}</p>
+              <p>email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
               <p>average rating: {this.state.star_rating}</p>
               <p>city: {user.city}</p>
               <p>User since: {user.created_at.slice(0,4)}</p>
             </div>
             <div id='centre_spacer' />
             <div id='right'>
-              <MyRentals />
-              <UserReviews user={user} />
+              { !justVisiting &&
+                <MyRentals />
+              }
+                <UserReviews justVisiting={justVisiting} user={user} />
             </div>
           </section>
         </main>

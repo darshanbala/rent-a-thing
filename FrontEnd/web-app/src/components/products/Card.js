@@ -40,9 +40,20 @@ export default function Card({
         )
 
     } else if (isValidCardType && cardType === 'myrentals-page-card') {
+        const now = Date.now();
+        console.log(now)
 
+        const dueDate = new Date(rented_until)
+        console.log(dueDate)
+        //const dueDate = new Date(rented)
+        let highlight = null;
+        if(now > dueDate) {
+          highlight = 'overdue'
+        }else if(now < dueDate) {
+          highlight = 'notDueYet'
+        }
         return (
-            <div className={cardType} >
+            <div id={highlight} className={cardType} >
                 <img src={!img_url ? "logo192.png" : img_url} alt={name} class='rentals-page-card-img'/>
                 <div className={`${cardType}-container`}>
                     <h4><b>{name}</b></h4>

@@ -142,6 +142,7 @@ class App extends Component {
                     <Route path="/MyRentals">
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
                     </Route>
+                    <Route path="/visitingUser" render={(props) => <Profile {...props} />}/>
                 </Switch>
                 </main>
 

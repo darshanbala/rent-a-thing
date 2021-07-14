@@ -35,6 +35,33 @@
   width: 192px;
   object-fit: cover;
 }
+#overdue {
+  box-shadow: 0 0 4px 0 darkred;
+  animation: pulse 3s infinite;
+}
+#due {
+  box-shadow: 0 0 4px 0 orange;
+}
+#notDueYet:hover {
+  box-shadow: 0 0 4px 0 lightgreen;
+}
+#overdue:hover {
+  box-shadow: 0 0 10px 0 red;
+}
+
+@keyframes pulse {
+	0% {
+		box-shadow: 0 0 6px 0 rgb(256, 0, 0);
+	}
+
+  70% {
+    box-shadow: 0 0 6px 0 rgba(200, 0, 0, .2);
+	}
+
+	100% {
+    box-shadow: 0 0 4px 0 rgba(50, 0, 0, .2);
+	}
+}
 
 /* Add some padding inside the card container */
 .things-page-card-text-container {

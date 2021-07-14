@@ -12,6 +12,7 @@ class UserReviews extends React.Component {
       reviews: [],
       user: ''
     };
+    this.refresh = this.refresh.bind(this)
   }
 
 /*
@@ -59,37 +60,41 @@ class UserReviews extends React.Component {
       return(
         <div id="review_container">
         {reviews.map((review, index) => {
-
+          console.log(index)
           return(
-            <div>
               <UserReview key={index} review={review}/>
-              </div>
           )
         })}
         </div>
       )
   }
+  refresh = () => {
+    console.log('refreshing!!!!')
+    this.forceUpdate();
+  }
 
   render() {
-    const { user } = this.props
+    const { user, justVisiting } = this.props
     const { reviews } = this.state
     //console.log('user @ overall reviews page: '+JSON.stringify(user))
     if(reviews[0]){
     return(
-      <div  id='reviews'>
+      <section  id='reviews'>
       <section>
         <h2>Reviews</h2>
         {this.formattedReviews(user)}
       </section>
-      { user && <AddUserReview user={user} /> }
-      </div>
+      { user && justVisiting && <AddUserReview user={user} /> }
+    </section>
     )
     }else{
       return(
         <section id='reviews'>
           <h2>Reviews</h2>
-          <p>Loading...</p>
-          {user && <AddUserReview user={user} />}
+          <p>Nothing to show...</p>
+
+          {user && justVisiting &&
+            <AddUserReview refreshPage={ (e) => {this.refresh()} } user={user} />}
         </section>
       )
     }

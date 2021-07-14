@@ -30,7 +30,7 @@ class AddUserReview extends React.Component {
   }
 
   async submitUserReview(e) {
-    //e.preventDefault();
+    e.preventDefault();
     const { review, rating, title } = this.state
     //console.log(this.props.user)
     const response = await fetch(
@@ -48,9 +48,9 @@ class AddUserReview extends React.Component {
 
   render() {
       const { review, title, reviewAdded } = this.state
-      //console.log(this.props)
+      console.log(this.props)
       if(reviewAdded){
-        return(<Redirect to="/myAccount"/>)
+        return(<Redirect to="/profile"/>)
       }
 
       const { user } = this.props
@@ -71,7 +71,7 @@ class AddUserReview extends React.Component {
               <option value="5">5</option>
           </select>
           <br/>
-          <input id='submit' type="submit" value="Submit review" onClick={(e) => {this.submitUserReview(e)}}/>
+          <input id='submit' type="submit" value="Submit review" onClick={(e) => {this.submitUserReview(e); this.props.refreshPage()}}/>
           </form>
         </section>
       )
