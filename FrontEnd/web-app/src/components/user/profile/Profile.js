@@ -96,9 +96,9 @@ class Profile extends React.Component {
             <div id='left'>
               <img src={user.img_url} id='profile_picture'/>
               <h1>{`${user.first_name} ${user.last_name}`}</h1>
-              <p>email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
-              <p>average rating: {this.state.star_rating}</p>
-              <p>city: {user.city}</p>
+              <p>Email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
+              <p>Average rating: {this.state.star_rating}</p>
+              <p>City: {user.city}</p>
               <p>User since: {user.created_at.slice(0,4)}</p>
             </div>
             <div id='centre_spacer' />

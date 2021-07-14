@@ -230,7 +230,7 @@ class ThingsHandler extends React.Component {
         <section>
                     { cityOptions &&
                       <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
-                        <option value={0}>all locations</option>
+                        <option value={0}>All locations</option>
                             {cityOptions.map(({ id, name }) =>{
                                 //console.log(id+'  '+name);
                                 return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
