@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import '../../index.css';
-import ImageUpload from '../framework/ImageUpload'
+import ImageUpload from '../framework/ImageUpload';
+
 
 class PostItem extends Component {
 
@@ -9,6 +10,7 @@ class PostItem extends Component {
         name: '',
         categories: null,
         description: '',
+        price: null,
         category: null,
         age_restriction: null,
         owner_id: null,
@@ -34,17 +36,22 @@ class PostItem extends Component {
 
     handleImgUrl = (url) => {
         //console.log(url,'Url on PostItem')
-        this.setState({img_url: url})
+        this.setState({ img_url: url })
     }
 
     handleChange = (e) => {
         console.log('HANDLE CHANGE FUNCTION')
 
-        const {name, value} = e.target
+        const { name, value } = e.target
         if (name === 'category') {
             this.setState({ category: parseInt(value, 10) })
         } else if (name === 'age_restriction') {
             this.setState({ age_restriction: parseInt(value, 10) })
+        } else if (name === 'price') {
+            let price = parseFloat(value).toFixed(2);
+            price = parseFloat(price)
+            this.setState({ price })
+            console.log(this.state.price)
         }
 
     }
@@ -55,7 +62,7 @@ class PostItem extends Component {
         e.preventDefault();
         this.resetForm();
 
-        const { name, description, category, age_restriction, img_url } = this.state;
+        const { name, description, price, category, age_restriction, img_url } = this.state;
         const ownerID = this.props.user.id
         const cityId = this.props.user.city_id
         const response = await fetch(
@@ -66,7 +73,7 @@ class PostItem extends Component {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, description, category, age_restriction, ownerID, img_url, cityId })
+                body: JSON.stringify({ name, description, price, category, age_restriction, ownerID, img_url, cityId })
             }
         );
 
@@ -74,7 +81,7 @@ class PostItem extends Component {
         console.log(fromBackend, 'fromBackend')
 
         if (fromBackend.submitted) {
-            this.setState({previous_submit_successful: true})  // Can use this to add a green tick to page or something..
+            this.setState({ previous_submit_successful: true })  // Can use this to add a green tick to page or something..
         }
 
         console.log(this.state.previous_submit_successful)
@@ -87,10 +94,9 @@ class PostItem extends Component {
 
 
     render() {
-        const { name, description, category, age_restriction, categories } = this.state;
+        const { name, description, price, category, age_restriction, categories } = this.state;
 
         return (
-
             <section>
                 <h1 className="centered">Post an advert for an item to be made available for rental</h1>
 
@@ -107,6 +113,9 @@ class PostItem extends Component {
                         <input type='text' name='description' value={description}
                             onChange={(e) => this.setState({ description: e.target.value })}></input>
                     </section>
+
+                    <label> Price (£): </label>
+                    <input type="number" name='price' value={price} onChange={this.handleChange} step="0.01" />
 
 
                       { categories &&
@@ -132,7 +141,6 @@ class PostItem extends Component {
 
                     <input type='submit' value='Post item' />
                 </form>
-                {/* <ImageUpload handleImgUrl={this.handleImgUrl}/> */}
             </section>
         );
     }
