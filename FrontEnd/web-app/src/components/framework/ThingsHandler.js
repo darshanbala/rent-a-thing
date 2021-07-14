@@ -32,7 +32,7 @@ class ThingsHandler extends React.Component {
   }
 
   async getCities() {
-    const response = await fetch('http://localhost:8080/cities', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/cities`, {
       method: 'GET',
       credentials: 'include'
     })
@@ -183,10 +183,16 @@ class ThingsHandler extends React.Component {
         this.setState({ items: [] })
       }
     } else if (all) {
-      const response = await fetch('http://localhost:8080/items', {
-        method: 'GET',
-        credentials: 'include'
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/items`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        }
+      )
       //respose is making the request
       itemList = await response.json()
       //console.log(items.items)
