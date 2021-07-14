@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import '../../index.css';
 import ImageUpload from '../framework/ImageUpload';
-import NumberInput from '@yaireo/react-number-input'
 
 
 class PostItem extends Component {
