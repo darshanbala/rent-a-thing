@@ -2,7 +2,7 @@
 
 const books = [
   {name: 'DVSA theory test paperback', description: 'This publication is the official theory test book for car drivers, compiled by the Driver and Vehicle Standards Agency. It contains multiple choice questions from the whole theory test question bank, with answers and explanations, dealing with topics such as: alertness and attitude, vehicle safety and handling, safety margins, hazard awareness, vulnerable road users, motorway rules and rules of the road, road and traffic signs, documents, accidents, and vehicle loading.', imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/51y1yTiUssL._SX350_BO1,204,203,200_.jpg', price: 1.99},
-  {name: 'The Essential New Truckers Handbook', description: 'This invaluable 28 chapter handbook is written by an LGV 1 driver of 24 years’ experience in collaboration with an LGV trainer for the sole purpose of helping new and returning drivers confidently and safely into work. Readers will find this comprehensive handbook beneficial, accessible and user friendly. Whether you are just starting out in your career, or a returning veteran of the open road, you will find everything you need in these chapters to support your way forward', imgURL: 'https://images-na.ssl-images-amazon.com/images/I/511tdFXXXIL._SX331_BO1,204,203,200_.jpg', price: 2},
+  {name: 'The Essential New Truckers Handbook', description: 'This invaluable 28 chapter handbook is written by an LGV 1 driver of 24 years’ experience in collaboration with an LGV trainer for the sole purpose of helping new and returning drivers confidently and safely into work. Readers will find this comprehensive handbook beneficial, accessible and user friendly. Whether you are just starting out in your career, or a returning veteran of the open road, you will find everything you need in these chapters to support your way forward', imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/511tdFXXXIL._SX331_BO1,204,203,200_.jpg', price: 2},
   {name: 'AA Road Atlas Britain 2022', description: 'Top-selling A4 road atlas showcasing Britain’s clearest mapping at 3.2 miles to 1 inch. 112 city, town, port and airport plans. Top 300 AA-inspected caravan and camping sites. Over 240 service areas. 10 pages of Central London street mapping with index Content', imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/5148fY3Ws+S._SX368_BO1,204,203,200_.jpg', price: 2.50},
   {name: 'Relentless: Secrets of the Sporting Elite', description: 'From an early age Alistair Brownlee has been obsessed with being the very best, and not just improving his sporting performance across his three specialist triathlon disciplines of swimming, cycling and running, but also understanding how a winner becomes a dominant champion. Winning gold in consecutive Olympic Games has only strengthened this need and desire.', imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/41Q299E+55L._SX321_BO1,204,203,200_.jpg', price: 1.25},
   {name: 'A Manual for Being Human', description: 'Do you want to believe in yourself and your ability to be content with who you are? If the answer is yes, then A Manual for Being Human is the book you need to read.', imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/510p9+reX-S._SX309_BO1,204,203,200_.jpg', price: 0.8},
@@ -22,11 +22,11 @@ const books = [
 
 const multimedia = [
   {name: 'Godzilla vs. Kong', description: 'Godzilla vs. Kong (DVD) 2021', imgUrl: 'https://upload.wikimedia.org/wikipedia/en/6/63/Godzilla_vs._Kong.png', price: 3.99},
-  {imgURL: 'https://media.4rgos.it/s/Argos/8186713_R_SET?$Main768$&w=620&h=620', name: 'Fast & Furious 8-Film Collection', description: 'Fast & Furious 8-Film Collection (DVD) 1-8 box set', price: 4.99},
-  {imgURL: 'https://lumiere-a.akamaihd.net/v1/images/p_rayaandthelastdragon_21294_83346778.jpeg', name: 'Raya and the Last Dragon', description: 'Raya and the Last Dragon (DVD) 2021', price: 6.00},
-  {imgURL: 'https://m.media-amazon.com/images/I/711IwLxtcMS._AC_SX522_.jpg', name: 'Zack Snyders Justice League', description: 'Zack Snyders Justice League [Blu-ray] [2021]', price: 6.99},
-  {imgURL: 'https://1.bp.blogspot.com/-WajuSBTE4A0/XQd15LgLONI/AAAAAAAARrI/Bjwz5DyIedwad5J0HXdr0zquLL7GTDFpQCLcBGAs/s1600/johnwick.png', name: 'John Wick: Chapter 3 - Parabellum', description: 'John Wick: Chapter 3 - Parabellum (DVD)', price: 2.99},
-  {imgURL: 'https://m.media-amazon.com/images/I/71MfOoaUouL._AC_SX522_.jpg', name: 'Tenet', description: 'Tenet [Blu-ray] [2020]', price: '3.99'},
+  {imgUrl: 'https://media.4rgos.it/s/Argos/8186713_R_SET?$Main768$&w=620&h=620', name: 'Fast & Furious 8-Film Collection', description: 'Fast & Furious 8-Film Collection (DVD) 1-8 box set', price: 4.99},
+  {imgUrl: 'https://lumiere-a.akamaihd.net/v1/images/p_rayaandthelastdragon_21294_83346778.jpeg', name: 'Raya and the Last Dragon', description: 'Raya and the Last Dragon (DVD) 2021', price: 6.00},
+  {imgUrl: 'https://m.media-amazon.com/images/I/711IwLxtcMS._AC_SX522_.jpg', name: 'Zack Snyders Justice League', description: 'Zack Snyders Justice League [Blu-ray] [2021]', price: 6.99},
+  {imgUrl: 'https://1.bp.blogspot.com/-WajuSBTE4A0/XQd15LgLONI/AAAAAAAARrI/Bjwz5DyIedwad5J0HXdr0zquLL7GTDFpQCLcBGAs/s1600/johnwick.png', name: 'John Wick: Chapter 3 - Parabellum', description: 'John Wick: Chapter 3 - Parabellum (DVD)', price: 2.99},
+  {imgUrl: 'https://m.media-amazon.com/images/I/71MfOoaUouL._AC_SX522_.jpg', name: 'Tenet', description: 'Tenet [Blu-ray] [2020]', price: '3.99'},
   {name: 'M-Audio Keystation 88 MK3 keyboard', description: 'Music Production Essential – MIDI keyboard controller with 88 full-size velocity-sensitive semi weighted keys for MIDI control of virtual instruments, software samplers and plug-in synthesisers', price: 45, imgUrl: 'https://m.media-amazon.com/images/I/510TEshVGwS._AC_SL1500_.jpg'},
   {name: 'Blue Microphones Yeti Professional USB Microphone', price: 30, imgUrl: 'https://m.media-amazon.com/images/I/71aXlp2i+tL._AC_SX679_.jpg', description: 'Unleash your creativity: Yeti USB professional mic with custom recording softwares PreSonus and iZotope advanced studio mastering; creates pro-level audio-content projects that boost productivity'},
   {name: 'Fender Player Telecaster Electric Guitar', price: 99, imgUrl: 'https://m.media-amazon.com/images/I/61YyPg72wDL._AC_SX679_.jpg', description: 'Any repairs for the guitar will be payable by the borrower'},
@@ -146,7 +146,8 @@ for(let i = 0; i < 16; i++){
   for(const category of categories) {
 
     for(const item of category.items) {
-      const dbEntry = `INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('${item.name}', '${item.description}', ${item.price}, TRUE, ${category.id}, ${assignRandomUser()}, 18, '${item.imgURL}', ${Math.floor(Math.random() * 20)});`
+      //console.log(item)
+      const dbEntry = `INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('${item.name}', '${item.description}', ${adjustPrice(item.price)}, TRUE, ${category.id + 1}, ${assignRandomUser()}, 18, '${item.imgUrl}', ${Math.floor(Math.random() * 20)});`
       items.push(dbEntry)
     }
 
@@ -159,13 +160,13 @@ for(const item of items){
 
 
 function adjustPrice(price) {
-  const multiplier = Math.random() * 10
+  const multiplier = Math.random()
   const up_or_down = Math.random()
   let newPrice = 0;
   if(up_or_down > 0.5){
-    newPrice = price * (1 + multiplier)
+    newPrice = price * (1 + (multiplier/9))
   }else{
-    newPrice = price * (1 - multiplier)
+    newPrice = price * (1 - (multiplier/9))
   }
   return newPrice.toFixed(2);
 }

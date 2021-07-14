@@ -102,7 +102,6 @@ class Item extends Component {
                 rentalConfirmed: true,
             })
         }
-
     }
 
     // Functions relating to editing a user's own item
@@ -247,7 +246,6 @@ class Item extends Component {
              user: user
         }
       })
-
     }
 
     render() {
@@ -313,10 +311,6 @@ class Item extends Component {
                                 <button onClick={this.updateItemDescriptionValue}>OK</button>
                             </p> :
                             <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
-                    </div>
-                    <div className="item-page-info">
-                        <h2>Price</h2>
-                        <p>£{item.price}</p>
                     </div>
                     <div className="item-page-reviews">
                         <h2>Reviews</h2>

@@ -22,7 +22,7 @@ export default function Card({
     const isValidCardType = checkCardType.includes(cardType)
 
     if (isValidCardType && cardType === 'things-page-card') {
-
+    console.log(img_url)
         return (
             <Link to={`/item/${id}`}>
                 <div className={cardType} >

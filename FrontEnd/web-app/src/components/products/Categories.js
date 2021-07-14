@@ -34,6 +34,7 @@ class Categories extends Component {
         const { categories, hasChosen, chosenValue } = this.state
 
         if(hasChosen){
+            console.log('CHOSEN CATEGORY VALUE: '+chosenValue)
             //call parent method that goes to things with chosenValue
             return ( <ThingsHandler categoryId={ chosenValue } /> );
         }
