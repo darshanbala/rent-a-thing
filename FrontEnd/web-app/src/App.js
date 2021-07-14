@@ -115,31 +115,31 @@ class App extends Component {
                 }
                 <main>
                 <Switch>
-                    <Route exact path="/Home">
+                    <Route exact path="/home">
                         <Home cookieCheck={ () => this.cookieCheck() } />
                     </Route>
-                    <Route exact path="/Categories">
+                    <Route exact path="/categories">
                         <Categories cookieCheck={() => this.cookieCheck()} />
                     </Route>
-                    <Route path="/CreateAccount">
+                    <Route path="/createaccount">
                         <CreateAccount cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/myAccount">
+                    <Route path="/myaccount">
                         <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/About">
+                    <Route path="/about">
                         <About cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/login">
                         <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
-                    <Route path="/Item">
+                    <Route path="/item">
                         <Item cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/postItem">
+                    <Route path="/postitem">
                         <PostItem  user = {user} cookieCheck={() => this.cookieCheck()()}/>
                     </Route>
-                    <Route path="/MyRentals">
+                    <Route path="/myrentals">
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/visitingUser" render={(props) => <Profile {...props} />}/>
@@ -147,8 +147,8 @@ class App extends Component {
                 </main>
 
                 <div className="footer">
-                    <p>Legal stuff | Contact Info | etc.</p>
-                    {isLoggedIn && <p>logged in as {user.first_name}</p>}
+                    <p>Legal stuff | Contact info | etc.</p>
+                    {isLoggedIn && <p>Logged in as {user.first_name}</p>}
                 </div>
             </Router>
         );
