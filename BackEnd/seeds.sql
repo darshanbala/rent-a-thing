@@ -31,6 +31,7 @@ INSERT INTO users(first_name, last_name, email, salted_password, salt, date_of_b
 INSERT INTO users(first_name, last_name, email, salted_password, salt, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at) VALUES ('David', 'Ajayi', 'david.ajayi@sigmalabs.xyz', '$2a$08$yTFtWn138aeHFNVgxnQ26OkQsQTM2w3uk1FTiz9PqpzYsei0gwu7i', '$2a$08$yTFtWn138aeHFNVgxnQ26O', '2000-01-04', '+447000 000 004', '4 Example Flat', 'Template Lane', 4, 'N1 1AA', NOW(), NOW());
 INSERT INTO users(first_name, last_name, email, salted_password, salt, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at) VALUES ('Milo', 'Boucher', 'milo.boucher@sigmalabs.xyz', '$2a$08$KHapHptcjjTiqQjadYwvIuXZ9mZkVs4FQI0T447TNMlAWoMeAjZxW', '$2a$08$KHapHptcjjTiqQjadYwvIu', '2000-01-05', '+447000 000 005', '5 Example Flat', 'Template Lane', 5, 'N1 1AA', NOW(), NOW());
 
+
 INSERT INTO categories(name, description, imgURL) VALUES ('Power tools', 'DIY tools that recure elictricity', 'https://imagizer.imageshack.com/v2/320x240q90/922/rsVeWm.jpg');
 INSERT INTO categories(name, description, imgURL) VALUES ('Non-Power tools', 'DIT tool that do not require electricity', 'https://imagizer.imageshack.com/v2/320x240q90/924/UxReY7.jpg');
 INSERT INTO categories(name, description, imgURL) VALUES ('Vehicles', 'Vehicles used for landscapping or other DIY activities', 'https://imagizer.imageshack.com/v2/320x240q90/922/TI3elW.jpg');
