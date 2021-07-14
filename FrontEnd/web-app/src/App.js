@@ -96,21 +96,21 @@ class App extends Component {
                 </div>
                 { !isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/About" activeClassName="active">About</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
+                      <NavLink className="navButton noUnderline" to="/home" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/categories" activeClassName="active">Categories</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/about" activeClassName="active">About</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/login" activeClassName="active">Login</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/createaccount" activeClassName="active">Create Account</NavLink>
                   </nav>
                 }
                 { isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/About" activeClassName="active">About</NavLink>
+                      <NavLink className="navButton noUnderline" to="/home" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/categories" activeClassName="active">Categories</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/about" activeClassName="active">About</NavLink>
                       <div className="navButton floatRight noUnderline" onClick={ () => { this.logout() } }>Logout</div>
-                      <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/myaccount" activeClassName="active">Account</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/postitem" activeClassName="active">Post a new item</NavLink>
                   </nav>
                 }
                 <main>
