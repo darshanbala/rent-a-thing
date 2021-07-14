@@ -106,10 +106,10 @@ class PostItem extends Component {
 
 
         return (
-<main>
+            <main>
                 <h1 className="centered">Post an advert for an item to be made available for rental</h1>
 
-                <ImageUpload handleImgUrl={this.handleImgUrl}/>
+                <ImageUpload handleImgUrl={this.handleImgUrl} />
 
                 <form className='SubmissionForm SubmissionFormPostItem' onSubmit={(e) => this.handleSubmit(e)}>
                     <section>
@@ -130,17 +130,17 @@ class PostItem extends Component {
                     </section>
 
 
-                      { categories &&
+                    {categories &&
                         <section>
                             <label>Select category: </label>
-                                <select name="category" value={category} onChange={this.handleChange}>
-                                    <option>Please select a category</option>
-                                      {categories.map(({ id, name, description, imgurl }) =>
-                                          <option key={id} id={id} name={category} value={id}>{name}</option>
-                                      )}
-                                </select>
+                            <select name="category" value={category} onChange={this.handleChange}>
+                                <option>Please select a category</option>
+                                {categories.map(({ id, name, description, imgurl }) =>
+                                    <option key={id} id={id} name={category} value={id}>{name}</option>
+                                )}
+                            </select>
                         </section>
-                      }
+                    }
 
                     <section>
                         <label>Select age restriction: </label>
@@ -153,8 +153,8 @@ class PostItem extends Component {
 
                     <input disabled={!this.allFieldsEntered()} type='submit' value='Post item' />
                 </form>
-            </section>
-</main>
+
+            </main >
 
         );
     }
