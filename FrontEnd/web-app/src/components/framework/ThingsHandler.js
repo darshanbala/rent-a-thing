@@ -228,7 +228,7 @@ class ThingsHandler extends React.Component {
     } {
       return (
         <section>
-                    {/* { cityOptions &&
+                    { cityOptions &&
                       <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
                         <option value={0}>all locations</option>
                             {cityOptions.map(({ id, name }) =>{
@@ -237,7 +237,7 @@ class ThingsHandler extends React.Component {
                                 }
                             )}
                       </select>
-                    } */}
+                    }
           { currentLocation.id &&
             <Things items={locationFilteredItemList} cookieCheck={this.props.cookieCheck} />
           }
