@@ -51,7 +51,7 @@ class Things extends Component {
             return (
                 <div className='item-list'>
                     {items.map(({ id, name, price, is_available, img_url }) =>
-                        <Card key={id} id={id} name={name} price={price} is_available={is_available} img_url={img_url} cardType='things-page-card' />
+                        <Card key={id} id={id} name={name} price={price} img_url={img_url} cardType='things-page-card' />
                     )}
                 </div>
 

@@ -14,7 +14,7 @@ class MyRentals extends Component {
     // ASSIGN IN TO A STATE
     async componentDidMount() {
 
-        const response = await fetch('http://localhost:8080/myrentals', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/myrentals`, {
             method: 'GET',
             credentials: 'include'
         })
