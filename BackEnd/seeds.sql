@@ -43,17 +43,17 @@ INSERT INTO categories(name, description, imgURL) VALUES ('Gaming', 'Video games
 INSERT INTO categories(name, description, imgURL) VALUES ('Hardware', 'Computer hardware', 'https://imagizer.imageshack.com/v2/320x240q90/922/4uUqpO.jpg');
 INSERT INTO categories(name, description, imgURL) VALUES ('Stationary/Art appliances', 'Any items or objects used in the creative arts', 'https://imagizer.imageshack.com/v2/320x240q90/923/2QqCg7.jpg');
 
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Chainsaw', 'Great condition only used once', FALSE, 1, 1, 18, '', 1);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Drill', 'Like new', TRUE, 1, 2, 18, '', 2);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Ladder', 'Strong and sturdy', TRUE, 2, 3, 16, '', 3);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('PS4', 'Strong and sturdy', FALSE, 8, 3, 16, '', 4);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Hedge Cuttter', 'Strong and sturdy', TRUE, 1, 3, 16, '', 5);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Lawn Mower', 'Not used much', TRUE, 3, 3, 16, '', 1);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Monitor', 'Not used much', TRUE, 9, 3, 16, '', 2);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Xbox', 'Strong and sturdy', FALSE, 8, 3, 16, '', 3);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('MacBook', 'Strong and sturdy', TRUE, 9, 3, 16, '', 4);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Headphones', 'Not used much', FAlSE, 9, 3, 16, '', 5);
-INSERT INTO items(name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Camera', 'Not used much', TRUE, 10, 3, 16, '', 1);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Chainsaw', 'Great condition only used once', 12.47, FALSE, 1, 1, 18, '', 1);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Drill', 'Like new', 13.48, TRUE, 1, 2, 18, '', 2);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Ladder', 'Strong and sturdy', 13.20, TRUE, 2, 3, 16, '', 3);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('PS4', 'Strong and sturdy', 12.44, FALSE, 8, 3, 16, '', 4);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Hedge Cuttter', 'Strong and sturdy', 12.47, TRUE, 1, 3, 16, '', 5);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Lawn Mower', 'Not used much', 13.43, TRUE, 3, 3, 16, '', 1);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Monitor', 'Not used much', 42.47, TRUE, 9, 3, 16, '', 2);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Xbox', 'Strong and sturdy', 13.47, FALSE, 8, 3, 16, '', 3);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('MacBook', 'Strong and sturdy', 12.84, TRUE, 9, 3, 16, '', 4);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Headphones', 'Not used much', 15.57, FAlSE, 9, 3, 16, '', 5);
+INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Camera', 'Not used much', 17.47, TRUE, 10, 3, 16, '', 1);
 
 INSERT INTO rentals(item_id, borrower_id, rented_from, rented_until) VALUES (2, 1, NOW(), NOW());
 INSERT INTO rentals(item_id, borrower_id, rented_from, rented_until) VALUES (1, 4, NOW(), NOW());

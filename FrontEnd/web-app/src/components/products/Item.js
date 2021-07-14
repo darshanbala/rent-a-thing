@@ -314,6 +314,10 @@ class Item extends Component {
                             </p> :
                             <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
                     </div>
+                    <div className="item-page-info">
+                        <h2>Price</h2>
+                        <p>£{item.price}</p>
+                    </div>
                     <div className="item-page-reviews">
                         <h2>Reviews</h2>
                     </div>
