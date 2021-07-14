@@ -43,6 +43,7 @@ class ThingsHandler extends React.Component {
 
     if (this.props != PrevProps || newState != oldState) {
       console.log("Calling filterBy() again");
+      this.setState({ hasSearchedByRadius: false });
       await this.filterBy()
     }
   }
@@ -154,12 +155,19 @@ class ThingsHandler extends React.Component {
     //fetch() and get a list of aall the items paired with thir location data (longatute, latitude)
     const response1 = await fetch('http://localhost:8080/itemListLocationData', { method: 'GET', credentials: 'include'});
     const itemListLocationData = await response1.json();
-    console.log("### NEW STUFF ###");
-    console.log(itemListLocationData);
+    //console.log("### NEW STUFF ###");
+    //console.log(itemListLocationData);
 
     //fetch() and get the location data (longatute, latitude) of "currentLocation"
-    //const response2 = await fetch('http://localhost:8080/currentLocationData', { method: 'GET', credentials: 'include'});
-    //const currentLocationData = await response2.json();
+    const { currentLocation } = this.state;
+    //console.log("CurrentLocationId:");
+    //console.log(currentLocation);
+    const currentLocationId= currentLocation.id;
+    //console.log(currentLocationId);
+    const response2 = await fetch('http://localhost:8080/currentLocationData', { method: 'POST', credentials: 'include', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ currentLocationId })});
+    const currentLocationData = await response2.json();
+    console.log("Response:")
+    console.log(currentLocationData);
 
     //filter "items" into new array depending on if the diffrence in longatute and latitude is <= selectedSearchRadius
   }

@@ -136,11 +136,11 @@ app
 
     await server.json(itemListLocationData)
   })
-  .get('/currentLocationData', async (server) => {
+  .post('/currentLocationData', async (server) => {
 
-    const currentLocationData = (await client.queryObject(`
-        SELECT id, name, description, imgURL FROM categories
-      `)).rows
+    const { currentLocationId } = await server.body;
+
+    const currentLocationData = (await client.queryObject(`SELECT * FROM location WHERE id = $1`, currentLocationId)).rows
 
     await server.json(currentLocationData)
   })
