@@ -32,7 +32,7 @@ export default function Card({
                     <div className={`${cardType}-text-container`}>
                         <h4><b>{name}</b></h4>
                         <p>Availability: {is_available.toString()}</p>
-                        <p>Price: {price}</p>
+                        <p>Price: £{price}</p>
                     </div>
                 </div>
             </Link>
@@ -49,7 +49,7 @@ export default function Card({
                     <p>Pick up date: {format(new Date(rented_from), 'E dd MMMM, y')}</p>
                     <p>Drop off date: {format(new Date(rented_until), 'E dd MMMM, y')}</p>
                     <p>You're dealing with: {trader_first_name} {trader_last_name}</p>
-                    <p>Price: {price}</p>
+                    <p>Price: £{price}</p>
                 </div>
             </div>
         )
