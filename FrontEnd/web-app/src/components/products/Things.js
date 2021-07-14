@@ -41,7 +41,7 @@ class Things extends Component {
     render() {
         //const { items } = this.state;
         const items = this.props.items;
-        //console.log(items);
+        console.log(items);
         //console.log("Items:")
         //console.log(items)
         if (!items) {
@@ -51,7 +51,7 @@ class Things extends Component {
             return (
                 <div className='item-list'>
                     {items.map(({ id, name, is_available, img_url }) =>
-                        <Card key={id} id={id} name={name} is_available={is_available} img_url={img_url} cardType='things-page-card' />
+                        <Card  id={id} name={name} is_available={is_available} img_url={img_url} cardType='things-page-card' />
                     )}
                 </div>
 
