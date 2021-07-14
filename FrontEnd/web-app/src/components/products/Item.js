@@ -323,36 +323,45 @@ class Item extends Component {
                     </div>
                     <div className="item-page-rent">
                         {!usersOwnItem &&
-                            <form>
-                                <span className="item-page-form-field">
-                                    <label htmlFor="rentFrom">Rent from: </label>
-                                    <input
-                                        type="date"
-                                        name="rentFrom"
-                                        id="rentFrom"
-                                        value={rentFrom}
-                                        min={format(new Date(), 'y-MM-d')}
-                                        onChange={(e) => this.handleChange(e)} />
-                                </span>
-                                <span className="item-page-form-field">
-                                    <label htmlFor="rentUntil">Rent until: </label>
-                                    <input
-                                        type="date"
-                                        name="rentUntil"
-                                        id="rentUntil"
-                                        value={rentUntil}
-                                        min={format(new Date(), 'y-MM-d')}
-                                        onChange={(e) => this.handleChange(e)} />
-                                </span>
-                                <input
-                                    className="item-page-rent-button item-page-form-field"
-                                    type="button"
-                                    value="Rent item"
-                                    onClick={this.submitForm} />
-                                <br />
-                                {errorMessage && <p>{errorMessage}</p>}
-                                {rentalConfirmed && <p>Item successfully rented</p>}
-                            </form>
+                            <div>
+                                {item.is_available &&
+                                    <form>
+                                        <span className="item-page-form-field">
+                                            <label htmlFor="rentFrom">Rent from: </label>
+                                            <input
+                                                type="date"
+                                                name="rentFrom"
+                                                id="rentFrom"
+                                                value={rentFrom}
+                                                min={format(new Date(), 'y-MM-d')}
+                                                onChange={(e) => this.handleChange(e)} />
+                                        </span>
+                                        <span className="item-page-form-field">
+                                            <label htmlFor="rentUntil">Rent until: </label>
+                                            <input
+                                                type="date"
+                                                name="rentUntil"
+                                                id="rentUntil"
+                                                value={rentUntil}
+                                                min={format(new Date(), 'y-MM-d')}
+                                                onChange={(e) => this.handleChange(e)} />
+                                        </span>
+                                        <input
+                                            className="item-page-rent-button item-page-form-field"
+                                            type="button"
+                                            value="Rent item"
+                                            onClick={this.submitForm} />
+                                        <br />
+                                        {errorMessage && <p>{errorMessage}</p>}
+                                        {rentalConfirmed && <p>Item successfully rented</p>}
+                                    </form>
+                                }
+                                {!item.is_available &&
+                                    <div>
+                                        <span>This item is not currently available to be rented</span>
+                                    </div>
+                                }
+                            </div>
                         }
                     </div>
                     <div className="item-page-management">
