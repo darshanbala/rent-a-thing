@@ -114,8 +114,11 @@ class PostItem extends Component {
                             onChange={(e) => this.setState({ description: e.target.value })}></input>
                     </section>
 
-                    <label> Price (£): </label>
-                    <input type="number" name='price' value={price} onChange={this.handleChange} step="0.01" />
+
+                    <section>
+                        <label> Price (£): </label>
+                        <input type="number" name='price' value={price} onChange={this.handleChange} step="0.01" min="0" />
+                    </section>
 
 
                       { categories &&

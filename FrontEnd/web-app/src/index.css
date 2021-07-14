@@ -135,6 +135,10 @@
   width: 400px;
 }
 
+.SubmissionFormPostItem input[type=number] {
+  width: 400px;
+}
+
 .SubmissionFormPostItem select {
   width: 420px;
 }
@@ -316,6 +320,12 @@ input[type=text], textarea, select {
   border-width: thin;
 }
 input[type=password], textarea, select {
+  padding: 10px 10px 10px 10px;
+  margin: 0 3px 10px 3px;
+  border-radius: 6px;
+  border-width: thin;
+}
+input[type=number], textarea, select {
   padding: 10px 10px 10px 10px;
   margin: 0 3px 10px 3px;
   border-radius: 6px;
