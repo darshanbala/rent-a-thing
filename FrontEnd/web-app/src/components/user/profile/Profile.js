@@ -3,7 +3,6 @@ import '../../../css/Profile_page.css';
 import UserReviews from './UserReviews.js';
 import UserPosts from './UserPosts.js';
 import UserLookingFor from './UserLookingFor';
-import profile_picture from './template_profile_picture.png';
 import MyRentals from './MyRentals.js';
 //TODO make dynamic import for profile pictures based on the user
 //and a link to their pp from the db
@@ -95,7 +94,7 @@ class Profile extends React.Component {
         <main>
           <section className='flex_container'>
             <div id='left'>
-              <img src={profile_picture} id='profile_picture'/>
+              <img src={user.img_url} id='profile_picture'/>
               <h1>{`${user.first_name} ${user.last_name}`}</h1>
               <p>email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
               <p>average rating: {this.state.star_rating}</p>
