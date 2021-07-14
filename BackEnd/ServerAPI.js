@@ -102,7 +102,7 @@ app
     });
     await server.json({ code: 200 })
   })
-  .post("/Email", async server => {
+  .post("/isValidNewEmail", async server => {
     const { email } = await server.body
     const check = (await client.queryObject("SELECT * FROM users WHERE email = $1", await email)).rows;
 
