@@ -118,7 +118,7 @@ class Item extends Component {
                     </div>
                     <div className="item-page-info">
                         <h2>Price</h2>
-                        <p>{item.price}</p>
+                        <p>£{item.price}</p>
                     </div>
                     <div className="item-page-reviews">
                         <h2>Reviews</h2>

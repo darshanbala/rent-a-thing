@@ -170,19 +170,21 @@ app
   })
 
   .post("/postItem", async server => {
-    const { name, description, category, age_restriction, ownerID, img_url, cityId } = await server.body
+    const { name, description, price, category, age_restriction, ownerID, img_url, cityId } = await server.body
 
-    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, age_restriction, owner_id, img_url, city_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", name, description, category, age_restriction, ownerID, img_url, cityId).rows)
+    const insertItem = (await client.queryObject("INSERT INTO items(name, description, price, category_id, age_restriction, owner_id, img_url, city_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", name, description, price, category, age_restriction, ownerID, img_url, cityId).rows)
     //console.log(insertItem, "insertItem")
     // Returns items table with new values:
     const result = (await client.queryObject(`SELECT * FROM items WHERE owner_id = $1`, ownerID)).rows
     console.log("DATABASE SEARCH: ")
     console.log(result)
+    console.log(price.toString(), "price")
 
     // Returns boolean to check if submitted item is successful:
     const submitted = result.some(item =>
       item.name === name &&
       item.description === description &&
+      item.price === price.toString() &&
       item.category_id === category &&
       item.age_restriction === age_restriction &&
       item.owner_id === ownerID &&

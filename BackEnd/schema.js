@@ -78,7 +78,7 @@ await client.queryObject(
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    price NUMERIC(6, 4),
+    price NUMERIC NOT NULL,
     is_available BOOLEAN NOT NULL DEFAULT TRUE,
     category_id INTEGER,
     owner_id INTEGER,
