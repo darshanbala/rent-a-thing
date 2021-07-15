@@ -88,7 +88,7 @@ app
     } else {
       server.json({ code: 500, error: 'Passwords do not match' })
     }
-    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW(), $12)", new_user.first_name, new_user.last_name, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
+    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, img_url, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), NOW(), $13)", new_user.first_name, new_user.last_name, new_user.img_url, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
     const sessionId = v4.generate();
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", new_user.email)).rows;
     const insert_session = (await client.queryObject("INSERT INTO sessions (uuid, user_id, created_at) VALUES ($1, $2, NOW())", sessionId, user[0].id)).rows;
@@ -102,7 +102,7 @@ app
     });
     await server.json({ code: 200 })
   })
-  .post("/Email", async server => {
+  .post("/isValidNewEmail", async server => {
     const { email } = await server.body
     const check = (await client.queryObject("SELECT * FROM users WHERE email = $1", await email)).rows;
 
@@ -115,7 +115,7 @@ app
   .get('/items', async (server) => {
 
     const items = (await client.queryObject(`
-        SELECT id, name, price, is_available, img_url FROM items
+        SELECT id, name, price, img_url FROM items WHERE is_available = TRUE
       `)).rows
 
     return (await items)
@@ -132,9 +132,7 @@ app
 
     const cities = (await client.queryObject(`
         SELECT id, name FROM location
-      `)).rows;
-
-    //console.log(cities);
+      `)).rows
 
     await server.json(cities);
   })
@@ -371,7 +369,7 @@ app
     const { category_id } = await body;
     console.log(category_id)
     let items = (await client.queryObject(`
-          SELECT * FROM items WHERE category_id = $1
+          SELECT * FROM items WHERE category_id = $1 AND is_available = TRUE
         `, await category_id)).rows;
 
     items = items.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
@@ -389,24 +387,24 @@ app
 
       if (searchCriteria.item.length < 3 && searchCriteria.item.length > 0) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria.item}%' OR name ILIKE '${searchCriteria.item}%';
+                  SELECT *, levenshtein($1, name) FROM items WHERE (levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria.item}%' OR name ILIKE '${searchCriteria.item}%') AND is_available = TRUE;
                 `, await searchCriteria.item)).rows;
         console.log(await items)
       } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '${searchCriteria.item}%';
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 7 && searchCriteria.item.length > 5) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '${searchCriteria.item}%';
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '${searchCriteria.item}%';
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length > 10) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '${searchCriteria.item}%';
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
                 `, await searchCriteria.item)).rows;
       }
 

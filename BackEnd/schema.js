@@ -39,6 +39,7 @@ await client.queryObject(
     id SERIAL PRIMARY KEY,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
+    img_url TEXT,
     email TEXT UNIQUE NOT NULL,
     salted_password TEXT NOT NULL,
     salt TEXT NOT NULL,

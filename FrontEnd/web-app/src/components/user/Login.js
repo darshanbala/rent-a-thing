@@ -68,62 +68,60 @@ class Login extends Component {
             this.setState({ successfullySubmitted: true });
         }
     }
-/*
-    CHECKING THE COOKIE IS NOW DONE IN APP.js SO THAT IF A USER HAS A COOKIE
-    THEY WILL AUTOMATICALLY BE LOGGED STRAIGHT IN NO MATTER WHAT PART OF THE SITE
-    THEY GO TO
-
-    async checkForUser(){
-        let { user } = this.props;
-        user = await this.props.checkWhoIsSignedIn();
-        if(user){
-            //console.log(user.user[0]);
-            this.props.setUser(user.user[0]); // Set user as object of user data {...}
-            await this.props.toggleLoggedIn(true);
-        }else{
-            this.props.setUser(null); // Or set user as null
-            await this.props.toggleLoggedIn(false);
+    /*
+        CHECKING THE COOKIE IS NOW DONE IN APP.js SO THAT IF A USER HAS A COOKIE
+        THEY WILL AUTOMATICALLY BE LOGGED STRAIGHT IN NO MATTER WHAT PART OF THE SITE
+        THEY GO TO
+    
+        async checkForUser(){
+            let { user } = this.props;
+            user = await this.props.checkWhoIsSignedIn();
+            if(user){
+                //console.log(user.user[0]);
+                this.props.setUser(user.user[0]); // Set user as object of user data {...}
+                await this.props.toggleLoggedIn(true);
+            }else{
+                this.props.setUser(null); // Or set user as null
+                await this.props.toggleLoggedIn(false);
+            }
         }
-    }
-*/
+    */
 
     render() {
         const { email, password, successfullySubmitted, touched } = this.state;
         if (successfullySubmitted) {
             //console.log("Sucessfully logged in and redirecting")
-            return (<Redirect to="/"/>);
+            return (<Redirect to="/" />);
         }
 
         return (
-            <main>
-            <h1 className="centered">Sign In</h1>
-                <form className='SubmissionForm' onSubmit={(e) => this.handleSubmit(e)}>
+            <section>
+                <h1 className="centered">Login to your account</h1>
+                <form className='SubmissionForm SubmissionFormLogin' onSubmit={(e) => this.handleSubmit(e)}>
                     <section>
-                        <label>Email:
+                        <label>Email: </label>
                             <input
                                 value={email}
                                 onChange={(e) => this.setState({ email: e.target.value })}
                                 onBlur={() => this.markAsTouched('email')}
                                 type='text'
                             />
-                        </label>
-                        {this.emailErrors() && <p className='error'>{this.emailErrors()}</p>}
+                        {this.emailErrors() && <p className='error errorLogin'>{this.emailErrors()}</p>}
                     </section>
                     <section>
-                        <label>Password:
+                        <label>Password: </label>
                             <input
                                 value={password}
                                 onChange={(e) => this.setState({ password: e.target.value })}
                                 onBlur={() => this.markAsTouched('password')}
-                                type='text'
+                                type='password'
                             />
-                        </label>
-                        {this.passwordErrors() && <p className='error'>{this.passwordErrors()}</p>}
+                        {this.passwordErrors() && <p className='error errorLogin'>{this.passwordErrors()}</p>}
                     </section>
                     {/*<button type='submit' disabled={!touched.email || !touched.password || this.emailErrors() || this.passwordErrors()} >Login</button>*/}
                     <input type='submit' value='Login' disabled={this.emailErrors() || this.passwordErrors()} />
                 </form>
-            </main>
+            </section>
         );
     }
 }
