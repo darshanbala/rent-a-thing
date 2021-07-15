@@ -24,21 +24,16 @@ class ThingsHandler extends React.Component {
       locationFilteredItemList: '',
       searchRadiusOptions: ['None', '0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0'],
       selectedSearchRadius: 'None',
-      //hasSearchedByRadius: false,
       locationAndRadiusFilteredItems: []
     };
   }
 
   async componentDidMount() {
-    //await this.filterBy()
-    //get list of cities for drop down later
     await this.getCities();
-    //Check if someone is logged in, if so get their city_id to later filter items
     const response = await fetch(`${process.env.REACT_APP_API_URL}/checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
     const user = await response.json();
     if (user) {
-      await this.changeCity(user.city_id);//const userLocation = await this.changeCity(user.city_id);
-      //await this.setState({ currentLocation: {id: userLocation, name: ''} });
+      await this.changeCity(user.city_id);
     } else {
       await this.changeCity(1)
     }
@@ -46,13 +41,11 @@ class ThingsHandler extends React.Component {
   }
 
   async componentDidUpdate(PrevProps, PrevState) {
-    // Has search radius changed?
-    const newStateRadius = this.state.selectedSearchRadius;//this.state.hasSearchedByRadius;
-    const oldStateRadius = PrevState.selectedSearchRadius;//PrevState.hasSearchedByRadius;
-    // Has Location changed?
+    const newStateRadius = this.state.selectedSearchRadius;
+    const oldStateRadius = PrevState.selectedSearchRadius;
     const newStateLocation = this.state.currentLocation.id;
     const oldStateLocation = PrevState.currentLocation.id;
-    if (this.props != PrevProps || newStateRadius != oldStateRadius || newStateLocation != oldStateLocation ) {
+    if (this.props != PrevProps || newStateRadius != oldStateRadius || newStateLocation != oldStateLocation) {
       await this.filterBy()
     }
   }
@@ -85,12 +78,10 @@ class ThingsHandler extends React.Component {
   }
 
   async filterByLocationAndRadius(itemList) {
-    //console.log(itemList);
     const { currentLocation, selectedSearchRadius } = this.state;
     let thingsThatPass = [];
 
     if (selectedSearchRadius !== 'None') {
-      //console.log("Search Radius is a number");
       const currentLocationId = currentLocation.id;
       const response2 = await fetch('http://localhost:8080/currentLocationData', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ currentLocationId }) });
       const currentLocationData = await response2.json();
@@ -158,8 +149,8 @@ class ThingsHandler extends React.Component {
         innerCalculationValue1 = parseFloat(innerCalculationValue1);
         innerCalculationValue2 = parseFloat(innerCalculationValue2)
 
-        if (innerCalculationValue1 < calculationValue1Plus &&  innerCalculationValue1 > calculationValue1Minus) {
-          if (innerCalculationValue2 < calculationValue2Plus && innerCalculationValue2 >  calculationValue2Minus) {
+        if (innerCalculationValue1 < calculationValue1Plus && innerCalculationValue1 > calculationValue1Minus) {
+          if (innerCalculationValue2 < calculationValue2Plus && innerCalculationValue2 > calculationValue2Minus) {
             console.log("Thing that made it: ")
             console.log("Lat: ")
             console.log(innerCalculationValue1);
@@ -171,7 +162,6 @@ class ThingsHandler extends React.Component {
         }
       });
     } else {
-      //console.log("Search Radius is 'None'");
       thingsThatPass = this.filterByLocation(itemList);
     }
 
@@ -179,7 +169,6 @@ class ThingsHandler extends React.Component {
   }
 
   async filterBy() {
-    //const { hasSearchedByRadius } = this.state;
     const { categoryId, searchCriteria, all, locationFilteredItemList } = this.props
     let itemList = [];
     if (categoryId) {
@@ -196,22 +185,12 @@ class ThingsHandler extends React.Component {
       );
 
       let itemList = await response.json();
-      //console.log("Items after Category filter");
-      //console.log(itemList);
       if (await itemList) {
-        //const locationFilteredItems = await this.filterByLocation(itemList);
-        //if (hasSearchedByRadius) {
-          const locationAndRadiusFilteredItems = await this.filterByLocationAndRadius(itemList);
-          //console.log("Items after Location&Radius filter");
-          //console.log(locationAndRadiusFilteredItems);
-          //console.log("locationAndRadiusFilteredItems in filterBy():");
-          //console.log(locationAndRadiusFilteredItems);
-          this.setState({ locationAndRadiusFilteredItems });//, hasSearchedByRadius: false });//, hasSearchedByRadius: false });
-        //}
-        this.setState({ items: itemList,  });//, locationAndRadiusFilteredItems, hasSearchedByRadius: false});//locationFilteredItemList: locationFilteredItems });
+        const locationAndRadiusFilteredItems = await this.filterByLocationAndRadius(itemList);
+        this.setState({ locationAndRadiusFilteredItems });
+        this.setState({ items: itemList, });
       }
     } else if (searchCriteria && searchCriteria.item) {
-      //console.log('searchbar search')
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/searchByFilter`,
         {
@@ -224,11 +203,10 @@ class ThingsHandler extends React.Component {
         }
       );
       itemList = await response.json();
-      //console.log(await itemList)
 
       if (await itemList[0]) {
         const locationAndRadiusFilteredItems = await this.filterByLocationAndRadius(itemList);
-        this.setState({ items: await itemList, locationAndRadiusFilteredItems });//locationFilteredItemList: locationFilteredItems });
+        this.setState({ items: await itemList, locationAndRadiusFilteredItems });
       } else {
         this.setState({ items: [] })
       }
@@ -237,12 +215,10 @@ class ThingsHandler extends React.Component {
         method: 'GET',
         credentials: 'include'
       })
-      //respose is making the request
       itemList = await response.json()
-      //console.log(items.items)
       if (await itemList[0]) {
         const locationAndRadiusFilteredItems = await this.filterByLocationAndRadius(itemList);
-        this.setState({ items: await itemList, locationAndRadiusFilteredItems });//locationFilteredItemList: locationFilteredItems });
+        this.setState({ items: await itemList, locationAndRadiusFilteredItems });
       } else {
         this.setState({ items: [] })
       }
@@ -276,20 +252,14 @@ class ThingsHandler extends React.Component {
     const name = city[0].name;
     const id = city[0].id;
     await this.setState({ currentLocation: { id: id, name: name }, selectedSearchRadius: 'None' });
-
-    //let { items, locationAndRadiusFilteredItems } = this.state;
-    //locationAndRadiusFilteredItems = await this.filterByLocationAndRadius(items);
-    //this.setState({ locationAndRadiusFilteredItems });
   }
 
   async changeSearchRadius(e) {
-    await this.setState({ selectedSearchRadius: e.target.value });//, hasSearchedByRadius: true });
+    await this.setState({ selectedSearchRadius: e.target.value });
   }
 
   render() {
-    const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, locationFilteredItemList, currentLocation, searchRadiusOptions, selectedSearchRadius, locationAndRadiusFilteredItems } = this.state
-    //console.log("locationAndRadiusFilteredItems in render():");
-    //console.log(locationAndRadiusFilteredItems);
+    const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, locationFilteredItemList, currentLocation, searchRadiusOptions, selectedSearchRadius, locationAndRadiusFilteredItems } = this.state;
     if (!items) {
       return (
         <p>Loading...</p>
@@ -321,11 +291,5 @@ class ThingsHandler extends React.Component {
     }
   }
 }
-
-/*
-{locationAndRadiusFilteredItems.length === 0 && <Things items={locationFilteredItemList} cookieCheck={this.props.cookieCheck} />}
-{locationAndRadiusFilteredItems.length !== 0 && <Things items={locationAndRadiusFilteredItems} cookieCheck={this.props.cookieCheck} />}
-*/
-
 
 export default ThingsHandler;

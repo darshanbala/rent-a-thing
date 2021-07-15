@@ -360,24 +360,24 @@ app
 
       if (searchCriteria.item.length < 3 && searchCriteria.item.length > 0) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria.item}%' OR name ILIKE '${searchCriteria.item}%';
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE  levenshtein($1, items.name) < 3 OR items.name ILIKE '%${searchCriteria.item}%' OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
                 console.log(await items)
       } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '${searchCriteria.item}%';
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE  levenshtein($1, items.name) < 3 OR  items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 7 && searchCriteria.item.length > 5) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '${searchCriteria.item}%';
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE levenshtein($1, items.name) < 4 OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '${searchCriteria.item}%';
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE levenshtein($1, items.name) < 5 OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length > 10) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '${searchCriteria.item}%';
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE levenshtein($1, items.name) < 6  OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       }
 
