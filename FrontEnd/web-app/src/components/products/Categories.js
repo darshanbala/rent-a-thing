@@ -24,7 +24,7 @@ class Categories extends Component {
     }
 
     handleClick(chosenValue) {
-        console.log(chosenValue);
+        //console.log(chosenValue);
         //return (<Redirect to="/"/>);
         this.setState({chosenValue});
         this.setState({hasChosen: true});
