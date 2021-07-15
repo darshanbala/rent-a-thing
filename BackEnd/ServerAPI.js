@@ -128,6 +128,22 @@ app
 
     await server.json(categories)
   })
+  .get('/itemListLocationData', async (server) => {
+
+    const itemListLocationData = (await client.queryObject(`
+        SELECT id, name AS item_name, description, is_available, category_id, owner_id, age_restriction, img_url, city_id FROM items JOIN location ON items.city_id = location.id
+      `)).rows
+
+    await server.json(itemListLocationData)
+  })
+  .post('/currentLocationData', async (server) => {
+
+    const { currentLocationId } = await server.body;
+    console.log(currentLocationId);
+    const currentLocationData = (await client.queryObject(`SELECT * FROM location WHERE id = $1`, currentLocationId)).rows
+
+    await server.json(currentLocationData)
+  })
   .get('/cities', async (server) => {
 
     const cities = (await client.queryObject(`
@@ -365,17 +381,15 @@ app
     return (user)
   })
   .post('searchByCategory', async server => {
-    const body = await server.body;
-    const { category_id } = await body;
-    console.log(category_id)
+    const { category_id } = await server.body;
+    console.log(`Category ID: ${category_id}`);
     let items = (await client.queryObject(`
-          SELECT * FROM items WHERE category_id = $1 AND is_available = TRUE
-        `, await category_id)).rows;
-
-    items = items.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
-
-    console.log(await items, "items - searchByCategory")
-    return items
+    SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude FROM items INNER JOIN location ON items.city_id = location.id WHERE items.category_id = $1
+        `, category_id)).rows;
+    items = items.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts pric
+    console.log("Items:")
+    console.log(items);
+    return items;
   })
   .post('searchByFilter', async server => {
     const body = await server.body;
@@ -387,24 +401,24 @@ app
 
       if (searchCriteria.item.length < 3 && searchCriteria.item.length > 0) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE (levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria.item}%' OR name ILIKE '${searchCriteria.item}%') AND is_available = TRUE;
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE  levenshtein($1, items.name) < 3 OR items.name ILIKE '%${searchCriteria.item}%' OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
         console.log(await items)
       } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE  levenshtein($1, items.name) < 3 OR  items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 7 && searchCriteria.item.length > 5) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE levenshtein($1, items.name) < 4 OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE levenshtein($1, items.name) < 5 OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       } else if (searchCriteria.item.length > 10) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
+        SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE levenshtein($1, items.name) < 6  OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
       }
 
