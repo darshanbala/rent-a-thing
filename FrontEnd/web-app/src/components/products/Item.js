@@ -19,9 +19,10 @@ class Item extends Component {
         itemIsInEditMode: false,
         descriptionIsInEditMode: false,
         redirect: {
-          clicked: false,
-          user: null
-        }
+            clicked: false,
+            user: null
+        },
+        itemWasFound: true,
     }
 
     state = this.initialState
@@ -46,11 +47,13 @@ class Item extends Component {
             }
         )
         const { itemInArray, usersOwnItem } = await response.json()
-        console.log('User: '+usersOwnItem)
-        const item = itemInArray[0]
 
-        // Set state
-        this.setState({ item, itemDuringChange: item, usersOwnItem })
+        if (itemInArray.length === 0) {
+            this.setState({ itemWasFound: false })
+        } else {
+            const item = itemInArray[0]
+            this.setState({ item, itemDuringChange: item, usersOwnItem })
+        }
     }
 
     // Functions relating to the rental form
@@ -226,26 +229,26 @@ class Item extends Component {
     }
 
     async goToUserProfile() {
-      const { item } = this.state
-      const user_id = item.owner_id
-      const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/visitAnotherProfile`,
-          {
-              method: 'POST',
-              credentials: 'include',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ user_id: user_id })
-          }
-      )
-      const user = await response.json()
-      this.setState({
-        redirect: {
-          clicked: true,
-             user: user
-        }
-      })
+        const { item } = this.state
+        const user_id = item.owner_id
+        const response = await fetch(
+            `${process.env.REACT_APP_API_URL}/visitAnotherProfile`,
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: user_id })
+            }
+        )
+        const user = await response.json()
+        this.setState({
+            redirect: {
+                clicked: true,
+                user: user
+            }
+        })
     }
 
     render() {
@@ -257,127 +260,133 @@ class Item extends Component {
         const usersOwnItem = this.state.usersOwnItem
         const itemIsInEditMode = this.state.itemIsInEditMode
         const descriptionIsInEditMode = this.state.descriptionIsInEditMode
-        const  redirectClicked  = this.state.redirect.clicked
+        const redirectClicked = this.state.redirect.clicked
+        const itemWasFound = this.state.itemWasFound
         let redirectUser = null;
-        if(redirectClicked){
-           redirectUser  = this.state.redirect.user
+        if (redirectClicked) {
+            redirectUser = this.state.redirect.user
         }
 
-        console.log('redirect clicked: '+redirectUser)
+        console.log('redirect clicked: ' + redirectUser)
         return (
-          <>
-          { redirectClicked &&
-            <Redirect
-            to={{
-            pathname: "/visitingUser",
-            state: { user: redirectUser, justVisiting: true }
-            }}
-            />
-          }
+            <>
+                {!itemWasFound && <h1>Error 404: Item was not found</h1>}
 
-            <div className='item-page-container'>
-                <div className='item-page-image'>
-                    <img src={item.img_url} alt={item.name} style={{ height: '500px' }} />
-                </div>
-                <div className='item-page-content-container'>
-                    <div className="item-page-name">
-                        {itemIsInEditMode ?
-                            <h1>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    id="name"
-                                    value={itemDuringChange.name}
-                                    onChange={(e) => this.handleEditChange(e)}
-                                />
-                                <button onClick={this.changeEditModeItem}>X</button>
-                                <button onClick={this.updateItemNameValue}>OK</button>
-                            </h1> :
-                            <h1 onDoubleClick={this.changeEditModeItem}>{item.name}</h1>}
-                        <p>Offered by <span id='user_profile_link' onClick={() => this.goToUserProfile()}>{item.first_name} {item.last_name}</span></p>
-                    </div>
-                    <div className="item-page-info">
-                        <h2>Description</h2>
-                        {descriptionIsInEditMode ?
-                            <p>
-                                <input
-                                    type="text"
-                                    name="description"
-                                    id="description"
-                                    value={itemDuringChange.description}
-                                    onChange={(e) => this.handleEditChange(e)}
-                                />
-                                <button onClick={this.changeEditModeDescription}>X</button>
-                                <button onClick={this.updateItemDescriptionValue}>OK</button>
-                            </p> :
-                            <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
-                    </div>
-                    <div className="item-page-reviews">
-                        <h2>Reviews</h2>
-                    </div>
-                    <div className="item-page-rent">
-                        {!usersOwnItem &&
-                            <div>
-                                {item.is_available &&
-                                    <form>
-                                        <span className="item-page-form-field">
-                                            <label htmlFor="rentFrom">Rent from: </label>
-                                            <input
-                                                type="date"
-                                                name="rentFrom"
-                                                id="rentFrom"
-                                                value={rentFrom}
-                                                min={format(new Date(), 'y-MM-d')}
-                                                onChange={(e) => this.handleChange(e)} />
-                                        </span>
-                                        <span className="item-page-form-field">
-                                            <label htmlFor="rentUntil">Rent until: </label>
-                                            <input
-                                                type="date"
-                                                name="rentUntil"
-                                                id="rentUntil"
-                                                value={rentUntil}
-                                                min={format(new Date(), 'y-MM-d')}
-                                                onChange={(e) => this.handleChange(e)} />
-                                        </span>
+
+                {redirectClicked &&
+                    <Redirect
+                        to={{
+                            pathname: "/visitingUser",
+                            state: { user: redirectUser, justVisiting: true }
+                        }}
+                    />
+                }
+
+                {itemWasFound &&
+                    <div className='item-page-container'>
+                        <div className='item-page-image'>
+                            <img src={item.img_url} alt={item.name} />
+                        </div>
+                        <div className='item-page-content-container'>
+                            <div className="item-page-name">
+                                {itemIsInEditMode ?
+                                    <h1>
                                         <input
-                                            className="item-page-rent-button item-page-form-field"
-                                            type="button"
-                                            value="Rent item"
-                                            onClick={this.submitForm} />
-                                        <br />
-                                        {errorMessage && <p>{errorMessage}</p>}
-                                        {rentalConfirmed && <p>Item successfully rented</p>}
-                                    </form>
-                                }
-                                {!item.is_available &&
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            value={itemDuringChange.name}
+                                            onChange={(e) => this.handleEditChange(e)}
+                                        />
+                                        <button onClick={this.changeEditModeItem}>X</button>
+                                        <button onClick={this.updateItemNameValue}>OK</button>
+                                    </h1> :
+                                    <h1 onDoubleClick={this.changeEditModeItem}>{item.name}</h1>}
+                                <p>Offered by <span id='user_profile_link' onClick={() => this.goToUserProfile()}>{item.first_name} {item.last_name}</span></p>
+                            </div>
+                            <div className="item-page-info">
+                                <h2>Description</h2>
+                                {descriptionIsInEditMode ?
+                                    <p>
+                                        <input
+                                            type="text"
+                                            name="description"
+                                            id="description"
+                                            value={itemDuringChange.description}
+                                            onChange={(e) => this.handleEditChange(e)}
+                                        />
+                                        <button onClick={this.changeEditModeDescription}>X</button>
+                                        <button onClick={this.updateItemDescriptionValue}>OK</button>
+                                    </p> :
+                                    <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
+                            </div>
+                            <div className="item-page-reviews">
+                                <h2>Reviews</h2>
+                            </div>
+                            <div className="item-page-rent">
+                                {!usersOwnItem &&
                                     <div>
-                                        <span>This item is not currently available to be rented</span>
+                                        {item.is_available &&
+                                            <form>
+                                                <span className="item-page-form-field">
+                                                    <label htmlFor="rentFrom">Rent from: </label>
+                                                    <input
+                                                        type="date"
+                                                        name="rentFrom"
+                                                        id="rentFrom"
+                                                        value={rentFrom}
+                                                        min={format(new Date(), 'y-MM-d')}
+                                                        onChange={(e) => this.handleChange(e)} />
+                                                </span>
+                                                <span className="item-page-form-field">
+                                                    <label htmlFor="rentUntil">Rent until: </label>
+                                                    <input
+                                                        type="date"
+                                                        name="rentUntil"
+                                                        id="rentUntil"
+                                                        value={rentUntil}
+                                                        min={format(new Date(), 'y-MM-d')}
+                                                        onChange={(e) => this.handleChange(e)} />
+                                                </span>
+                                                <input
+                                                    className="item-page-rent-button item-page-form-field"
+                                                    type="button"
+                                                    value="Rent item"
+                                                    onClick={this.submitForm} />
+                                                <br />
+                                                {errorMessage && <p>{errorMessage}</p>}
+                                                {rentalConfirmed && <p>Item successfully rented</p>}
+                                            </form>
+                                        }
+                                        {!item.is_available &&
+                                            <div>
+                                                <span>This item is not currently available to be rented</span>
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>
-                        }
-                    </div>
-                    <div className="item-page-management">
-                        {usersOwnItem &&
-                            <div>
-                                {item.is_available &&
+                            <div className="item-page-management">
+                                {usersOwnItem &&
                                     <div>
-                                        <span>This item is available to be rented by others:</span>
-                                        <button className="item-page-set-unavailable" onClick={this.changeItemAvailability}>Set unavailable</button>
-                                    </div>
-                                }
-                                {!item.is_available &&
-                                    <div>
-                                        <span>This item is not set as available to be rented by others:</span>
-                                        <button className="item-page-set-available" onClick={this.changeItemAvailability}>Set available</button>
+                                        {item.is_available &&
+                                            <div>
+                                                <span>This item is available to be rented by others:</span>
+                                                <button className="item-page-set-unavailable" onClick={this.changeItemAvailability}>Set unavailable</button>
+                                            </div>
+                                        }
+                                        {!item.is_available &&
+                                            <div>
+                                                <span>This item is not set as available to be rented by others:</span>
+                                                <button className="item-page-set-available" onClick={this.changeItemAvailability}>Set available</button>
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>
-                        }
+                        </div>
                     </div>
-                </div>
-            </div>
+                }
             </>
         )
     }

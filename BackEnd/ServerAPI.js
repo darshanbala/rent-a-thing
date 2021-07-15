@@ -215,13 +215,16 @@ app
       id)).rows
     console.log(itemInArray, "itemInArray")
 
-    itemInArray[0].price = parseFloat(itemInArray[0].price).toFixed(2)
-    // console.log(itemInArray[0])
-    // console.log(typeof itemInArray[0].price)
-    // Check if this is the logged in user's own item
-    const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
-    await server.json({ itemInArray, usersOwnItem })
+    let usersOwnItem = false
+
+    if (itemInArray.length === 0) {
+      await server.json({ itemInArray, usersOwnItem })
+    } else {
+      itemInArray[0].price = parseFloat(itemInArray[0].price).toFixed(2)
+      usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
+      await server.json({ itemInArray, usersOwnItem })
+    }
   })
 
   .post('/rentItem', async (server) => {

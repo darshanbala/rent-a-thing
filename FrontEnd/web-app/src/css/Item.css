@@ -4,19 +4,22 @@
 }
 
 .item-page-image {
-    flex: 1;
+    flex: 2;
     padding: 0em 2em;
 }
 
 .item-page-image img {
     border: 2px solid  #ff9f1c;
     border-radius: 1em;
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .item-page-content-container {
     padding: 0em 2em;
 
-    flex: 2;
+    flex: 3;
 
     display: flex;
     flex-direction: column;
