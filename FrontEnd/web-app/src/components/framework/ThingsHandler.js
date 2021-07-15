@@ -20,6 +20,7 @@ class ThingsHandler extends React.Component {
         name: null
       },
       cityOptions: null,
+      categoryOptions: null,
       showMenu: false,
       locationFilteredItemList: ''
     };
@@ -86,10 +87,11 @@ class ThingsHandler extends React.Component {
     const city = await response.json();
     const name = city[0].name;
     const id = city[0].id;
-    await this.setState({ currentLocation: {
-                            id: id,
-                            name: name
-                            }
+    await this.setState({
+      currentLocation: {
+                          id: id,
+                          name: name
+                        }
                           });
 
     let { items, locationFilteredItemList } = this.state;
@@ -103,6 +105,7 @@ class ThingsHandler extends React.Component {
     await this.filterBy()
     //get list of cities for drop down later
     await this.getCities();
+    await this.getCategories();
     //Check if someone is logged in, in for get their city_id to later filter items
     /*
     const response = await fetch(`${process.env.REACT_APP_API_URL}/checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
@@ -122,6 +125,15 @@ class ThingsHandler extends React.Component {
     this.setState({currentLocation: { name: 'all'}})
 
 
+  }
+
+  async getCategories() {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    const categories = await response.json()
+    this.setState({ categoryOptions: categories })
   }
 
   async filterByLocation(itemList) {
@@ -212,10 +224,14 @@ class ThingsHandler extends React.Component {
 
   }
 
-  async
+  async changeCategory(e) {
+    e.preventDefault();
+    const categoryId = e.target.value
+    this.setState({ categoryId: categoryId})
+  }
 
   render() {
-    const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, locationFilteredItemList, currentLocation } = this.state
+    const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, categoryOptions, locationFilteredItemList, currentLocation } = this.state
     //console.log("Category filtered items:");
     //console.log(items);
     //console.log("Location filtered items:");
@@ -228,6 +244,16 @@ class ThingsHandler extends React.Component {
     } {
       return (
         <section>
+                    { categoryOptions &&
+                      <select name="categories" value={categoryId} onChange={(e) => this.changeCategory(e)}>
+                        <option value={0}>All categories</option>
+                            {categoryOptions.map(({ id, name }) =>{
+                                //console.log(id+'  '+name);
+                                return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
+                                }
+                            )}
+                      </select>
+                    }
                     { cityOptions &&
                       <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
                         <option value={0}>All locations</option>

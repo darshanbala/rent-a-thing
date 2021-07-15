@@ -8,7 +8,8 @@ class Home extends Component {
 
     state = {
         submissionConfirmed: false,
-        searchCriteria: {}
+        searchCriteria: {},
+        onHomePage: false
     }
 
     constructor(props) {
@@ -30,15 +31,34 @@ class Home extends Component {
     }
 */
     async componentDidMount() {
-        this.props.cookieCheck();
+        //this.props.cookieCheck();
+        if(this.props.searchParams) {
+          this.setState({searchCriteria: this.props.searchParams})
+        }
+        console.log(await this.props.onHomePage)
+        if(this.props.onHomePage === true){
+          this.setState({onHomePage: true})
+        }
     }
 
-    componentDidUpdate() {
-        console.log("");
+    componentDidUpdate(PrevProps, PrevState) {
+        console.log(""+JSON.stringify(this.props));
+        if(PrevProps !== this.props){
+          try{
+            if(this.props.onHomePage === false && this.props.onHomePage !== undefined) {
+              this.setState({onHomePage: false})
+            }else{
+              this.setState({ onHomePage: true })
+            }
+          }catch{
+            this.setState({onHomePage: true})
+          }
+        }
     }
 
     componentWillUnmount() {
         console.log("");
+        this.setState({onHomePage: ''})
     }
 
     changesState() {
@@ -72,12 +92,12 @@ class Home extends Component {
     }
 
     render() {
-        const { submissionConfirmed, searchCriteria } = this.state;
-
-        if (submissionConfirmed) {
+        const { submissionConfirmed, searchCriteria, onHomePage } = this.state;
+        console.log(onHomePage)
+        if (submissionConfirmed || !onHomePage) {
             return (
                 <section>
-                    <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
+                    <SearchBar onHomePage={onHomePage} submitSearch={(arg) => this.submitSearch(arg)} />
                     <ThingsHandler searchCriteria={ searchCriteria } cookieCheck={this.props.cookieCheck}/>
                 </section>
             );
