@@ -100,7 +100,7 @@ app
       sameSite: 'none',
       secure: true
     });
-    await server.json({ code: 200 })
+    await server.json({ code: 200})
   })
   .post("/isValidNewEmail", async server => {
     const { email } = await server.body
@@ -503,6 +503,19 @@ app
       await server.json({ lending, borrowing })
     }
   })
+
+
+  .post('/getID', async (server) => {
+    const email = await server.body;
+
+  
+  const id = (await client.queryObject(`SELECT id FROM users WHERE email = $1`, email)).rows
+
+    // await server.json({ id})
+    return id[0];
+
+
+   })
 
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);
