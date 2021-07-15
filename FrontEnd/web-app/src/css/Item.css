@@ -27,7 +27,7 @@
 }
 
 .item-page-content-container h1 {
-    font-size: 1.6em;;
+    font-size: 1.6em;
 }
 
 .item-page-content-container h2 {
@@ -35,7 +35,7 @@
 }
 
 .item-page-name {
-    padding: 0 .6em;
+    padding: .6em 0 0;
 }
 
 .item-page-info {
@@ -60,10 +60,20 @@
 
 .item-page-rent {
     flex: 1;
+    margin: 1em 0 -1em 0;
+}
+
+.item-page-management {
+    flex: 1;
+    margin: 1em 0 -1em 0;
 }
 
 .item-page-form-field {
     margin: 0 1em 0 0;
+}
+
+.item-page-rent form {
+    display: inline;
 }
 
 .item-page-rent-button {
@@ -77,8 +87,9 @@
 }
 
 .item-page-set-unavailable {
-    background-color: red;
+    background-color: green;
     color: white;
+    font-size: 1.2em;
     padding: 0.5em;
     margin: 0.5em;
     border-radius: 12px;
@@ -87,8 +98,9 @@
 }
 
 .item-page-set-available {
-    background-color: green;
+    background-color: red;
     color: white;
+    font-size: 1.2em;
     padding: 0.5em;
     margin: 0.5em;
     border-radius: 12px;

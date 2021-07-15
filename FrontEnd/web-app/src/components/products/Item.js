@@ -304,27 +304,8 @@ class Item extends Component {
                                     <h1 onDoubleClick={this.changeEditModeItem}>{item.name}</h1>}
                                 <p>Offered by <span id='user_profile_link' onClick={() => this.goToUserProfile()}>{item.first_name} {item.last_name}</span></p>
                             </div>
-                            <div className="item-page-info">
-                                <h2>Description</h2>
-                                {descriptionIsInEditMode ?
-                                    <p>
-                                        <input
-                                            type="text"
-                                            name="description"
-                                            id="description"
-                                            value={itemDuringChange.description}
-                                            onChange={(e) => this.handleEditChange(e)}
-                                        />
-                                        <button onClick={this.changeEditModeDescription}>X</button>
-                                        <button onClick={this.updateItemDescriptionValue}>OK</button>
-                                    </p> :
-                                    <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
-                            </div>
-                            <div className="item-page-reviews">
-                                <h2>Reviews</h2>
-                            </div>
-                            <div className="item-page-rent">
-                                {!usersOwnItem &&
+                            {!usersOwnItem &&
+                                <div className="item-page-rent">
                                     <div>
                                         {item.is_available &&
                                             <form>
@@ -364,25 +345,39 @@ class Item extends Component {
                                             </div>
                                         }
                                     </div>
-                                }
-                            </div>
-                            <div className="item-page-management">
-                                {usersOwnItem &&
+                                </div>
+                            }
+                            {usersOwnItem &&
+                                <div className="item-page-management">
                                     <div>
                                         {item.is_available &&
-                                            <div>
-                                                <span>This item is available to be rented by others:</span>
-                                                <button className="item-page-set-unavailable" onClick={this.changeItemAvailability}>Set unavailable</button>
-                                            </div>
+                                            <button className="item-page-set-unavailable" onClick={this.changeItemAvailability}>Available for rental</button>
+
                                         }
                                         {!item.is_available &&
-                                            <div>
-                                                <span>This item is not set as available to be rented by others:</span>
-                                                <button className="item-page-set-available" onClick={this.changeItemAvailability}>Set available</button>
-                                            </div>
+                                            <button className="item-page-set-available" onClick={this.changeItemAvailability}>Unavailable for rental</button>
                                         }
                                     </div>
-                                }
+                                </div>
+                            }
+                            <div className="item-page-info">
+                                <h2>Description</h2>
+                                {descriptionIsInEditMode ?
+                                    <p>
+                                        <input
+                                            type="text"
+                                            name="description"
+                                            id="description"
+                                            value={itemDuringChange.description}
+                                            onChange={(e) => this.handleEditChange(e)}
+                                        />
+                                        <button onClick={this.changeEditModeDescription}>X</button>
+                                        <button onClick={this.updateItemDescriptionValue}>OK</button>
+                                    </p> :
+                                    <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
+                            </div>
+                            <div className="item-page-reviews">
+                                <h2>Reviews</h2>
                             </div>
                         </div>
                     </div>
