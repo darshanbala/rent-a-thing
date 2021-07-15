@@ -22,11 +22,13 @@ class Things extends Component {
       //console.log(this.props)
       if(prevProps !== this.props){
 
-        if(!this.props.items[0]){
-          this.setState({
-            items: false
+
+
+          await this.setState({
+            items: []
           })
-        }
+
+
         this.setState({
           items: this.props.items
         })
@@ -44,14 +46,14 @@ class Things extends Component {
         //console.log(items);
         //console.log("Items:")
         //console.log(items)
-        if (!items) {
+        if (!items[0]) {
             return (<p>Loading....</p>)
         } else {
 
             return (
                 <div className='item-list'>
                     {items.map(({ id, name, price, is_available, img_url }) =>
-                        <Card key={id} id={id} name={name} price={price} img_url={img_url} cardType='things-page-card' />
+                        <Card  id={id} name={name} price={price} img_url={img_url} cardType='things-page-card' />
                     )}
                 </div>
 

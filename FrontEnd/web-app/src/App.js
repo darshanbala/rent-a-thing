@@ -118,7 +118,7 @@ class App extends Component {
                 <main>
                 <Switch>
                     <Route exact path={["/", "/home"]}>
-                        <Home cookieCheck={ () => this.cookieCheck() } />
+                        <Home cookieCheck={ () => this.cookieCheck() } onHomePage={true} />
                     </Route>
                     <Route exact path="/categories">
                         <Categories cookieCheck={() => this.cookieCheck()} />

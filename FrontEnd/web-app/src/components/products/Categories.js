@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom';
 import '../../index.css';
 import '../../css/categories.css';
 import Category from './Category';
-import ThingsHandler from '../framework/ThingsHandler.js'
+import ThingsHandler from '../framework/ThingsHandler.js';
+import Home from '../home/Home.js';
 
 class Categories extends Component {
 
@@ -36,7 +37,7 @@ class Categories extends Component {
         if(hasChosen){
             console.log('CHOSEN CATEGORY VALUE: '+chosenValue)
             //call parent method that goes to things with chosenValue
-            return ( <ThingsHandler categoryId={ chosenValue } /> );
+            return ( <Home searchParams={ {categoryId: chosenValue} } onHomePage={false} /> );
         }
 
         //console.log(categories);

@@ -21,7 +21,7 @@ export default function Card({
     const isValidCardType = checkCardType.includes(cardType)
 
     if (isValidCardType && cardType === 'things-page-card') {
-    console.log(img_url)
+    //console.log(img_url)
         return (
             <Link to={`/item/${id}`}>
                 <div className={cardType} >
@@ -39,10 +39,10 @@ export default function Card({
 
     } else if (isValidCardType && cardType === 'myrentals-page-card') {
         const now = Date.now();
-        console.log(now)
+        //console.log(now)
 
         const dueDate = new Date(rented_until)
-        console.log(dueDate)
+        //console.log(dueDate)
         //const dueDate = new Date(rented)
         let highlight = null;
         if(now > dueDate) {

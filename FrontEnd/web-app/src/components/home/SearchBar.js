@@ -7,9 +7,7 @@ class SearchBar extends Component {
 
     state = {
         item: '',
-        dateFrom: '',
-        dateTo: '',
-        location: ''
+  onHomePage: false
     }
 
     constructor(props) {
@@ -18,13 +16,18 @@ class SearchBar extends Component {
     }
 
     componentDidMount() {
-        console.log("");
+        console.log(this.props.onHomePage);
+        try{
+          this.setState({onHomePage: this.props.onHomePage})
+        }catch{}
     }
 
     componentDidUpdate(PrevProps, PrevState) {
         if(this.state.item!== PrevState.item){
           //console.log(this.state)
-          this.props.submitSearch(this.state)
+          if(!this.state.onHomePage) {
+            this.props.submitSearch(this.state)
+          }
         }
 
         console.log("");
@@ -47,7 +50,11 @@ class SearchBar extends Component {
 
     formSubmission(event) {
         event.preventDefault();
-        this.props.submitSearch(this.state);
+        if(this.state.onHomePage){
+          this.setState({ onHomePage: false })
+        }else{
+          this.props.submitSearch(this.state);
+        }
     }
 
     render() {
