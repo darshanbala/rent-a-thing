@@ -144,10 +144,53 @@ class CreateAccount extends Component {
         }
       );
       const isSuccess = await response.json()
+      
 
       if (isSuccess.code === 200) {
-        this.props.cookieCheck()
+        const idResponse = await fetch(
+          `${process.env.REACT_APP_API_URL}/getID`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.email)
+          }
+        );
+        const result = await idResponse.json()
+        console.log(result.id)
+        
         this.setState({ successfullySubmitted: true })
+        let axios = require('axios');
+       
+       
+       
+        let data = {
+          username: this.state.first_name,
+          username: `${this.state.first_name}${result.id}`,
+          
+          secret: this.state.email,
+         }
+    
+        
+
+        var config = {
+          method: 'post',
+          url: 'https://api.chatengine.io/users/',
+          headers: {
+            'PRIVATE-KEY': 'ab826fa0-1758-4f20-9213-a0ce97bf6a5c'
+          },
+          data : data
+        };
+
+        axios(config)
+        .then(function (response) {
+          // console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       }
     } else {
       this.setState({
