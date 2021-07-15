@@ -88,7 +88,7 @@ app
     } else {
       server.json({ code: 500, error: 'Passwords do not match' })
     }
-    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW(), $12)", new_user.first_name, new_user.last_name, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
+    const insert_user = (await client.queryObject("INSERT INTO users (first_name, last_name, img_url, email, salted_password, star_rating, date_of_birth, phone_number, address1, address2, city_id, postcode, created_at, updated_at, salt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), NOW(), $13)", new_user.first_name, new_user.last_name, new_user.img_url, new_user.email, encrypted_password, 0, new_user.DoB, new_user.phone_number, new_user.address_1, new_user.address_2, new_user.city, new_user.postcode, salt).rows)
     const sessionId = v4.generate();
     const user = (await client.queryObject("SELECT * FROM users WHERE email = $1", new_user.email)).rows;
     const insert_session = (await client.queryObject("INSERT INTO sessions (uuid, user_id, created_at) VALUES ($1, $2, NOW())", sessionId, user[0].id)).rows;
@@ -100,9 +100,9 @@ app
       sameSite: 'none',
       secure: true
     });
-    await server.json({ code: 200 })
+    await server.json({ code: 200})
   })
-  .post("/Email", async server => {
+  .post("/isValidNewEmail", async server => {
     const { email } = await server.body
     const check = (await client.queryObject("SELECT * FROM users WHERE email = $1", await email)).rows;
 
@@ -115,7 +115,7 @@ app
   .get('/items', async (server) => {
 
     const items = (await client.queryObject(`
-        SELECT id, name, is_available, img_url FROM items
+        SELECT id, name, price, img_url FROM items WHERE is_available = TRUE
       `)).rows
 
     return (await items)
@@ -148,9 +148,7 @@ app
 
     const cities = (await client.queryObject(`
         SELECT id, name FROM location
-      `)).rows;
-
-    //console.log(cities);
+      `)).rows
 
     await server.json(cities);
   })
@@ -186,19 +184,21 @@ app
   })
 
   .post("/postItem", async server => {
-    const { name, description, category, age_restriction, ownerID, img_url, cityId } = await server.body
+    const { name, description, price, category, age_restriction, ownerID, img_url, cityId } = await server.body
 
-    const insertItem = (await client.queryObject("INSERT INTO items(name, description, category_id, age_restriction, owner_id, img_url, city_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", name, description, category, age_restriction, ownerID, img_url, cityId).rows)
+    const insertItem = (await client.queryObject("INSERT INTO items(name, description, price, category_id, age_restriction, owner_id, img_url, city_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", name, description, price, category, age_restriction, ownerID, img_url, cityId).rows)
     //console.log(insertItem, "insertItem")
     // Returns items table with new values:
     const result = (await client.queryObject(`SELECT * FROM items WHERE owner_id = $1`, ownerID)).rows
     console.log("DATABASE SEARCH: ")
     console.log(result)
+    console.log(price.toString(), "price")
 
     // Returns boolean to check if submitted item is successful:
     const submitted = result.some(item =>
       item.name === name &&
       item.description === description &&
+      item.price === price.toString() &&
       item.category_id === category &&
       item.age_restriction === age_restriction &&
       item.owner_id === ownerID &&
@@ -224,12 +224,16 @@ app
     const user = await getCurrentUser(sessionId)
 
     const itemInArray = (await client.queryObject(`
-    SELECT items.id, items.name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
+    SELECT items.id, items.name, items.description, items.price, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url,
       users.first_name, users.last_name, users.star_rating
     FROM items JOIN users ON items.owner_id = users.id
     WHERE items.id = $1`,
       id)).rows
-    //console.log(itemInArray)
+    console.log(itemInArray, "itemInArray")
+
+    itemInArray[0].price = parseFloat(itemInArray[0].price).toFixed(2)
+    // console.log(itemInArray[0])
+    // console.log(typeof itemInArray[0].price)
     // Check if this is the logged in user's own item
     const usersOwnItem = (user && (user.id === itemInArray[0].owner_id)) ? true : false
 
@@ -281,12 +285,41 @@ app
     }
   })
 
+  .put('/editItemName', async (server) => {
+    const { itemId, ownerId, changedValue } = await server.body
+
+    const sessionId = server.cookies['sessionId']
+    const user = await getCurrentUser(sessionId)
+
+    // If the item is the logged in user's, update it
+    if (user.id === ownerId) await (client.queryObject(`UPDATE items SET name = $1 WHERE id = $2`, changedValue, itemId)).rows
+  })
+
+  .put('/editItemDescription', async (server) => {
+    const { itemId, ownerId, changedValue } = await server.body
+
+    const sessionId = server.cookies['sessionId']
+    const user = await getCurrentUser(sessionId)
+
+    // If the item is the logged in user's, update it
+    if (user.id === ownerId) await (client.queryObject(`UPDATE items SET description = $1 WHERE id = $2`, changedValue, itemId)).rows
+  })
+
+  .put('/changeItemAvailability', async (server) => {
+    const { itemId, ownerId, isAvailable } = await server.body
+
+    const sessionId = server.cookies['sessionId']
+    const user = await getCurrentUser(sessionId)
+
+    // If the item is the logged in user's, update it
+    if (user.id === ownerId) await (client.queryObject(`UPDATE items SET is_available = $1 WHERE id = $2`, isAvailable, itemId)).rows
+  })
 
   .post("getUserReviews", async server => {
     const body = await server.body
     //console.log(await server.body)
     const user = await body.user
-    //console.log(await user)
+    console.log(await user)
 
 
     const reviews = (await client.queryObject(`
@@ -336,16 +369,24 @@ app
       server.json({ rating: avg })
     }
   })
+  .post('/visitAnotherProfile', async server => {
+    const { user_id } = await server.body
+    //console.log(await user)
+    console.log(user_id)
+    const queryResponse = ( await client.queryObject(`
+          SELECT id, first_name, last_name, email, created_at, img_url FROM users WHERE id = ${user_id}`)
+          ).rows
+          console.log(await queryResponse[0])
+    const user = await queryResponse[0]
+    return (user)
+  })
   .post('searchByCategory', async server => {
-    //const body = await server.body;
-    //const { category_id } = await body;
     const { category_id } = await server.body;
     console.log(`Category ID: ${category_id}`);
-    const items = (await client.queryObject(`
+    let items = (await client.queryObject(`
     SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude FROM items INNER JOIN location ON items.city_id = location.id WHERE items.category_id = $1
         `, category_id)).rows;
-        // WHERE items.category_id = $1
-        //, category_id
+    items = items.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts pric
     console.log("Items:")
     console.log(items);
     return items;
@@ -353,7 +394,7 @@ app
   .post('searchByFilter', async server => {
     const body = await server.body;
     const searchCriteria = await body.searchCriteria
-    console.log('string to search: '+await searchCriteria.item)
+    console.log('string to search: ' + await searchCriteria.item)
     if (await searchCriteria.item && await !searchCriteria.location) {
       //SEARCH BY JUST ITEM
       let items = [];
@@ -362,7 +403,7 @@ app
         items = (await client.queryObject(`
         SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE  levenshtein($1, items.name) < 3 OR items.name ILIKE '%${searchCriteria.item}%' OR items.name ILIKE '${searchCriteria.item}%';
                 `, await searchCriteria.item)).rows;
-                console.log(await items)
+        console.log(await items)
       } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
         items = (await client.queryObject(`
         SELECT items.id, items.name AS item_name, items.description, items.is_available, items.category_id, items.owner_id, items.age_restriction, items.img_url, items.city_id, location.name AS city_Name, location.latitude, location.longitude, levenshtein($1, items.name) FROM items INNER JOIN location ON items.city_id = location.id WHERE  levenshtein($1, items.name) < 3 OR  items.name ILIKE '${searchCriteria.item}%';
@@ -382,11 +423,11 @@ app
       }
 
       console.log(items)
-    //  try {
-        return (items);
-    //  } catch {
-        return [];
-    //  }
+      //  try {
+      return (items);
+      //  } catch {
+      return [];
+      //  }
 
     } else {
       //SEARCH BY ALL
@@ -403,9 +444,9 @@ app
     if (!user) {
       return;
     } else {
-      const rentals = (await client.queryObject(`
+      let rentals = (await client.queryObject(`
     SELECT rentals.id, rentals.item_id, rentals.borrower_id, rentals.rented_from, rentals.rented_until,
-    items.name, items.owner_id, items.img_url,
+    items.name, items.owner_id, items.img_url, items.price,
     users_borrowing.first_name AS borrowers_first_name, users_borrowing.last_name AS borrowers_last_name,
     users_lending.first_name AS lenders_first_name, users_lending.last_name AS lenders_last_name
     FROM rentals
@@ -415,6 +456,10 @@ app
     WHERE items.owner_id  = $1
     OR rentals.borrower_id = $1`,
         user.id)).rows
+
+
+      rentals = rentals.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
+
 
       let lending = rentals.filter(e => e.owner_id === user.id)
 
@@ -449,6 +494,19 @@ app
       await server.json({ lending, borrowing })
     }
   })
+
+
+  .post('/getID', async (server) => {
+    const email = await server.body;
+
+  
+  const id = (await client.queryObject(`SELECT id FROM users WHERE email = $1`, email)).rows
+
+    // await server.json({ id})
+    return id[0];
+
+
+   })
 
   .start({ port: PORT })
 console.log(`Server running on http://localhost:${PORT}`);

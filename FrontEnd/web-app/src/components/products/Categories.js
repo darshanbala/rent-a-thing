@@ -15,7 +15,7 @@ class Categories extends Component {
 
     async componentDidMount() {
         this.props.cookieCheck();
-        const response = await fetch('http://localhost:8080/categories', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -34,6 +34,7 @@ class Categories extends Component {
         const { categories, hasChosen, chosenValue } = this.state
 
         if(hasChosen){
+            console.log('CHOSEN CATEGORY VALUE: '+chosenValue)
             //call parent method that goes to things with chosenValue
             return ( <ThingsHandler categoryId={ chosenValue } /> );
         }

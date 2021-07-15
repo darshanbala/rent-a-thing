@@ -7,6 +7,7 @@
   transition: 0.2s;
   border-radius: 5px;
   margin: 0 5px 0 5px;
+  min-height: 192px;
 }
 
 .myrentals-page-card {
@@ -24,8 +25,9 @@
 
 .things-page-card-img {
   border-radius: 5px 5px 0 0;
-  height: 192px;
-  width: 192px;
+  min-height: 192px;
+  max-width: 192px;
+  word-break:normal;
   object-fit: cover;
 }
 
@@ -35,10 +37,39 @@
   width: 192px;
   object-fit: cover;
 }
+#overdue {
+  box-shadow: 0 0 4px 0 darkred;
+  animation: pulse 3s infinite;
+}
+#due {
+  box-shadow: 0 0 4px 0 orange;
+}
+#notDueYet:hover {
+  box-shadow: 0 0 4px 0 lightgreen;
+}
+#overdue:hover {
+  box-shadow: 0 0 10px 0 red;
+}
+
+@keyframes pulse {
+	0% {
+		box-shadow: 0 0 6px 0 rgb(256, 0, 0);
+	}
+
+  70% {
+    box-shadow: 0 0 6px 0 rgba(200, 0, 0, .2);
+	}
+
+	100% {
+    box-shadow: 0 0 4px 0 rgba(50, 0, 0, .2);
+	}
+}
 
 /* Add some padding inside the card container */
 .things-page-card-text-container {
   padding: 2px 16px;
+  min-width: 192px;
+  max-width: 192px;
 }
 
 

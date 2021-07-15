@@ -16,6 +16,7 @@ import MyRentals from './components/user/profile/MyRentals'
 import Categories from './components/products/Categories';
 import ThingsHandler from './components/framework/ThingsHandler.js';
 import About from './components/home/About';
+import MessagePage from './components/user/profile/MessagePage.js';
 
 class App extends Component {
 
@@ -92,62 +93,67 @@ class App extends Component {
 
             <Router>
                 <div className="header">
-                    RENT A THING
+                    RENT-A-THING
                 </div>
                 { !isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/About" activeClassName="active">About</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/Login" activeClassName="active">Login</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/CreateAccount" activeClassName="active">Create Account</NavLink>
+                      <NavLink className="navButton noUnderline" to="/home" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/categories" activeClassName="active">Categories</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/about" activeClassName="active">About</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/login" activeClassName="active">Login</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/createaccount" activeClassName="active">Create Account</NavLink>
                   </nav>
                 }
                 { isLoggedIn &&
                   <nav className="navBar">
-                      <NavLink className="navButton noUnderline" to="/Home" activeClassName="active">Home</NavLink>
-                      <NavLink className="navButton noUnderline" to="/Categories" activeClassName="active">Categories</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/About" activeClassName="active">About</NavLink>
+                      <NavLink className="navButton noUnderline" to="/home" activeClassName="active">Home</NavLink>
+                      <NavLink className="navButton noUnderline" to="/categories" activeClassName="active">Categories</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/about" activeClassName="active">About</NavLink>
                       <div className="navButton floatRight noUnderline" onClick={ () => { this.logout() } }>Logout</div>
                       <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/messages" activeClassName="active">My Messages</NavLink>
                   </nav>
                 }
                 <main>
                 <Switch>
-                    <Route exact path="/Home">
+                    <Route exact path={["/", "/home"]}>
                         <Home cookieCheck={ () => this.cookieCheck() } />
                     </Route>
-                    <Route exact path="/Categories">
+                    <Route exact path="/categories">
                         <Categories cookieCheck={() => this.cookieCheck()} />
                     </Route>
-                    <Route path="/CreateAccount">
+                    <Route path="/createaccount">
                         <CreateAccount cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/myAccount">
+                    <Route path="/myaccount">
                         <Profile user={user} cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/About">
+                    <Route path="/about">
                         <About cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/login">
                         <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
                     <Route path="/Item">
-                        <Item cookieCheck={() => this.cookieCheck()}/>
+                        <Item user={user} cookieCheck={() => this.cookieCheck()}/>
                     </Route>
-                    <Route path="/postItem">
+                    <Route path="/postitem">
                         <PostItem  user = {user} cookieCheck={() => this.cookieCheck()()}/>
                     </Route>
-                    <Route path="/MyRentals">
+                    <Route path="/myrentals">
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
+                    <Route path="/visitingUser" render={(props) => <Profile {...props} />}/>
+                    <Route path="/messages">
+                         <MessagePage user={user}cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                 </Switch>
                 </main>
 
                 <div className="footer">
-                    <p>Legal stuff | Contact Info | etc.</p>
-                    {isLoggedIn && <p>logged in as {user.first_name}</p>}
+                    <p>Legal stuff | Contact info | etc.</p>
+                    {isLoggedIn && <p>Logged in as {user.first_name}</p>}
                 </div>
             </Router>
         );

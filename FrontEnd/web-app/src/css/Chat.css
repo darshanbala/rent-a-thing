@@ -1,0 +1,103 @@
+
+ 
+   .chat-feed{
+    background-color: #cabcdc !important;
+    color:red
+
+  }
+  .ce-new-message-form{
+    background-color: #cabcdc !important;
+
+  }
+  .ce-chat-list {
+    background-color: rgb(240, 240, 240) !important;
+    /* background-color: red !important; */
+  }
+  
+  .ce-chats-container {
+    background-color: rgb(95, 15, 15) !important;
+   
+  }
+  
+  .ce-active-chat-card {
+    background-color: #cabcdc !important;
+    border: 4px solid #cabcdc !important;
+    border-radius: 0px !important;
+  }
+  
+  .ce-chat-subtitle-text {
+    color: #595959 !important;
+  }
+  
+  .ce-chat-form-container {
+    padding-bottom: 20px !important;
+    /* background-color: red !important; */
+    
+  }
+  
+  .ce-text-input {
+    border-radius: 6px !important;
+    border: 1px solid #411f69 !important;
+  }
+  
+  
+  .ce-primary-button {
+    border-radius: 6px !important;
+    background-color: #7554a0 !important;
+    position: relative;
+    bottom: 1px;
+  }
+   
+   /* .ce-danger-button {
+    background-color: rgb(70, 10, 10) !important;
+    border-radius: 22px !important;
+  } */
+   
+  /* .ce-settings {
+    background-color: rgb(54, 15, 15) !important;
+  } */
+  
+
+/*   
+  .ce-chat-settings-container {
+    padding-top: 12px !important;
+  } */
+  
+
+
+  
+
+
+
+
+  
+  /* .message-row {
+    float: left;
+    width: 100%;
+    display: flex;
+    margin-left: 18px;
+  }
+   */
+
+  
+  
+  
+  
+
+
+
+  
+
+  
+  
+
+ 
+  
+
+  
+  
+  
+  
+
+  
+  

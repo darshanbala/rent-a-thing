@@ -21,7 +21,7 @@ class Things extends Component {
     async componentDidUpdate(prevProps, prevState) {
       //console.log(this.props)
       if(prevProps !== this.props){
-        
+
         if(!this.props.items[0]){
           this.setState({
             items: false
@@ -50,8 +50,8 @@ class Things extends Component {
 
             return (
                 <div className='item-list'>
-                    {items.map(({ id, name, is_available, img_url }) =>
-                        <Card  id={id} name={name} is_available={is_available} img_url={img_url} cardType='things-page-card' />
+                    {items.map(({ id, name, price, is_available, img_url }) =>
+                        <Card key={id} id={id} name={name} price={price} img_url={img_url} cardType='things-page-card' />
                     )}
                 </div>
 

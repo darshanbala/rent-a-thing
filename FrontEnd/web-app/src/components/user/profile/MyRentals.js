@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import '../../../css/MyRentals.css'
 import Card from '../../products/Card'
 
-import { format } from 'date-fns'
-
 class MyRentals extends Component {
 
     state = {
@@ -16,7 +14,7 @@ class MyRentals extends Component {
     // ASSIGN IN TO A STATE
     async componentDidMount() {
 
-        const response = await fetch('http://localhost:8080/myrentals', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/myrentals`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -33,15 +31,6 @@ class MyRentals extends Component {
               borrowing: fromBackend.borrowing
           })
         }
-
-
-        //const [test] = this.state.lending
-
-        //const test1 = format(new Date(test.rented_from), 'E dd MMMM, y');
-        //console.log(test1)
-
-
-
     }
 
 
@@ -55,10 +44,11 @@ class MyRentals extends Component {
                 <h2>Lending</h2>
                 <div className="lending">
                     { lending &&
-                    lending.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
+                    lending.map(({ id, name, price, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
                         <Card
                             key={id}
                             name={name}
+                            price={price}
                             rented_from={rented_from}
                             rented_until={rented_until}
                             img_url={img_url}
@@ -73,10 +63,11 @@ class MyRentals extends Component {
                 <h2>Borrowing</h2>
                 <div className="borrowing">
                     { borrowing &&
-                    borrowing.map(({ id, name, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
+                    borrowing.map(({ id, name, price, rented_from, rented_until, trader_first_name, trader_last_name, img_url }) =>
                         <Card
                             key={id}
                             name={name}
+                            price={price}
                             rented_from={rented_from}
                             rented_until={rented_until}
                             img_url={img_url}

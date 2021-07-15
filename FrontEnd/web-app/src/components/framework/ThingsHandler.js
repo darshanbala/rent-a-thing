@@ -37,6 +37,7 @@ class ThingsHandler extends React.Component {
     } else {
       await this.changeCity(1)
     }
+    //this.setState({currentLocation: { name: 'all'}})
     await this.filterBy();
   }
 
@@ -51,11 +52,15 @@ class ThingsHandler extends React.Component {
   }
 
   async getCities() {
-    const response = await fetch('http://localhost:8080/cities', {
-      method: 'GET',
-      credentials: 'include'
-    })
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/cities`,
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    )
     const cityOptions = await response.json()
+
     this.setState({ cityOptions });
   }
 
@@ -65,6 +70,50 @@ class ThingsHandler extends React.Component {
     this.setState({
       showMenu: true,
     });
+  }
+  
+  async changeCity(e) {
+    let cityId = 0;
+    try{
+     cityId = e.target.value;
+  }catch{
+     cityId = e;
+  }
+  if(cityId === '0') {
+    await this.setState({
+           currentLocation:
+               {
+                 id: null,
+                 name: null
+                }
+            });
+
+    return;
+  }else{
+    cityId = cityId--;
+  }
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/getCity`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cityId })
+      }
+    );
+    const city = await response.json();
+    const name = city[0].name;
+    const id = city[0].id;
+    await this.setState({ currentLocation: {
+                            id: id,
+                            name: name
+                            },
+                          selectedSearchRadius: 'None'
+                          });
+
+    
   }
 
   async filterByLocation(itemList) {
@@ -211,10 +260,16 @@ class ThingsHandler extends React.Component {
         this.setState({ items: [] })
       }
     } else if (all) {
-      const response = await fetch('http://localhost:8080/items', {
-        method: 'GET',
-        credentials: 'include'
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/items`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        }
+      )
       itemList = await response.json()
       if (await itemList[0]) {
         const locationAndRadiusFilteredItems = await this.filterByLocationAndRadius(itemList);
@@ -226,32 +281,6 @@ class ThingsHandler extends React.Component {
       this.setState({ items: [] })
     }
 
-  }
-
-  async
-
-  async changeCity(e) {
-    let cityId = 1;
-    try {
-      cityId = e.target.value;
-    } catch {
-      cityId = e;
-    }
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/getCity`,
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ cityId })
-      }
-    );
-    const city = await response.json();
-    const name = city[0].name;
-    const id = city[0].id;
-    await this.setState({ currentLocation: { id: id, name: name }, selectedSearchRadius: 'None' });
   }
 
   async changeSearchRadius(e) {
@@ -267,25 +296,31 @@ class ThingsHandler extends React.Component {
     } {
       return (
         <section>
-          {cityOptions &&
-            <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
-              {cityOptions.map(({ id, name }) => {
-                //console.log(id+'  '+name);
-                return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
-              }
-              )}
-            </select>
-          }
-          {searchRadiusOptions &&
-            <select name="selectedSearchRadius" value={selectedSearchRadius} onChange={(e) => this.changeSearchRadius(e)}>
-              {searchRadiusOptions.map((value) => {
-                //console.log(id+'  '+name);
-                return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value}</option>
-              }
-              )}
-            </select>
-          }
+                    { cityOptions &&
+                      <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
+                        <option value={0}>All locations</option>
+                            {cityOptions.map(({ id, name }) =>{
+                                //console.log(id+'  '+name);
+                                return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
+                                }
+                            )}
+                      </select>
+                    }
+                    
+                    {searchRadiusOptions &&
+                      <select name="selectedSearchRadius" value={selectedSearchRadius} onChange={(e) => this.changeSearchRadius(e)}>
+                        {searchRadiusOptions.map((value) => {
+                          //console.log(id+'  '+name);
+                          return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value}</option>
+                        }
+                    )}
+                    </select>
+                  }
+          
           <Things items={locationAndRadiusFilteredItems} cookieCheck={this.props.cookieCheck} />
+          { !currentLocation.id &&
+            <Things items={items} />
+          }
         </section>
       )
     }

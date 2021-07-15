@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { format } from 'date-fns'
 import '../../index.css';
 import City from '../framework/City';
+import ImageUpload from '../framework/ImageUpload';
 
 class CreateAccount extends Component {
 
@@ -9,6 +11,7 @@ class CreateAccount extends Component {
     valid_new_user: false,
     first_name: "",
     last_name: "",
+    img_url: "",
     email: "",
     password1: "",
     password2: "",
@@ -35,7 +38,7 @@ class CreateAccount extends Component {
 
   async componentDidMount() {
     this.props.cookieCheck();
-    const response = await fetch('http://localhost:8080/cities', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/cities`, {
       method: 'GET',
       credentials: 'include'
     })
@@ -118,6 +121,7 @@ class CreateAccount extends Component {
       const toBeSent = {
         first_name: this.state.first_name,
         last_name: this.state.last_name,
+        img_url: this.state.img_url,
         email: this.state.email,
         password1: this.state.password1,
         password2: this.state.password2,
@@ -140,10 +144,53 @@ class CreateAccount extends Component {
         }
       );
       const isSuccess = await response.json()
+      
 
       if (isSuccess.code === 200) {
-        this.props.cookieCheck()
+        const idResponse = await fetch(
+          `${process.env.REACT_APP_API_URL}/getID`,
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.email)
+          }
+        );
+        const result = await idResponse.json()
+        console.log(result.id)
+        
         this.setState({ successfullySubmitted: true })
+        let axios = require('axios');
+       
+       
+       
+        let data = {
+          username: this.state.first_name,
+          username: `${this.state.first_name}${result.id}`,
+          
+          secret: this.state.email,
+         }
+    
+        
+
+        var config = {
+          method: 'post',
+          url: 'https://api.chatengine.io/users/',
+          headers: {
+            'PRIVATE-KEY': 'ab826fa0-1758-4f20-9213-a0ce97bf6a5c'
+          },
+          data : data
+        };
+
+        axios(config)
+        .then(function (response) {
+          // console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       }
     } else {
       this.setState({
@@ -188,13 +235,13 @@ class CreateAccount extends Component {
         break
       case password1: {
         if (password1.length < 8) {
-          return (<p className="error">Password must be at least 8 characters</p>)
+          return (<p className="error errorCreateAccount">Password must be at least 8 characters</p>)
         }
       }
         break
       case password2: {
         if (password2 !== password1) {
-          return (<p className="error">Passwords do not match</p>)
+          return (<p className="error errorCreateAccount">Passwords do not match</p>)
         }
       }
         break
@@ -203,16 +250,16 @@ class CreateAccount extends Component {
       case phone_number: {
         if (phone_number[0] === "+") {
           if (phone_number.length !== 12) {
-            return (<p className="error">Please enter a valid phone number</p>)
+            return (<p className="error errorCreateAccount">Please enter a valid phone number</p>)
           }
         } else {
           if (phone_number.length !== 11) {
-            return (<p className="error">Please enter a valid phone number</p>)
+            return (<p className="error errorCreateAccount">Please enter a valid phone number</p>)
           }
         }
         for (const i of phone_number) {
           if (isNaN(i)) {
-            return (<p className="error">Please enter a valid phone number</p>)
+            return (<p className="error errorCreateAccount">Please enter a valid phone number</p>)
           }
         }
       }
@@ -284,7 +331,7 @@ class CreateAccount extends Component {
     const cityName = e.target.innerHTML; // Get city string i.e. Glasgow
     //console.log(cityName);
     const chosenCity = cityOptions.filter(city => {
-      if(city.name === cityName){
+      if (city.name === cityName) {
         //console.log(city.id)
         return city
       }
@@ -308,8 +355,15 @@ class CreateAccount extends Component {
     );
     const city = await response.json(); // Get city id associated with i.e. Glasgow
     //const cityOptions = await response.json()
-    this.setState({ city: { id: city[0].id, name: city[0].name}, hasChosenCountry: true, cityName: city[0].name });  // set user city to this id so in future user and other components can searh for location id and get city name back
+    this.setState({ city: { id: city[0].id, name: city[0].name }, hasChosenCountry: true, cityName: city[0].name });  // set user city to this id so in future user and other components can searh for location id and get city name back
   }
+
+  handleImgUrl = (url) => {
+    //console.log(url,'Url on PostItem')
+    this.setState({ img_url: url })
+    console.log(this.state.img_url)
+  }
+
 
   render() {
     const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, cityName } = this.state
@@ -322,26 +376,26 @@ class CreateAccount extends Component {
     if (!valid_new_user) {
       return (
         <section>
-            <h1>CreateAccount</h1>
-            <form className="SubmissionForm">
+            <h1 className="centered">Create an account</h1>
+            <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
                 <label htmlFor="email" value="Email address: " >Email address: </label>
                 <input type="text" name="email" id="email" value={email} onChange={(e) => this.updateInfo(e)} />
-                {!validEmail && <p className="error" >email address unavailable</p>}
+                {!validEmail && <p className="error errorCreateAccount" >Email address is unavailable</p>}
               </section>
               <section>
                 <label htmlFor="password1" value="Password: " >Password: </label>
-                <input type="text" name="password1" id="password1" value={password1} onChange={(e) => this.updateInfo(e)} />
+                <input type="password" name="password1" id="password1" value={password1} onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password1)}</div>
               </section>
               <section>
                 <label htmlFor="password2" value="Re-enter password: " value={password2} >Re-enter password: </label>
-                <input type="text" name="password2" id="password2" onChange={(e) => this.updateInfo(e)} />
+                <input type="password" name="password2" id="password2" onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password2)}</div>
               </section>
               <section>
-                <input type="submit" onClick={(e) => this.submitEmailInfo(e)} value="Submit" />
-                {validationMessage && <p className="error">{validationMessage}</p>}
+                <input type="submit" onClick={(e) => this.submitEmailInfo(e)} value="Create account" />
+                {validationMessage && <p className="error errorCreateAccount">{validationMessage}</p>}
               </section>
             </form>
         </section>
@@ -350,8 +404,16 @@ class CreateAccount extends Component {
     else {
       return (
         <section>
-            <h1>User details:</h1>
-            <form className="SubmissionForm">
+            <h1>Submit your details</h1>
+            <div className="SubmissionForm">
+
+            <section>
+              <label>Profile Picture:</label>
+              <ImageUpload handleImgUrl={this.handleImgUrl} />
+            </section>
+
+          </div>
+            <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
                 <label htmlFor="first_name" value="First name: " >First name: </label>
                 <input type="text" name="first_name" id="first_name" value={first_name} onChange={(e) => this.updateInfo(e)} />
@@ -362,7 +424,7 @@ class CreateAccount extends Component {
               </section>
               <section>
                 <label htmlFor="DoB" value="Date of birth : " >Date of birth : </label>
-                <input type="date" name="DoB" id="DoB" value={DoB} onChange={(e) => this.updateInfo(e)} />
+                <input type="date" name="DoB" id="DoB" value={DoB} max={format(new Date(), 'y-MM-d')} onChange={(e) => this.updateInfo(e)} />
               </section>
               <section>
                 <label htmlFor="phone_number" value="Phone number: " >Phone number: </label>
@@ -378,13 +440,14 @@ class CreateAccount extends Component {
                 <input type="text" name="address_2" id="address_2" value={address_2} onChange={(e) => this.updateInfo(e)} />
               </section>
               <section>
+
               <div className="cityParent">
                 <label htmlFor="city" value="City : " >City : </label>
-                <br/>
+                <br />
                 {/*<input type="text" name="city" id="city" value={city} onChange={(e) => this.updateInfo(e)} />*/}
                 <section id='cities_section'>
-                { !hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
-                { hasChosenCountry && <div className="chosenCityCard">{city.name}</div>}
+                  {!hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
+                  {hasChosenCountry && <div className="chosenCityCard">{city.name}</div>}
                 </section>
                 {/*<City key={id} id={id} name={name} />*/}
                 {/*
@@ -410,9 +473,9 @@ class CreateAccount extends Component {
                 <input type="text" name="postcode" id="postcode" value={postcode} onChange={(e) => this.updateInfo(e)} />
               </section>
               <section>
-                <input type="submit" name="submit" value="Submit" onClick={(e) => this.submitUser(e)} />
+                <input type="submit" name="submit" value="Submit details" onClick={(e) => this.submitUser(e)} />
                 {validationMessage && <p className="error">{validationMessage}</p>}
-              </section>
+              </section> 
             </form>
         </section>
       )
