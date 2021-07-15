@@ -12,6 +12,10 @@ class SendMessage extends Component {
 
     }
 
+    resetForm() {
+        this.setState(this.state)
+    }
+
 
     async sendChatId(id) {
 
@@ -45,14 +49,10 @@ class SendMessage extends Component {
 
 
 
-        axios(config)
-            .then((response) => {
-                //console.log(JSON.stringify(response.data.id));
+        axios(config).then((response) => {
+            //console.log(JSON.stringify(response.data.id));
 
-
-
-
-            })
+        })
 
 
     }
