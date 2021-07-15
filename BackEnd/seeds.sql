@@ -26,14 +26,14 @@ INSERT INTO location(name, latitude, longitude) VALUES ('Southampton', '50.9', '
 INSERT INTO location(name, latitude, longitude) VALUES ('Derby', '52.9', '-1.4');
 
 
-INSERT INTO categories(name, description, imgURL) VALUES ('Books', 'All forms of books', 'https://imagizer.imageshack.com/v2/320x240q90/922/rsVeWm.jpg');
-INSERT INTO categories(name, description, imgURL) VALUES ('Films, Tv, Music & Games', 'Multimedia of all kinds', 'https://imagizer.imageshack.com/v2/320x240q90/924/UxReY7.jpg');
-INSERT INTO categories(name, description, imgURL) VALUES ('Electronics & Computers', 'All electronics & computers', 'https://imagizer.imageshack.com/v2/320x240q90/922/TI3elW.jpg');
-INSERT INTO categories(name, description, imgURL) VALUES ('Home, Garden, Pets & DIY', 'Home & garden, DIY, tools & Home improvement, Arts & crafts, Pet things', 'https://imagizer.imageshack.com/v2/320x240q90/923/8swh8r.jpg');
-INSERT INTO categories(name, description, imgURL) VALUES ('Toys, Children & Baby', 'Toys, childrens games, Baby things', 'https://imagizer.imageshack.com/v2/320x240q90/922/SiYJ2L.jpg');
-INSERT INTO categories(name, description, imgURL) VALUES ('Clothes, Shoes, Jewellery & Accessories', 'Things that can be worn', 'https://imagizer.imageshack.com/v2/320x240q90/923/kkH8IL.jpg');
-INSERT INTO categories(name, description, imgURL) VALUES ('Sports & Outdoors', 'Sports and outdoors goods', 'https://imagizer.imageshack.com/v2/320x240q90/923/toX8Ha.jpg');
-INSERT INTO categories(name, description, imgURL) VALUES ('Car & Motorbike', 'Car, motorbike & motor-vehicle Things', 'https://imagizer.imageshack.com/v2/320x240q90/922/4uUqpO.jpg');
+INSERT INTO categories(name, description, imgURL) VALUES ('Books', 'All forms of books', 'http://4.bp.blogspot.com/-F54odwG5p0M/UVOErDOU-QI/AAAAAAAADJU/NCYs3VO-AYI/s320/Library-Books.jpg');
+INSERT INTO categories(name, description, imgURL) VALUES ('Films, Tv, Music & Games', 'Multimedia of all kinds', 'https://www.cleansky.eu/sites/default/files/inline-images/multimedia.jpeg');
+INSERT INTO categories(name, description, imgURL) VALUES ('Electronics & Computers', 'All electronics & computers', 'https://www.online-tech-tips.com/wp-content/uploads/2019/12/electronic-gadgets.jpeg');
+INSERT INTO categories(name, description, imgURL) VALUES ('Home, Garden, Pets & DIY', 'Home & garden, DIY, tools & Home improvement, Arts & crafts, Pet things', 'https://www.gardeningknowhow.com/wp-content/uploads/2021/02/garden-tools-1024x768.jpg');
+INSERT INTO categories(name, description, imgURL) VALUES ('Toys, Children & Baby', 'Toys, childrens games, Baby things', 'https://media3.s-nbcnews.com/j/newscms/2015_40/1245451/151001-training-wheels-bike-mn-1245_1af2dd4bb1a28532e80e5dcaa7977924.nbcnews-ux-600-480.jpg');
+INSERT INTO categories(name, description, imgURL) VALUES ('Clothes, Shoes, Jewellery & Accessories', 'Things that can be worn', 'https://images.immediate.co.uk/production/volatile/sites/34/2020/05/22744-ab1a05b-scaled.jpg?quality=90&resize=620%2C413');
+INSERT INTO categories(name, description, imgURL) VALUES ('Sports & Outdoors', 'Sports and outdoors goods', 'https://cdn.winfieldsoutdoors.co.uk/wp-content/uploads/2014/10/camping-equipment.jpg');
+INSERT INTO categories(name, description, imgURL) VALUES ('Car & Motorbike', 'Car, motorbike & motor-vehicle Things', 'https://ichef.bbci.co.uk/news/976/cpsprodpb/118A0/production/_118604817__116721094_mustang.jpg');
 
 
 INSERT INTO items(name, description, price, is_available, category_id, owner_id, age_restriction, img_url, city_id) VALUES ('Chainsaw', 'Great condition only used once', 12.47, FALSE, 1, 1, 18, '', 1);
