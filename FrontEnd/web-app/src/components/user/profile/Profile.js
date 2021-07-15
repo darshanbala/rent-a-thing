@@ -73,6 +73,20 @@ class Profile extends React.Component {
 
   }
 
+  async getUser(user) {
+    const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/getStarRating`,
+        {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: user.id })
+        }
+    );
+  }
+
   render() {
     let { user } = this.props
     let justVisiting = false
@@ -83,11 +97,14 @@ class Profile extends React.Component {
 
       if(justVisiting){
         user = this.props.location.state.user
+        //console.log(user)
+        //this.getUser(user)
       }
     }catch{
 
     }
     console.log(justVisiting)
+    console.log(user.img_url)
     //console.log('user @ profile render: '+JSON.stringify(user))
     if(user){
       return(
@@ -96,9 +113,9 @@ class Profile extends React.Component {
             <div id='left'>
               <img src={user.img_url} id='profile_picture'/>
               <h1>{`${user.first_name} ${user.last_name}`}</h1>
-              <p>email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
-              <p>average rating: {this.state.star_rating}</p>
-              <p>city: {user.city}</p>
+              <p>Email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
+              <p>Average rating: {this.state.star_rating}</p>
+              <p>City: {user.city}</p>
               <p>User since: {user.created_at.slice(0,4)}</p>
             </div>
             <div id='centre_spacer' />

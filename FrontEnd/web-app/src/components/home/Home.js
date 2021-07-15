@@ -87,9 +87,8 @@ class Home extends Component {
                 <section>
                     <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
                     <main>
-                        <h1>Welcome! Fill in the boxes above if you know what your after!</h1>
-                        <h1>If you are not sure what you want, check out the <span className="highlight">Categories</span> page!</h1>
-
+                        <h1>Welcome to Rent-A-Thing!</h1>
+                        <h3>Where you can rent any thing our community of users has to offer.</h3>
                     </main>
                 </section>
             );

@@ -52,6 +52,7 @@ await client.queryObject(
     postcode TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
+    img_url TEXT,
     FOREIGN KEY (city_id) REFERENCES location (id)
   )`
 )

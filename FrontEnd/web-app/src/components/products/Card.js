@@ -10,7 +10,6 @@ export default function Card({
     id,
     name,
     price,
-    is_available,
     cardType,
     img_url,
     rented_from,
@@ -22,7 +21,7 @@ export default function Card({
     const isValidCardType = checkCardType.includes(cardType)
 
     if (isValidCardType && cardType === 'things-page-card') {
-
+    console.log(img_url)
         return (
             <Link to={`/item/${id}`}>
                 <div className={cardType} >
@@ -31,7 +30,6 @@ export default function Card({
 
                     <div className={`${cardType}-text-container`}>
                         <h4><b>{name}</b></h4>
-                        <p>Availability: {is_available.toString()}</p>
                         <p>Price: £{price}</p>
                     </div>
                 </div>

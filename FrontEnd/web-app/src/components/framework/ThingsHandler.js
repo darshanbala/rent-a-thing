@@ -32,11 +32,15 @@ class ThingsHandler extends React.Component {
   }
 
   async getCities() {
-    const response = await fetch('http://localhost:8080/cities', {
-      method: 'GET',
-      credentials: 'include'
-    })
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/cities`,
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    )
     const cityOptions = await response.json()
+
     this.setState({ cityOptions });
   }
 
@@ -183,10 +187,16 @@ class ThingsHandler extends React.Component {
         this.setState({ items: [] })
       }
     } else if (all) {
-      const response = await fetch('http://localhost:8080/items', {
-        method: 'GET',
-        credentials: 'include'
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/items`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        }
+      )
       //respose is making the request
       itemList = await response.json()
       //console.log(items.items)
@@ -220,7 +230,7 @@ class ThingsHandler extends React.Component {
         <section>
                     { cityOptions &&
                       <select name="cities" value={currentLocation.id} onChange={(e) => this.changeCity(e)}>
-                        <option value={0}>all locations</option>
+                        <option value={0}>All locations</option>
                             {cityOptions.map(({ id, name }) =>{
                                 //console.log(id+'  '+name);
                                 return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
