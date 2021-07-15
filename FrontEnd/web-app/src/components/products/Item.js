@@ -32,7 +32,7 @@ class Item extends Component {
 
     async componentDidMount() {
         this.props.cookieCheck();
-        
+
 
         // Get id from the url
         const url = window.location.href
@@ -74,7 +74,7 @@ class Item extends Component {
             rentalConfirmed: false,
         }))
     }
-   
+
 
     submitForm = async () => {
         const itemId = this.state.item.id
@@ -298,7 +298,7 @@ class Item extends Component {
         })
     }
 
- 
+
 
     render() {
         //console.log(this.props)
@@ -436,12 +436,13 @@ class Item extends Component {
                             <div className="item-page-reviews">
                                 <h2>Reviews</h2>
                             </div>
+                            <div className="item-page-chat">
+                                {console.log(Boolean(this.props.user.id > 20))}
+                                {item.owner_id > 40 &&
+                                    <SendMessage ownerName={`${item.first_name}${item.owner_id}`} loggedInUser={`${this.props.user.first_name}${this.props.user.id}`} secret={this.props.user.email} />
+                                }
+                            </div>
                         </div>
-                    
-                    {console.log(Boolean(this.props.user.id > 20 ))}
-                    {item.owner_id> 40 &&
-                    <SendMessage ownerName={`${item.first_name}${item.owner_id}`} loggedInUser={`${this.props.user.first_name}${this.props.user.id}`} secret={this.props.user.email}/>
-                    }
                     </div>
                 }
             </>

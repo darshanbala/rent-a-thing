@@ -59,6 +59,16 @@
     margin: 0 0 1em;
 }
 
+.item-page-chat {
+    flex: 1;
+
+    background: #f7f7f7;
+    padding: 0 1em;
+    border: 2px solid  #ff9f1c;
+    border-radius: 1em;
+    margin: 0 0 1em;
+}
+
 .item-page-rent {
     flex: 1;
     margin: 0.3em 0 -0.3em 0;

@@ -118,6 +118,7 @@ class SendMessage extends Component {
 
     render() {
         const { message } = this.state;
+        const placeholder = `Send a message to ${this.props.loggedInUser}`
 
 
 
@@ -128,12 +129,12 @@ class SendMessage extends Component {
 
                 <form onSubmit={(e) => this.handleSubmit(e)}>
                     {/* <label>{this.props.ownerName}<input type='text' name='name' value={this.props.ownerName}></input></label> */}
-                    <label>send message <textarea name='message' value={message}
-                        onChange={(e) => this.setState({ message: e.target.value })}></textarea></label>
+                    <textarea name='message' placeholder={placeholder} value={message}
+                        onChange={(e) => this.setState({ message: e.target.value })}></textarea>
 
 
 
-                    <input type='submit' value='send message' />
+                    <input type='submit' value='Send' />
                 </form>
 
             </main>
