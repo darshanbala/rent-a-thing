@@ -16,6 +16,7 @@ import MyRentals from './components/user/profile/MyRentals'
 import Categories from './components/products/Categories';
 import ThingsHandler from './components/framework/ThingsHandler.js';
 import About from './components/home/About';
+import MessagePage from './components/user/profile/MessagePage.js';
 
 class App extends Component {
 
@@ -109,8 +110,9 @@ class App extends Component {
                       <NavLink className="navButton noUnderline" to="/categories" activeClassName="active">Categories</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/about" activeClassName="active">About</NavLink>
                       <div className="navButton floatRight noUnderline" onClick={ () => { this.logout() } }>Logout</div>
-                      <NavLink className="navButton floatRight noUnderline" to="/myaccount" activeClassName="active">Account</NavLink>
-                      <NavLink className="navButton floatRight noUnderline" to="/postitem" activeClassName="active">Post a new item</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/myAccount" activeClassName="active">Account</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/postItem" activeClassName="active">Post a new item</NavLink>
+                      <NavLink className="navButton floatRight noUnderline" to="/messages" activeClassName="active">My Messages</NavLink>
                   </nav>
                 }
                 <main>
@@ -133,8 +135,8 @@ class App extends Component {
                     <Route path="/login">
                         <Login cookieCheck={() => this.cookieCheck()} />
                     </Route>
-                    <Route path="/item">
-                        <Item cookieCheck={() => this.cookieCheck()}/>
+                    <Route path="/Item">
+                        <Item user={user} cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/postitem">
                         <PostItem  user = {user} cookieCheck={() => this.cookieCheck()()}/>
@@ -143,6 +145,9 @@ class App extends Component {
                          <MyRentals cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                     <Route path="/visitingUser" render={(props) => <Profile {...props} />}/>
+                    <Route path="/messages">
+                         <MessagePage user={user}cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
                 </Switch>
                 </main>
 
