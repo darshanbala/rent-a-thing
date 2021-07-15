@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { format } from 'date-fns'
 import '../../index.css'
 import '../../css/Item.css'
+import SendMessage from './SendMessage';
 
 class Item extends Component {
 
@@ -28,6 +29,7 @@ class Item extends Component {
 
     async componentDidMount() {
         this.props.cookieCheck();
+        
 
         // Get id from the url
         const url = window.location.href
@@ -67,6 +69,7 @@ class Item extends Component {
             rentalConfirmed: false,
         }))
     }
+   
 
     submitForm = async () => {
         const itemId = this.state.item.id
@@ -248,7 +251,10 @@ class Item extends Component {
       })
     }
 
+ 
+
     render() {
+        //console.log(this.props)
         const item = this.state.item
         const itemDuringChange = this.state.itemDuringChange
         const { rentFrom, rentUntil } = this.state.fields
@@ -376,6 +382,13 @@ class Item extends Component {
                             </div>
                         }
                     </div>
+                    {console.log(Boolean(this.props.user.id > 20 ))}
+                    {item.owner_id> 40 &&
+                    <SendMessage ownerName={`${item.first_name}${item.owner_id}`} loggedInUser={`${this.props.user.first_name}${this.props.user.id}`} secret={this.props.user.email}/>
+                    
+                    
+                    }
+                    
                 </div>
             </div>
             </>
