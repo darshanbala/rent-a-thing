@@ -4,6 +4,9 @@ import UserReviews from './UserReviews.js';
 import UserPosts from './UserPosts.js';
 import UserLookingFor from './UserLookingFor';
 import MyRentals from './MyRentals.js';
+import profile_picture from './template_profile_picture.png';
+//import React, { useState } from 'react'
+import { ChatEngine, getOrCreateChat } from 'react-chat-engine'
 //TODO make dynamic import for profile pictures based on the user
 //and a link to their pp from the db
 
@@ -106,6 +109,7 @@ class Profile extends React.Component {
     console.log(justVisiting)
     console.log(user.img_url)
     //console.log('user @ profile render: '+JSON.stringify(user))
+    //console.log(user.first_name)
     if(user){
       return(
         <main>
