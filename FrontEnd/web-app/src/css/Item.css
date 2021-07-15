@@ -60,12 +60,12 @@
 
 .item-page-rent {
     flex: 1;
-    margin: 1em 0 -1em 0;
+    margin: 0.3em 0 -0.3em 0;
 }
 
 .item-page-management {
     flex: 1;
-    margin: 1em 0 -1em 0;
+    margin: 0.3em 0 -0.3em 0;
 }
 
 .item-page-form-field {
@@ -107,11 +107,48 @@
     cursor: pointer;
     transition-duration: 0.4s;
 }
+
+.edit-button {
+    background-color: #ff9f1c;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.cancel-edit {
+    background-color: red;
+    color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.confirm-edit {
+    background-color: green;
+    color: white;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.edit-box {
+    width: 400px;
+}
+
 #user_profile_link {
   color: #2ec4b6;
 }
+
 #user_profile_link:hover {
   text-decoration: underline;
   cursor: pointer;
+}
 
+.item-page-error {
+    color: red;
 }

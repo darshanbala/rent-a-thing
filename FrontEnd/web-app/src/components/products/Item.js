@@ -15,6 +15,8 @@ class Item extends Component {
         },
         rentalConfirmed: false,
         errorMessage: '',
+        errorMessageEditName: '',
+        errorMessageEditDescription: '',
         usersOwnItem: false,
         itemIsInEditMode: false,
         descriptionIsInEditMode: false,
@@ -118,9 +120,14 @@ class Item extends Component {
                 itemIsInEditMode: false,
             })
         } else {
-            this.setState({
+            this.setState(prevState => ({
+                itemDuringChange: {
+                    ...prevState.itemDuringChange,
+                    name: this.state.item.name,
+                },
                 itemIsInEditMode: !this.state.itemIsInEditMode,
-            })
+                errorMessageEditName: '',
+            }))
         }
     }
 
@@ -133,13 +140,18 @@ class Item extends Component {
                 descriptionIsInEditMode: false,
             })
         } else {
-            this.setState({
+            this.setState(prevState => ({
+                itemDuringChange: {
+                    ...prevState.itemDuringChange,
+                    description: this.state.item.description,
+                },
                 descriptionIsInEditMode: !this.state.descriptionIsInEditMode,
-            })
+                errorMessageEditDescription: '',
+            }))
         }
     }
 
-    handleEditChange = (event) => {
+    handleEditChangeName = (event) => {
         const { name, value } = event.target
 
         this.setState(prevState => ({
@@ -147,6 +159,19 @@ class Item extends Component {
                 ...prevState.itemDuringChange,
                 [name]: value,
             },
+            errorMessageEditName: '',
+        }))
+    }
+
+    handleEditChangeDescription = (event) => {
+        const { name, value } = event.target
+
+        this.setState(prevState => ({
+            itemDuringChange: {
+                ...prevState.itemDuringChange,
+                [name]: value,
+            },
+            errorMessageEditDescription: '',
         }))
     }
 
@@ -154,10 +179,17 @@ class Item extends Component {
         const item = this.state.item
         const itemDuringChange = this.state.itemDuringChange
 
-        this.setState({
-            item: itemDuringChange,
-            itemIsInEditMode: false,
-        })
+        if (itemDuringChange.name === '') {
+            this.setState({
+                errorMessageEditName: 'Item name cannot be blank'
+            })
+            return
+        } else {
+            this.setState({
+                item: itemDuringChange,
+                itemIsInEditMode: false,
+            })
+        }
 
         const itemId = item.id
         const ownerId = item.owner_id
@@ -179,6 +211,18 @@ class Item extends Component {
     updateItemDescriptionValue = async () => {
         const item = this.state.item
         const itemDuringChange = this.state.itemDuringChange
+
+        if (itemDuringChange.description === '') {
+            this.setState({
+                errorMessageEditDescription: 'Item description cannot be blank'
+            })
+            return
+        } else {
+            this.setState({
+                item: itemDuringChange,
+                itemIsInEditMode: false,
+            })
+        }
 
         this.setState({
             item: itemDuringChange,
@@ -256,6 +300,8 @@ class Item extends Component {
         const itemDuringChange = this.state.itemDuringChange
         const { rentFrom, rentUntil } = this.state.fields
         const errorMessage = this.state.errorMessage
+        const errorMessageEditName = this.state.errorMessageEditName
+        const errorMessageEditDescription = this.state.errorMessageEditDescription
         const rentalConfirmed = this.state.rentalConfirmed
         const usersOwnItem = this.state.usersOwnItem
         const itemIsInEditMode = this.state.itemIsInEditMode
@@ -292,16 +338,18 @@ class Item extends Component {
                                 {itemIsInEditMode ?
                                     <h1>
                                         <input
+                                            className="edit-box"
                                             type="text"
                                             name="name"
                                             id="name"
                                             value={itemDuringChange.name}
-                                            onChange={(e) => this.handleEditChange(e)}
+                                            onChange={(e) => this.handleEditChangeName(e)}
                                         />
-                                        <button onClick={this.changeEditModeItem}>X</button>
-                                        <button onClick={this.updateItemNameValue}>OK</button>
+                                        <button className="cancel-edit" onClick={this.changeEditModeItem}>X</button>
+                                        <button className="confirm-edit" onClick={this.updateItemNameValue}>OK</button>
                                     </h1> :
-                                    <h1 onDoubleClick={this.changeEditModeItem}>{item.name}</h1>}
+                                    <h1>{item.name} <button className="edit-button" onClick={this.changeEditModeItem}>Edit</button></h1>}
+                                {errorMessageEditName && <p className="item-page-error">{errorMessageEditName}</p>}
                                 <p>Offered by <span id='user_profile_link' onClick={() => this.goToUserProfile()}>{item.first_name} {item.last_name}</span></p>
                             </div>
                             {!usersOwnItem &&
@@ -335,7 +383,7 @@ class Item extends Component {
                                                     value="Rent item"
                                                     onClick={this.submitForm} />
                                                 <br />
-                                                {errorMessage && <p>{errorMessage}</p>}
+                                                {errorMessage && <p className="item-page-error">{errorMessage}</p>}
                                                 {rentalConfirmed && <p>Item successfully rented</p>}
                                             </form>
                                         }
@@ -364,17 +412,20 @@ class Item extends Component {
                                 <h2>Description</h2>
                                 {descriptionIsInEditMode ?
                                     <p>
-                                        <input
+                                        <textarea
+                                            className="edit-box"
                                             type="text"
                                             name="description"
                                             id="description"
+                                            rows="5"
                                             value={itemDuringChange.description}
-                                            onChange={(e) => this.handleEditChange(e)}
+                                            onChange={(e) => this.handleEditChangeDescription(e)}
                                         />
-                                        <button onClick={this.changeEditModeDescription}>X</button>
-                                        <button onClick={this.updateItemDescriptionValue}>OK</button>
+                                        <button className="cancel-edit" onClick={this.changeEditModeDescription}>X</button>
+                                        <button className="confirm-edit" onClick={this.updateItemDescriptionValue}>OK</button>
                                     </p> :
-                                    <p onDoubleClick={this.changeEditModeDescription}>{item.description}</p>}
+                                    <p>{item.description} <button className="edit-button" onClick={this.changeEditModeDescription}>Edit</button></p>}
+                                {errorMessageEditDescription && <p className="item-page-error">{errorMessageEditDescription}</p>}
                             </div>
                             <div className="item-page-reviews">
                                 <h2>Reviews</h2>
