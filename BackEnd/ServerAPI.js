@@ -355,9 +355,10 @@ app
   })
   .post('/visitAnotherProfile', async server => {
     const { user_id } = await server.body
+    //console.log(await user)
     console.log(user_id)
     const queryResponse = ( await client.queryObject(`
-          SELECT id, first_name, last_name, email, created_at FROM users WHERE id = ${user_id}`)
+          SELECT id, first_name, last_name, email, created_at, img_url FROM users WHERE id = ${user_id}`)
           ).rows
           console.log(await queryResponse[0])
     const user = await queryResponse[0]
@@ -441,10 +442,10 @@ app
     WHERE items.owner_id  = $1
     OR rentals.borrower_id = $1`,
         user.id)).rows
-      
+
 
       rentals = rentals.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
-      
+
 
       let lending = rentals.filter(e => e.owner_id === user.id)
 
