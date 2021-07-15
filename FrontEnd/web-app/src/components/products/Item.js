@@ -437,16 +437,13 @@ class Item extends Component {
                                 <h2>Reviews</h2>
                             </div>
                         </div>
-                    </div>
+                    
                     {console.log(Boolean(this.props.user.id > 20 ))}
                     {item.owner_id> 40 &&
                     <SendMessage ownerName={`${item.first_name}${item.owner_id}`} loggedInUser={`${this.props.user.first_name}${this.props.user.id}`} secret={this.props.user.email}/>
-                    
-                    
                     }
-                    
-                </div>
-            </div>
+                    </div>
+                }
             </>
         )
     }
