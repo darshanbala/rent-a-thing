@@ -22,14 +22,30 @@ class ThingsHandler extends React.Component {
       cityOptions: null,
       categoryOptions: null,
       showMenu: false,
-      locationFilteredItemList: ''
+      locationFilteredItemList: '',
+      propsLoaded: false
     };
   }
 
   async componentDidUpdate(PrevProps, PrevState) {
-    if (this.props != PrevProps) {
+    if (this.props !== PrevProps) {
+      if(this.state.propsLoaded === false){
+        await this.setState({categoryId: this.props.searchCriteria.categoryId, propsLoaded: true})
+        console.log(this.props.searchCriteria.searchingFor)
+        try{
+        if(this.props.searchCriteria.searchingFor.item){
+          await this.setState({searchCriteria: {searchingFor: this.props.searchCriteria.searchingFor.item}})
+          console.log(this.props.searchCriteria.searchingFor)
+        }
+      }catch{}
+      }
       await this.filterBy()
     }
+    if(this.state.categoryId !== PrevState.categoryId || this.state.searchCriteria.searchingFor !== PrevState.searchCriteria.searchingFor){
+      console.log(this.state)
+      await this.filterBy();
+    }
+
   }
 
   async getCities() {
@@ -154,11 +170,24 @@ class ThingsHandler extends React.Component {
 
   async filterBy() {
     //console.log("IN FILTER BY")
-    const { categoryId, searchCriteria, all, locationFilteredItemList } = this.props
+    const { all, locationFilteredItemList, searchCriteria } = this.props
     //console.log(this.props)
+    const { categoryId } = this.state
+    console.log(this.state.searchCriteria)
+    let searchingFor = '';
+    try{
+        searchingFor  = this.props.searchCriteria.searchingFor.item
+    }catch{}
     let itemList = [];
-    if(categoryId){
-      //console.log('category search: '+categoryId)
+    console.log('category search: '+categoryId)
+    console.log('category type: '+typeof(categoryId))
+
+    if(categoryId && categoryId !== '0'){
+      if(this.state.totally_unfiltered) {
+        this.setState({totally_unfiltered: false})
+      }
+      console.log('category search: '+categoryId)
+      console.log(searchingFor)
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/searchByCategory`,
         {
@@ -167,17 +196,23 @@ class ThingsHandler extends React.Component {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ category_id: categoryId })
+          body: JSON.stringify({ category_id: categoryId, searchCriteria: searchingFor })
         }
       );
 
       let itemList = await response.json();
+      console.log(await itemList)
       if (await itemList) {
         const locationFilteredItems = await this.filterByLocation(itemList);
         this.setState({ items: await itemList, locationFilteredItemList: locationFilteredItems });
       }
-    } else if (searchCriteria && searchCriteria.item) {
+    } else if (searchingFor) {
+      if(this.state.totally_unfiltered) {
+        this.setState({totally_unfiltered: false})
+      }
       //console.log('searchbar search')
+      console.log(searchingFor)
+      console.log(categoryId)
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/searchByFilter`,
         {
@@ -186,11 +221,11 @@ class ThingsHandler extends React.Component {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ searchCriteria: searchCriteria })
+          body: JSON.stringify({ searchCriteria: searchingFor })
         }
       );
       itemList = await response.json();
-      //console.log(await itemList)
+      console.log(await itemList)
 
       if (await itemList[0]) {
         const locationFilteredItems = await this.filterByLocation(itemList);
@@ -198,7 +233,7 @@ class ThingsHandler extends React.Component {
       } else {
         this.setState({ items: [] })
       }
-    } else if (all) {
+    } /*else if (all) {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/items`,
         {
@@ -218,8 +253,8 @@ class ThingsHandler extends React.Component {
       } else {
         this.setState({ items: [] })
       }
-    }else{
-      this.setState({items: []})
+    }*/else{
+      this.setState({totally_unfiltered: true})
     }
 
   }
@@ -228,15 +263,17 @@ class ThingsHandler extends React.Component {
     e.preventDefault();
     const categoryId = e.target.value
     this.setState({ categoryId: categoryId})
+    await this.filterBy();
   }
 
   render() {
-    const { items, categoryId, searchParams, date_from, date_to, all, cityOptions, categoryOptions, locationFilteredItemList, currentLocation } = this.state
+    const { totally_unfiltered, items, categoryId, searchParams, date_from, date_to, all, cityOptions, categoryOptions, locationFilteredItemList, currentLocation } = this.state
     //console.log("Category filtered items:");
     //console.log(items);
     //console.log("Location filtered items:");
     //console.log(locationFilteredItemList);
     //console.log(JSON.stringify(currentLocation))
+    console.log(categoryId)
     if (!items) {
       return (
         <p>Loading...</p>
@@ -249,7 +286,7 @@ class ThingsHandler extends React.Component {
                         <option value={0}>All categories</option>
                             {categoryOptions.map(({ id, name }) =>{
                                 //console.log(id+'  '+name);
-                                return <option key={id} id={id} name={currentLocation.id} value={id}>{name}</option>
+                                return <option key={id} id={id} name={id} value={id}>{name}</option>
                                 }
                             )}
                       </select>
@@ -264,11 +301,14 @@ class ThingsHandler extends React.Component {
                             )}
                       </select>
                     }
-          { currentLocation.id &&
+          { currentLocation.id && !totally_unfiltered &&
             <Things items={locationFilteredItemList} cookieCheck={this.props.cookieCheck} />
           }
-          { !currentLocation.id &&
+          { !currentLocation.id && !totally_unfiltered &&
             <Things items={items} />
+          }
+          { totally_unfiltered &&
+            <p>Why not search for something?</p>
           }
         </section>
       )

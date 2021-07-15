@@ -44,7 +44,7 @@ class Things extends Component {
         //console.log(items);
         //console.log("Items:")
         //console.log(items)
-        if (!items) {
+        if (!items[0]) {
             return (<p>Loading....</p>)
         } else {
 

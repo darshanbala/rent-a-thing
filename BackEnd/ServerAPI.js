@@ -366,46 +366,74 @@ app
   })
   .post('searchByCategory', async server => {
     const body = await server.body;
-    const { category_id } = await body;
+    let { category_id, searchCriteria } = await body;
+    if(searchCriteria.length === 0) {
+      searchCriteria = false;
+    }
     console.log(category_id)
-    let items = (await client.queryObject(`
-          SELECT * FROM items WHERE category_id = $1 AND is_available = TRUE
-        `, await category_id)).rows;
-
-    items = items.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
-
-    console.log(await items, "items - searchByCategory")
-    return items
+    let items = []
+    if(searchCriteria){
+      if (searchCriteria.length < 3 && searchCriteria.length > 0) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE (levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria}%' OR name ILIKE '${searchCriteria}%') AND is_available = TRUE AND category_id = $2;
+                `, await searchCriteria, await category_id)).rows;
+        console.log(await items)
+      } else if (searchCriteria.length < 6 && searchCriteria.length > 2) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '%${searchCriteria}%' AND is_available = TRUE AND category_id = $2;
+                `, await searchCriteria, await category_id)).rows;
+      } else if (searchCriteria.length < 7 && searchCriteria.length > 5) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '%${searchCriteria}%' AND is_available = TRUE AND category_id = $2;
+                `, await searchCriteria, await category_id)).rows;
+      } else if (searchCriteria.length < 10 && searchCriteria.length > 6) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '%${searchCriteria}%' AND is_available = TRUE AND category_id = $2;
+                `, await searchCriteria, await category_id)).rows;
+      } else if (searchCriteria.length > 10) {
+        items = (await client.queryObject(`
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '%${searchCriteria}%' AND is_available = TRUE AND category_id = $2;
+                `, await searchCriteria, await category_id)).rows;
+      }
+    }else{
+        items = (await client.queryObject(`
+            SELECT * FROM items WHERE category_id = $1 AND is_available = TRUE
+          `, await category_id)).rows;
+          console.log('ERROR CAUGHT')
+      }
+    if(items[0]){
+      items = await items.map(e => ({ ...e, price: parseFloat(e.price).toFixed(2) })); // Converts price
+    }
+    //console.log(await items, "items - searchByCategory")
+    return await items
   })
   .post('searchByFilter', async server => {
-    const body = await server.body;
-    const searchCriteria = await body.searchCriteria
-    console.log('string to search: ' + await searchCriteria.item)
-    if (await searchCriteria.item && await !searchCriteria.location) {
+    const { searchCriteria } = await server.body;
+    console.log('string to search: ' + await searchCriteria)
       //SEARCH BY JUST ITEM
       let items = [];
 
-      if (searchCriteria.item.length < 3 && searchCriteria.item.length > 0) {
+      if (searchCriteria.length < 3 && searchCriteria.length > 0) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE (levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria.item}%' OR name ILIKE '${searchCriteria.item}%') AND is_available = TRUE;
-                `, await searchCriteria.item)).rows;
+                  SELECT *, levenshtein($1, name) FROM items WHERE (levenshtein($1, name) < 3 OR name ILIKE '%${searchCriteria}%' OR name ILIKE '${searchCriteria}%') AND is_available = TRUE;
+                `, await searchCriteria)).rows;
         console.log(await items)
-      } else if (searchCriteria.item.length < 6 && searchCriteria.item.length > 2) {
+      } else if (searchCriteria.length < 6 && searchCriteria.length > 2) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
-                `, await searchCriteria.item)).rows;
-      } else if (searchCriteria.item.length < 7 && searchCriteria.item.length > 5) {
+                  SELECT *, levenshtein($1, name) FROM items WHERE  levenshtein($1, name) < 3 OR  name ILIKE '%${searchCriteria}%' AND is_available = TRUE;
+                `, await searchCriteria)).rows;
+      } else if (searchCriteria.length < 7 && searchCriteria.length > 5) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
-                `, await searchCriteria.item)).rows;
-      } else if (searchCriteria.item.length < 10 && searchCriteria.item.length > 6) {
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 4 OR name ILIKE '%${searchCriteria}%' AND is_available = TRUE;
+                `, await searchCriteria)).rows;
+      } else if (searchCriteria.length < 10 && searchCriteria.length > 6) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
-                `, await searchCriteria.item)).rows;
-      } else if (searchCriteria.item.length > 10) {
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 5 OR name ILIKE '%${searchCriteria}%' AND is_available = TRUE;
+                `, await searchCriteria)).rows;
+      } else if (searchCriteria.length > 10) {
         items = (await client.queryObject(`
-                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '${searchCriteria.item}%' AND is_available = TRUE;
-                `, await searchCriteria.item)).rows;
+                  SELECT *, levenshtein($1, name) FROM items WHERE levenshtein($1, name) < 6  OR name ILIKE '${searchCriteria}%' AND is_available = TRUE;
+                `, await searchCriteria)).rows;
       }
 
       console.log(items)
@@ -414,11 +442,6 @@ app
       //  } catch {
       return [];
       //  }
-
-    } else {
-      //SEARCH BY ALL
-      //console.log('b')
-    }
 
   })
 

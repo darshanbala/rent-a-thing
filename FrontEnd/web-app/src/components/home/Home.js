@@ -8,7 +8,10 @@ class Home extends Component {
 
     state = {
         submissionConfirmed: false,
-        searchCriteria: {},
+        searchCriteria: {
+          category: null,
+          searchingFor: false
+        },
         onHomePage: false
     }
 
@@ -46,7 +49,7 @@ class Home extends Component {
         if(PrevProps !== this.props){
           try{
             if(this.props.onHomePage === false && this.props.onHomePage !== undefined) {
-              this.setState({onHomePage: false})
+              this.setState({onHomePage: false, searchCriteria: {category: this.props.categoryId} })
             }else{
               this.setState({ onHomePage: true })
             }
@@ -88,12 +91,12 @@ class Home extends Component {
 */
     submitSearch(arg) {
         //console.log(arg);
-        this.setState({ submissionConfirmed: true, searchCriteria: arg });
+        this.setState({ submissionConfirmed: true, searchCriteria: { searchingFor: arg } });
     }
 
     render() {
         const { submissionConfirmed, searchCriteria, onHomePage } = this.state;
-        console.log(onHomePage)
+        console.log(searchCriteria)
         if (submissionConfirmed || !onHomePage) {
             return (
                 <section>
