@@ -1,22 +1,36 @@
 
  
-   .chat-feed{
-    background-color: #cabcdc !important;
-    color:red
+.ce-chat-feed-container{
+  
+  /* background-color: white  */
+  background-color: rgb(240, 240, 240) !important;
+  
+  
+  
 
-  }
+}
   .ce-new-message-form{
     background-color: #cabcdc !important;
 
   }
   .ce-chat-list {
     background-color: rgb(240, 240, 240) !important;
-    /* background-color: red !important; */
+    
   }
   
   .ce-chats-container {
-    background-color: rgb(95, 15, 15) !important;
+    background-color: rgb(240, 240, 240) !important;
    
+  }
+  .ce-chat-title-container{
+    background-color: rgb(240, 240, 240) !important;
+
+
+  }
+
+  .ce-chat-title-text{
+    color: tomato;
+
   }
   
   .ce-active-chat-card {
@@ -47,6 +61,8 @@
     position: relative;
     bottom: 1px;
   }
+
+  
    
    /* .ce-danger-button {
     background-color: rgb(70, 10, 10) !important;

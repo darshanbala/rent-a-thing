@@ -14,7 +14,9 @@ export default function MessagePage({ user }) {
         // userSecret='darshan1@email.com'
 
         projectID='738df1f7-4780-4c48-b34f-0938273bcb5d'
-        renderChatSettings={(chatAppState) => { }}
+        renderChatSettings={() => { }}
+        renderNewChatForm={() => {}}
+       
     // renderChatFeed={(chatAppState) => {}}
 
     //Test

@@ -9,12 +9,11 @@ class SendMessage extends Component {
     state = {
         message: '',
         chatId: 0,
+        success: '',
 
     }
 
-    resetForm() {
-        this.setState(this.state)
-    }
+    
 
 
     async sendChatId(id) {
@@ -51,6 +50,10 @@ class SendMessage extends Component {
 
         axios(config).then((response) => {
             //console.log(JSON.stringify(response.data.id));
+            this.setState({message: ''})
+            let sucessMessage = ''
+            sucessMessage = <strong>Message Sent</strong>;
+            this.setState({success: sucessMessage});
 
         })
 
@@ -61,7 +64,7 @@ class SendMessage extends Component {
     async handleSubmit(e) {
         //console.log('Submitting on PostItem.js')
         e.preventDefault();
-        this.resetForm();
+       
 
 
 
@@ -135,6 +138,7 @@ class SendMessage extends Component {
 
 
                 <input type='submit' value='Send' />
+                {this.state.success}
             </form>
 
 
