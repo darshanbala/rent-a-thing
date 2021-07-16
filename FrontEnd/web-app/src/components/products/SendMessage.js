@@ -125,19 +125,19 @@ class SendMessage extends Component {
         return (
 
 
-            <main>
-
-                <form onSubmit={(e) => this.handleSubmit(e)}>
-                    {/* <label>{this.props.ownerName}<input type='text' name='name' value={this.props.ownerName}></input></label> */}
-                    <textarea name='message' placeholder={placeholder} value={message}
-                        onChange={(e) => this.setState({ message: e.target.value })}></textarea>
 
 
+            <form onSubmit={(e) => this.handleSubmit(e)}>
+                {/* <label>{this.props.ownerName}<input type='text' name='name' value={this.props.ownerName}></input></label> */}
+                <textarea name='message' placeholder={placeholder} value={message}
+                    onChange={(e) => this.setState({ message: e.target.value })}></textarea>
 
-                    <input type='submit' value='Send' />
-                </form>
 
-            </main>
+
+                <input type='submit' value='Send' />
+            </form>
+
+
         );
     }
 }

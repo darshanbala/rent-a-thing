@@ -28,7 +28,7 @@
   min-height: 192px;
   max-width: 192px;
   word-break:normal;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .rentals-page-card-img {
