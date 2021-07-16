@@ -354,7 +354,7 @@ class Item extends Component {
                                         <button className="cancel-edit" onClick={this.changeEditModeItem}>X</button>
                                         <button className="confirm-edit" onClick={this.updateItemNameValue}>OK</button>
                                     </h1> :
-                                    <h1>{item.name} <button className="edit-button" onClick={this.changeEditModeItem}>Edit</button></h1>}
+                                    <h1>{item.name} {usersOwnItem && <button className="edit-button" onClick={this.changeEditModeItem}>Edit</button>}</h1>}
                                 {errorMessageEditName && <p className="item-page-error">{errorMessageEditName}</p>}
                                 <p>Offered by <span id='user_profile_link' onClick={() => this.goToUserProfile()}>{item.first_name} {item.last_name}</span></p>
                             </div>
@@ -430,7 +430,7 @@ class Item extends Component {
                                         <button className="cancel-edit" onClick={this.changeEditModeDescription}>X</button>
                                         <button className="confirm-edit" onClick={this.updateItemDescriptionValue}>OK</button>
                                     </p> :
-                                    <p>{item.description} <button className="edit-button" onClick={this.changeEditModeDescription}>Edit</button></p>}
+                                    <p>{item.description} {usersOwnItem && <button className="edit-button" onClick={this.changeEditModeDescription}>Edit</button>}</p>}
                                 {errorMessageEditDescription && <p className="item-page-error">{errorMessageEditDescription}</p>}
                             </div>
                             <div className="item-page-reviews">
