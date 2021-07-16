@@ -8,8 +8,10 @@ class PostItem extends Component {
 
     initialState = {
         name: '',
-        categories: null,
+        nameCharacterLimit: 35,
         description: '',
+        descriptionCharacterLimit: 100,
+        categories: null,
         price: null,
         category: null,
         age_restriction: null,
@@ -43,7 +45,11 @@ class PostItem extends Component {
         console.log('HANDLE CHANGE FUNCTION')
 
         const { name, value } = e.target
-        if (name === 'category') {
+        if (name === 'name') {
+            this.setState({ name: value })
+        } else if (name === 'description') {
+            this.setState({ description: value })
+        } else if (name === 'category') {
             this.setState({ category: parseInt(value, 10) })
         } else if (name === 'age_restriction') {
             this.setState({ age_restriction: parseInt(value, 10) })
@@ -53,7 +59,6 @@ class PostItem extends Component {
             this.setState({ price })
             console.log(this.state.price)
         }
-
     }
 
 
@@ -100,9 +105,32 @@ class PostItem extends Component {
         return !buttonDisabled
     }
 
+    validateLive(info) {
+        const { name, nameCharacterLimit, description, descriptionCharacterLimit } = this.state;
+        
+        const descriptionCharacterAlert = descriptionCharacterLimit - 10
+        const nameRemainingCharactersAlert = nameCharacterLimit - 5
+
+        if (info === name && name.length > nameRemainingCharactersAlert) {
+            const countDown = nameCharacterLimit - name.length
+            if (countDown === 0) {
+                return;
+            } else {
+                return (<p className="error errorItemTitle">Remaining characters: {countDown}/{nameCharacterLimit}</p>)
+            }
+        } else if (info === description && description.length > descriptionCharacterAlert) {
+            const countDown = descriptionCharacterLimit - description.length
+            if (countDown === 0) {
+                return;
+            } else {
+                return (<p className="error errorItemDescription">Remaining characters: {countDown}/{descriptionCharacterLimit}</p>)
+            }
+        }
+    }
+
 
     render() {
-        const { name, description, price, category, age_restriction, categories, img_url } = this.state;
+        const { name, nameCharacterLimit, description, descriptionCharacterLimit, price, category, age_restriction, categories, img_url } = this.state;
 
 
         return (
@@ -113,14 +141,17 @@ class PostItem extends Component {
 
                 <form className='SubmissionForm SubmissionFormPostItem' onSubmit={(e) => this.handleSubmit(e)}>
                     <section>
+
                         <label>Item name: </label>
-                        <input type='text' name='name' value={name}
-                            onChange={(e) => this.setState({ name: e.target.value })}></input>
+                        <input type='text' name='name' value={name} maxlength={nameCharacterLimit} onChange={this.handleChange} />
+                        <div>{this.validateLive(name)}</div>
+
                     </section>
+
                     <section>
                         <label>Item description: </label>
-                        <input type='text' name='description' value={description}
-                            onChange={(e) => this.setState({ description: e.target.value })}></input>
+                        <input type='text' name='description' value={description} maxlength={descriptionCharacterLimit} onChange={this.handleChange}></input>
+                        <div>{this.validateLive(description)}</div>
                     </section>
 
 
@@ -158,6 +189,7 @@ class PostItem extends Component {
 
         );
     }
-}
 
-export default PostItem;
+
+
+} export default PostItem;
