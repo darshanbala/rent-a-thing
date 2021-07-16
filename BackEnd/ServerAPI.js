@@ -155,7 +155,7 @@ app
   .get('/teamMembers', async (server) => {
 
     const teamMembers = (await client.queryObject(`
-        SELECT id, name, description, email, number, cv_img, linkedin_link FROM team_members
+        SELECT id, name, cv_img, description, email, github_link, linkedin_link FROM team_members
       `)).rows;
 
     console.log(teamMembers);

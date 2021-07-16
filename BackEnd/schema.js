@@ -17,10 +17,10 @@ await client.queryObject(
   `CREATE TABLE team_members (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
+    cv_img TEXT NOT NULL,
     description TEXT NOT NULL,
     email TEXT NOT NULL,
-    number TEXT NOT NULL,
-    cv_img TEXT NOT NULL,
+    github_link TEXT NOT NULL,
     linkedin_link TEXT NOT NULL
   )`
 )

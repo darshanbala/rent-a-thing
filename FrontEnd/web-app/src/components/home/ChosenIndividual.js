@@ -24,8 +24,8 @@ class ChosenIndividual extends Component {
                         <h2 className="infoBox">{this.props.chosenIndividual.description}</h2>
                         <div className="infoBox">
                             <h2>Email: {this.props.chosenIndividual.email}</h2>
-                            <h2>Buisness Number: {this.props.chosenIndividual.number}</h2>
-                            <h2>Linkedin: <a href={this.props.chosenIndividual.link}> {this.props.chosenIndividual.link} </a> </h2>
+                            <h2>GitHub: <a href={this.props.chosenIndividual.github_link}> {this.props.chosenIndividual.github_link} </a> </h2>
+                            <h2>LinkedIn: <a href={this.props.chosenIndividual.linkedin_link}> {this.props.chosenIndividual.linkedin_link} </a> </h2>
                         </div>
                     </div>
 
