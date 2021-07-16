@@ -106,7 +106,7 @@ class PostItem extends Component {
 
 
         return (
-            <main>
+            <>
                 <h1 className="centered">Post an advert for an item to be made available for rental</h1>
 
                 <ImageUpload handleImgUrl={this.handleImgUrl} />
@@ -154,7 +154,7 @@ class PostItem extends Component {
                     <input disabled={!this.allFieldsEntered()} type='submit' value='Post item' />
                 </form>
 
-            </main >
+            </>
 
         );
     }

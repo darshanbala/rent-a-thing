@@ -112,7 +112,7 @@ class Profile extends React.Component {
     //console.log(user.first_name)
     if(user){
       return(
-        <main>
+
           <section className='flex_container'>
             <div id='left'>
               <img src={user.img_url} id='profile_picture'/>
@@ -130,7 +130,7 @@ class Profile extends React.Component {
                 <UserReviews justVisiting={justVisiting} user={user} />
             </div>
           </section>
-        </main>
+        
       )
     }else{
       return(

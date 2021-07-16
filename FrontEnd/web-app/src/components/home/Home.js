@@ -109,10 +109,15 @@ class Home extends Component {
             return (
                 <section>
                     <SearchBar submitSearch={(arg) => this.submitSearch(arg)} />
-                    <main>
-                        <h1>Welcome to Rent-A-Thing!</h1>
-                        <h3>Where you can rent any thing our community of users has to offer.</h3>
-                    </main>
+                    <section>
+                        <h1 id='welcome_message'>Welcome to Rent-A-Thing!</h1>
+                        <h3 id='welcome_message'>Where you can rent any thing our community of users has to offer.</h3>
+                        <h3 id='welcome_message'>What's mine is yours.</h3>
+                        <h3 id='handshake'>🤝</h3>
+                        <p id='terms_and_conditions'>Terms and conditions apply...</p>
+                        <br />
+                        {/*<img src='https://www.europeancitiesmarketing.com/wp-assets/uploads/2016/06/Banner-Sharing-Economy.jpg' />*/}
+                    </section>
                 </section>
             );
         }

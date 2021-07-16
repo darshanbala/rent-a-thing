@@ -70,7 +70,7 @@ class SearchBar extends Component {
                     */}
                     </div>
                     <div>
-                    <input id='search_submit' type='submit' onClick={(e) => this.formSubmission(e)} value='GO'/>
+                    {/*<input id='search_submit' type='submit' onClick={(e) => this.formSubmission(e)} value='GO'/>*/}
                     </div>
                 </form>
             </section>

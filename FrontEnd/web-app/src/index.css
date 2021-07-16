@@ -196,30 +196,51 @@ body {
   margin: 0px !important;
   font-family: 'Varela Round', sans-serif;
   padding-bottom: 0;
-  /*background: rgb(46,180,166);
-  background: linear-gradient(146deg, rgba(46,180,166,0.23153011204481788) 0%, rgba(203,243,240,0.5060399159663865) 13%, rgba(255,171,56,0.09427521008403361) 100%);
-  */
+  background: rgb(46,180,166);
+  background: linear-gradient(146deg, rgba(46,180,166,.70153011204481788) 0%, rgba(203,243,240,0.7060399159663865) 13%, rgba(255,171,56,0.727521008403361) 100%);
+
+    /*
   background: rgb(46,180,166);
   background: linear-gradient(146deg, rgba(46,180,166,0.10153011204481788) 0%, rgba(215,243,203,0.5060399159663865) 36%, rgba(255,56,56,0.08391106442577032) 100%);
+  */
+
+  /*background-image: url('https://media.giphy.com/media/f4JlJiyYlbcWbChzof/giphy.gif');*/
+  /*background-image: url('https://www.forwardtofba.com/blog/wp-content/uploads/2017/07/mont_various_fpo-825x394.jpg');*/
+  background-size:cover;
+  background-attachment: fixed;
+  background-position: center;
+  animation-delay: 10s;
+
 }
 
 main {
   padding: 30px;
-  /* width: 1400px; */
+   width: 1700px;
   margin: 0 auto ;
   margin-bottom: 0 ;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px) contrast(80%) hue-rotate(0deg) brightness(110%) grayscale(65%);
   /* padding-top: 30px;
   padding-bottom: 30px; */
   text-align: center;
-  backdrop-filter: brightness(108%) grayscale(30%);
+
   min-height: 100vh;
 }
 
-main !important {
 
+#welcome_message {
+  font-size: 260%;
+  padding: 60px 0 0 0;
 }
 
+#terms_and_conditions {
+  font-size: 70%;
+  opacity: 25%;
+}
 
+#handshake {
+  font-size: 600%;
+}
 
 .cityCard{
   padding: 1em;
