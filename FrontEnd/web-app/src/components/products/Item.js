@@ -436,7 +436,7 @@ class Item extends Component {
                             <div className="item-page-reviews">
                                 <h2>Reviews</h2>
                             </div>
-                            {item.owner_id > 40 &&
+                            {item.owner_id > 40 && !usersOwnItem &&
                                 <div className="item-page-chat">
 
                                     <SendMessage ownerName={`${item.first_name}${item.owner_id}`} loggedInUser={`${this.props.user.first_name}${this.props.user.id}`} secret={this.props.user.email} />
