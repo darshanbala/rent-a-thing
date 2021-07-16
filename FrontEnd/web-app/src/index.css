@@ -215,7 +215,6 @@ body {
 
 main {
   padding: 30px;
-   width: 1700px;
   margin: 0 auto ;
   margin-bottom: 0 ;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
@@ -229,8 +228,8 @@ main {
 
 
 #welcome_message {
-  font-size: 260%;
-  padding: 60px 0 0 0;
+  font-size: 120%;
+  padding: 1em 0 0 0;
 }
 
 #terms_and_conditions {
@@ -239,6 +238,7 @@ main {
 }
 
 #handshake {
+  margin: 0;
   font-size: 600%;
 }
 
