@@ -118,7 +118,7 @@ class SendMessage extends Component {
 
     render() {
         const { message } = this.state;
-        const placeholder = `Send a message to ${this.props.loggedInUser}`
+        const placeholder = `Send a message to ${this.props.ownerName}`
 
 
 
