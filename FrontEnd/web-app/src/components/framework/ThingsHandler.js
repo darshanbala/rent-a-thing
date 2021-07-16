@@ -198,7 +198,7 @@ class ThingsHandler extends React.Component {
 
     if (selectedSearchRadius !== 'None') {
       const currentLocationId = currentLocation.id;
-      const response2 = await fetch('http://localhost:8080/currentLocationData', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ currentLocationId }) });
+      const response2 = await fetch(`${process.env.REACT_APP_API_URL}/currentLocationData`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ currentLocationId }) });
       const currentLocationData = await response2.json();
 
       //console.log("Current Location Data: ");

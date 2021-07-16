@@ -1,0 +1,1 @@
+web: DENO_ENV=production --allow-read --allow-write --allow-net --allow-env --unstable ServerAPI.js
