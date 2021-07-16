@@ -4,7 +4,8 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    NavLink
+    NavLink,
+    Redirect
 } from 'react-router-dom';
 import Home from './components/home/Home';
 import CreateAccount from './components/user/CreateAccount';
@@ -20,10 +21,17 @@ import MessagePage from './components/user/profile/MessagePage.js';
 
 class App extends Component {
 
-    state = { isLoggedIn: false, user: '' };
+    state = { isLoggedIn: false, user: '', redirect: false };
 
     async componentWillMount() {
         await this.cookieCheck()
+    }
+
+    async componentDidUpdate(PrevProps, PrevState) {
+      if(this.state.redirect !== PrevState.redirect) {
+        this.setState({redirect: false})
+      }
+
     }
 
     async cookieCheck(){  //Checks who is signed in and if anyone is, sets the user and toggles isLoggedIn
@@ -81,12 +89,13 @@ class App extends Component {
     );
     const isLoggedOut = await response.json();
     if (isLoggedOut) {
+        this.setState({redirect: true})
         await this.cookieCheck();
     }
   }
 
     render() {
-        const { isLoggedIn, user, hasSearched, searchParams } = this.state;
+        const { redirect, isLoggedIn, user, hasSearched, searchParams } = this.state;
         //console.log("USER:")
         //console.log(user);
         return (
@@ -102,7 +111,7 @@ class App extends Component {
                       <NavLink className="navButton floatRight noUnderline" to="/about" activeClassName="active">About</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/login" activeClassName="active">Login</NavLink>
                       <NavLink className="navButton floatRight noUnderline" to="/createaccount" activeClassName="active">Create Account</NavLink>
-                  </nav>
+                </nav>
                 }
                 { isLoggedIn &&
                   <nav className="navBar">
@@ -115,6 +124,7 @@ class App extends Component {
                       <NavLink className="navButton floatRight noUnderline" to="/messages" activeClassName="active">My Messages</NavLink>
                   </nav>
                 }
+                { redirect && <Redirect to='/' />}
                 <main>
                 <Switch>
                     <Route exact path={["/", "/home"]}>
