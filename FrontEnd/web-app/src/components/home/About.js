@@ -55,8 +55,8 @@ class About extends Component {
                     <h1>Meet the team!</h1>
                     <h1>Software Engineers:</h1>
                     <div className='item-list'>
-                        {teamMembers.map(({ id, name, description, email, number, cv_img, linkedin_link }) =>
-                            <Individual key={id} id={id} name={name} description={description} email={email} number={number} CVImg={cv_img} link={linkedin_link} handleClick={(arg) => this.handleClick(arg)} />
+                        {teamMembers.map(({ id, name, cv_img, description, email, github_link, linkedin_link }) =>
+                            <Individual key={id} id={id} name={name} cv_img={cv_img} description={description} email={email} github_link={github_link} linkedin_link={linkedin_link} handleClick={(arg) => this.handleClick(arg)} />
                         )}
                     </div>
                 </>

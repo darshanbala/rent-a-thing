@@ -11,8 +11,8 @@ class Individual extends Component {
     }
 
     async componentDidMount() {
-        const { id, name, description, email, number, CVImg, link } = this.props;
-        const individualData = { id, name, description, email, number, CVImg, link };
+        const { id, name, cv_img, description, email, github_link, linkedin_link } = this.props;
+        const individualData = { id, name, cv_img, description, email, github_link, linkedin_link };
         this.setState({ individualData });
     }
 
