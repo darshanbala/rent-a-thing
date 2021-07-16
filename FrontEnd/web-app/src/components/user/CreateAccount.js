@@ -144,7 +144,7 @@ class CreateAccount extends Component {
         }
       );
       const isSuccess = await response.json()
-      
+
 
       if (isSuccess.code === 200) {
         const idResponse = await fetch(
@@ -160,20 +160,20 @@ class CreateAccount extends Component {
         );
         const result = await idResponse.json()
         console.log(result.id)
-        
+
         this.setState({ successfullySubmitted: true })
         let axios = require('axios');
-       
-       
-       
+
+
+
         let data = {
           username: this.state.first_name,
           username: `${this.state.first_name}${result.id}`,
-          
+
           secret: this.state.email,
          }
-    
-        
+
+
 
         var config = {
           method: 'post',
@@ -364,6 +364,21 @@ class CreateAccount extends Component {
     console.log(this.state.img_url)
   }
 
+  async handleKeyDown(e) {
+    const { valid_new_user } = this.state
+
+    console.log(e.key+' key pressed')
+    if(!valid_new_user){
+    if(e.key === 'Enter'){
+      await this.submitEmailInfo()
+    }
+  }else{
+    if(e.key === 'Enter'){
+      await this.submitUser()
+    }
+  }
+  }
+
 
   render() {
     const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, cityName } = this.state
@@ -380,7 +395,7 @@ class CreateAccount extends Component {
             <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
                 <label htmlFor="email" value="Email address: " >Email address: </label>
-                <input type="text" name="email" id="email" value={email} onChange={(e) => this.updateInfo(e)} />
+                <input type="text" name="email" id="email" value={email} onKeyDown={(e) => this.handleKeyDown(e)} onChange={(e) => this.updateInfo(e)} />
                 {!validEmail && <p className="error errorCreateAccount" >Email address is unavailable</p>}
               </section>
               <section>
@@ -394,7 +409,7 @@ class CreateAccount extends Component {
                 <div>{this.validateLive(password2)}</div>
               </section>
               <section>
-                <input type="submit" onClick={(e) => this.submitEmailInfo(e)} value="Create account" />
+                <input type="submit" onClick={(e) => this.submitEmailInfo(e)}  value="Create account" />
                 {validationMessage && <p className="error errorCreateAccount">{validationMessage}</p>}
               </section>
             </form>
@@ -416,7 +431,7 @@ class CreateAccount extends Component {
             <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
                 <label htmlFor="first_name" value="First name: " >First name: </label>
-                <input type="text" name="first_name" id="first_name" value={first_name} onChange={(e) => this.updateInfo(e)} />
+                <input type="text" name="first_name" id="first_name" value={first_name} onKeyDown={(e) => this.handleKeyDown(e)} onChange={(e) => this.updateInfo(e)} />
               </section>
               <section>
                 <label htmlFor="last_name" value="Last name: " >Last name: </label>
@@ -475,7 +490,7 @@ class CreateAccount extends Component {
               <section>
                 <input type="submit" name="submit" value="Submit details" onClick={(e) => this.submitUser(e)} />
                 {validationMessage && <p className="error">{validationMessage}</p>}
-              </section> 
+              </section>
             </form>
         </section>
       )
