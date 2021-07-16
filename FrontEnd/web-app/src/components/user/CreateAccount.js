@@ -192,6 +192,7 @@ class CreateAccount extends Component {
           console.log(error);
         });
       }
+      this.props.cookieCheck()
     } else {
       this.setState({
         validationMessage: "Please ensure all fields are complete and valid"

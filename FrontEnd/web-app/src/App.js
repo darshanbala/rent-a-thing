@@ -31,7 +31,6 @@ class App extends Component {
       if(this.state.redirect !== PrevState.redirect) {
         this.setState({redirect: false})
       }
-
     }
 
     async cookieCheck(){  //Checks who is signed in and if anyone is, sets the user and toggles isLoggedIn
