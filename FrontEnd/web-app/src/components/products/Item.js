@@ -320,6 +320,7 @@ class Item extends Component {
         }
 
         console.log('redirect clicked: ' + redirectUser)
+        console.log(this.props.user, 'user is')
         return (
             <>
                 {!itemWasFound && <h1>Error 404: Item was not found</h1>}
@@ -333,7 +334,7 @@ class Item extends Component {
                         }}
                     />
                 }
-
+                
                 {itemWasFound &&
                     <div className='item-page-container'>
                         <div className='item-page-image'>
@@ -436,7 +437,7 @@ class Item extends Component {
                             {/*<div className="item-page-reviews">
                                 <h2>Reviews</h2>
                             </div>*/}
-                            {item.owner_id > 40 && !usersOwnItem &&
+                            {item.owner_id > 40 && !usersOwnItem && this.props.user &&
                                 <div className="item-page-chat">
 
                                     <SendMessage ownerName={`${item.first_name}${item.owner_id}`} loggedInUser={`${this.props.user.first_name}${this.props.user.id}`} secret={this.props.user.email} />
