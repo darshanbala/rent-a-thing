@@ -433,9 +433,9 @@ class Item extends Component {
                                     <p>{item.description} {usersOwnItem && <button className="edit-button" onClick={this.changeEditModeDescription}>Edit</button>}</p>}
                                 {errorMessageEditDescription && <p className="item-page-error">{errorMessageEditDescription}</p>}
                             </div>
-                            <div className="item-page-reviews">
+                            {/*<div className="item-page-reviews">
                                 <h2>Reviews</h2>
-                            </div>
+                            </div>*/}
                             {item.owner_id > 40 && !usersOwnItem &&
                                 <div className="item-page-chat">
 
