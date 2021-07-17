@@ -390,7 +390,7 @@ class ThingsHandler extends React.Component {
     //console.log(items);
     //console.log("Location filtered items:");
     //console.log(locationFilteredItemList);
-    //console.log(JSON.stringify(currentLocation))
+    console.log(JSON.stringify(currentLocation))
     //console.log(categoryId)
     if (!items) {
       return (
@@ -420,12 +420,16 @@ class ThingsHandler extends React.Component {
                       </select>
                     }
 
-                    {searchRadiusOptions &&
+                    {searchRadiusOptions && currentLocation.id !== 0 &&
                       <select name="selectedSearchRadius" value={selectedSearchRadius} onChange={(e) => this.changeSearchRadius(e)}>
                         {searchRadiusOptions.map((value) => {
                           //console.log(id+'  '+name);
-                          return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value}</option>
-                        }
+                          if(!isNaN(value)) {
+                            return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value * 35} miles</option>
+                          }else{
+                            return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value}</option>
+                          }
+                      }
                     )}
                   </select>
                   }
