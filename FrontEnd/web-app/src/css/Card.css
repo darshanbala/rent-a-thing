@@ -21,6 +21,7 @@
   transition: 0.2s;
   border-radius: 5px;
   margin: .5em;
+  padding: .2em .3em .2em .3em;
   max-width: 192px;
   min-width: 192px;
   background-color: white;
@@ -43,7 +44,7 @@
 }
 
 .rentals-page-card-img {
-  border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 5px 5px;
   height: 192px;
   width: 192px;
   object-fit: cover;
