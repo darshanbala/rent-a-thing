@@ -23,7 +23,7 @@ class PostItem extends Component {
     state = this.initialState;
 
     async componentDidMount() {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}categories`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -71,7 +71,7 @@ class PostItem extends Component {
         const ownerID = this.props.user.id
         const cityId = this.props.user.city_id
         const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/postItem`,
+            `${process.env.REACT_APP_API_URL}postItem`,
             {
                 method: 'POST',
                 credentials: 'include',

@@ -41,7 +41,7 @@ class Item extends Component {
 
         // Fetch API response
         const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/item/${id}`,
+            `${process.env.REACT_APP_API_URL}item/${id}`,
             {
                 method: 'GET',
                 credentials: 'include',
@@ -90,7 +90,7 @@ class Item extends Component {
         }
 
         const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/rentItem`,
+            `${process.env.REACT_APP_API_URL}rentItem`,
             {
                 method: 'POST',
                 credentials: 'include',
@@ -199,7 +199,7 @@ class Item extends Component {
         const changedValue = itemDuringChange.name
 
         await fetch(
-            `${process.env.REACT_APP_API_URL}/editItemName`,
+            `${process.env.REACT_APP_API_URL}editItemName`,
             {
                 method: 'PUT',
                 credentials: 'include',
@@ -237,7 +237,7 @@ class Item extends Component {
         const changedValue = itemDuringChange.description
 
         await fetch(
-            `${process.env.REACT_APP_API_URL}/editItemDescription`,
+            `${process.env.REACT_APP_API_URL}editItemDescription`,
             {
                 method: 'PUT',
                 credentials: 'include',
@@ -263,7 +263,7 @@ class Item extends Component {
         }))
 
         await fetch(
-            `${process.env.REACT_APP_API_URL}/changeItemAvailability`,
+            `${process.env.REACT_APP_API_URL}changeItemAvailability`,
             {
                 method: 'PUT',
                 credentials: 'include',
@@ -279,7 +279,7 @@ class Item extends Component {
         const { item } = this.state
         const user_id = item.owner_id
         const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/visitAnotherProfile`,
+            `${process.env.REACT_APP_API_URL}visitAnotherProfile`,
             {
                 method: 'POST',
                 credentials: 'include',

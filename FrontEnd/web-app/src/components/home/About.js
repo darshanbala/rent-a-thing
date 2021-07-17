@@ -16,7 +16,7 @@ class About extends Component {
 
     async componentDidMount() {
         this.props.cookieCheck();
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/teamMembers`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}teamMembers`, {
             method: 'GET',
             credentials: 'include'
         });

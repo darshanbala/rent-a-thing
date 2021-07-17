@@ -16,7 +16,7 @@ class Categories extends Component {
 
     async componentDidMount() {
         this.props.cookieCheck();
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}categories`, {
             method: 'GET',
             credentials: 'include'
         })

@@ -44,7 +44,7 @@ class App extends Component {
     }
 
     async checkWhoIsSignedIn() {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
+        const response = await fetch(`${process.env.REACT_APP_API_URL}checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
         const user = await response.json();
         return await user;
     }
@@ -78,7 +78,7 @@ class App extends Component {
 */
   async logout() {
     const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/logout`,
+        `${process.env.REACT_APP_API_URL}logout`,
         {
             method: 'POST',
             credentials: 'include',

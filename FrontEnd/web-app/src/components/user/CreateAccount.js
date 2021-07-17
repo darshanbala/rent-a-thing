@@ -38,7 +38,7 @@ class CreateAccount extends Component {
 
   async componentDidMount() {
     this.props.cookieCheck();
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/cities`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}cities`, {
       method: 'GET',
       credentials: 'include'
     })
@@ -133,7 +133,7 @@ class CreateAccount extends Component {
         postcode: this.state.postcode
       }
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/createAccount`,
+        `${process.env.REACT_APP_API_URL}createAccount`,
         {
           method: 'POST',
           credentials: 'include',
@@ -148,7 +148,7 @@ class CreateAccount extends Component {
 
       if (isSuccess.code === 200) {
         const idResponse = await fetch(
-          `${process.env.REACT_APP_API_URL}/getID`,
+          `${process.env.REACT_APP_API_URL}getID`,
           {
             method: 'POST',
             credentials: 'include',
@@ -209,7 +209,7 @@ class CreateAccount extends Component {
   async checkValidEmail() {
     const { email } = this.state
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/isValidNewEmail`,
+      `${process.env.REACT_APP_API_URL}isValidNewEmail`,
       {
         method: 'POST',
         headers: {
@@ -344,7 +344,7 @@ class CreateAccount extends Component {
 
     //this.props.cookieCheck();
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/getCity`,
+      `${process.env.REACT_APP_API_URL}getCity`,
       {
         method: 'POST',
         credentials: 'include',

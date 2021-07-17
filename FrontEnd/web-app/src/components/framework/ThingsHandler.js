@@ -32,7 +32,7 @@ class ThingsHandler extends React.Component {
 
   async componentDidMount() {
     await this.getCities();
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
+    const response = await fetch(`${process.env.REACT_APP_API_URL}checkWhoIsSignedIn`, { method: 'GET', credentials: 'include' });
     const user = await response.json();
     if (user) {
       await this.changeCity(user.city_id);
@@ -76,7 +76,7 @@ class ThingsHandler extends React.Component {
 
   async getCities() {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/cities`,
+      `${process.env.REACT_APP_API_URL}cities`,
       {
         method: 'GET',
         credentials: 'include',
@@ -116,7 +116,7 @@ class ThingsHandler extends React.Component {
     cityId = cityId--;
   }
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/getCity`,
+      `${process.env.REACT_APP_API_URL}getCity`,
       {
         method: 'POST',
         credentials: 'include',
@@ -174,7 +174,7 @@ class ThingsHandler extends React.Component {
   }
 
   async getCategories() {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}categories`, {
         method: 'GET',
         credentials: 'include'
     })
@@ -198,7 +198,7 @@ class ThingsHandler extends React.Component {
 
     if (selectedSearchRadius !== 'None') {
       const currentLocationId = currentLocation.id;
-      const response2 = await fetch(`${process.env.REACT_APP_API_URL}/currentLocationData`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ currentLocationId }) });
+      const response2 = await fetch(`${process.env.REACT_APP_API_URL}currentLocationData`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ currentLocationId }) });
       const currentLocationData = await response2.json();
 
       //console.log("Current Location Data: ");
@@ -304,7 +304,7 @@ class ThingsHandler extends React.Component {
       //console.log('category search: '+categoryId)
       //console.log(searchingFor)
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/searchByCategory`,
+        `${process.env.REACT_APP_API_URL}searchByCategory`,
         {
           method: 'POST',
           credentials: 'include',
@@ -330,7 +330,7 @@ class ThingsHandler extends React.Component {
       //console.log(searchingFor)
       //console.log(categoryId)
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/searchByFilter`,
+        `${process.env.REACT_APP_API_URL}searchByFilter`,
         {
           method: 'POST',
           credentials: 'include',
