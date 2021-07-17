@@ -425,7 +425,7 @@ class ThingsHandler extends React.Component {
                         {searchRadiusOptions.map((value) => {
                           //console.log(id+'  '+name);
                           if(!isNaN(value)) {
-                            return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value * 35} miles</option>
+                            return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value * 70} miles</option>
                           }else{
                             return <option key={value} id={value} name={selectedSearchRadius} value={value}>{value}</option>
                           }
