@@ -86,7 +86,8 @@ class PostItem extends Component {
         console.log(fromBackend, 'fromBackend')
 
         if (fromBackend.submitted) {
-            this.setState({ previous_submit_successful: true })  // Can use this to add a green tick to page or something..
+            this.setState({ previous_submit_successful: true })
+            // Can use this to add a green tick to page or something..
         }
 
         console.log(this.state.previous_submit_successful)
@@ -130,7 +131,7 @@ class PostItem extends Component {
 
 
     render() {
-        const { name, nameCharacterLimit, description, descriptionCharacterLimit, price, category, age_restriction, categories, img_url } = this.state;
+        const { name, nameCharacterLimit, description, descriptionCharacterLimit, price, category, age_restriction, categories, img_url, previous_submit_successful } = this.state;
 
 
         return (
@@ -189,6 +190,8 @@ class PostItem extends Component {
 
                             <input disabled={!this.allFieldsEntered()} type='submit' value='Post item' />
                         </form>
+
+                        {previous_submit_successful && <Redirect to="/page" />}
                     </div>
                 </div>
 
