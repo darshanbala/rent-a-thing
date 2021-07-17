@@ -18,6 +18,7 @@ import Categories from './components/products/Categories';
 import ThingsHandler from './components/framework/ThingsHandler.js';
 import About from './components/home/About';
 import MessagePage from './components/user/profile/MessagePage.js';
+import GenericPage from './components/framework/GenericPage';
 
 class App extends Component {
 
@@ -156,6 +157,9 @@ class App extends Component {
                     <Route path="/visitingUser" render={(props) => <Profile {...props} />}/>
                     <Route path="/messages">
                          <MessagePage user={user}cookieCheck={() => this.cookieCheck()}/>
+                    </Route>
+                    <Route path="/page">
+                         <GenericPage user={user}cookieCheck={() => this.cookieCheck()}/>
                     </Route>
                 </Switch>
                 </main>
