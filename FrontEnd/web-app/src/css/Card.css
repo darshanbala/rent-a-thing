@@ -31,8 +31,8 @@
 .things-page-card-img {
   border-radius: 5px 5px 0 0;
   padding: 3px 3px 3px 3px;
-  min-height: 192px;
-  max-width: 192px;
+  /*min-height: 192px;*/
+  /*max-width: 192px;*/
   word-break:normal;
   object-fit: contain;
 }

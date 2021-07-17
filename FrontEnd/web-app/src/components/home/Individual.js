@@ -31,7 +31,12 @@ class Individual extends Component {
                         {/*<h2>{this.props.link}</h2>*/}
                     </div>
                     <div id="img_container">
-                        <img id="category_card_img" className='things-page-card-img' src="logo192.png" alt={individualData.name} style={{ height: '310px' }} />
+                        {individualData.name === 'Darshan Balasigngam' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={individualData.name} />}
+                        {individualData.name === 'David Ajayi' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={individualData.name} />}
+                        {individualData.name === 'Kyle Pearce' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={individualData.name} />}
+                        {individualData.name === 'Milo Boucher' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={individualData.name} />}
+                        {individualData.name === 'Rob Scholey' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={individualData.name} />}
+                        {/*<img id="category_card_img" className='things-page-card-img' src="logo192.png" alt={individualData.name} style={{ height: '310px' }} />*/}
                         {/*<img id="category_card_img" src={"logo192.png"} alt={this.props.id} />*/}
                     </div>
                 </div>

@@ -16,7 +16,11 @@ class ChosenIndividual extends Component {
                 <div class="flex-container">
 
                     <div class="flex-child teamMemberPic">
-                        <img src="logo512.png" alt={this.props.id} />
+                        {this.props.chosenIndividual.name === 'Darshan Balasigngam' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
+                        {this.props.chosenIndividual.name === 'David Ajayi' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
+                        {this.props.chosenIndividual.name === 'Kyle Pearce' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
+                        {this.props.chosenIndividual.name === 'Milo Boucher' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
+                        {this.props.chosenIndividual.name === 'Rob Scholey' && <img id="category_card_img" className='things-page-card-img' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
                     </div>
 
                     <div class="flex-child teamMemberInfo">
