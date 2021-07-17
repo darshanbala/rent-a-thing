@@ -10,7 +10,7 @@ class Logout extends Component {
 
     async componentDidMount() {
         const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/logout`,
+            `${process.env.REACT_APP_API_URL}logout`,
             {
                 method: 'POST',
                 credentials: 'include',

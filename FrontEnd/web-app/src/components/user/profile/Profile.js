@@ -57,7 +57,7 @@ class Profile extends React.Component {
 
   async getStarRating(user) {
     const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/getStarRating`,
+        `${process.env.REACT_APP_API_URL}getStarRating`,
         {
             method: 'POST',
             credentials: 'include',
@@ -78,7 +78,7 @@ class Profile extends React.Component {
 
   async getUser(user) {
     const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/getStarRating`,
+        `${process.env.REACT_APP_API_URL}getStarRating`,
         {
             method: 'POST',
             credentials: 'include',

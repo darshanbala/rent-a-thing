@@ -40,7 +40,7 @@ class UserReviews extends React.Component {
     //console.log('USER = '+JSON.stringify(user))
 
     const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/getUserReviews`,
+        `${process.env.REACT_APP_API_URL}getUserReviews`,
         {
             method: 'POST',
             credentials: 'include',

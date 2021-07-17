@@ -34,7 +34,7 @@ class AddUserReview extends React.Component {
     const { review, rating, title } = this.state
     //console.log(this.props.user)
     const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/postUserReview`,
+        `${process.env.REACT_APP_API_URL}postUserReview`,
         {
             method: 'POST',
             credentials: 'include',
