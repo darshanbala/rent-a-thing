@@ -94,6 +94,15 @@
   float: right;
 }
 
+.PostItems-container {
+  display: flex;
+  justify-content: center;
+}
+
+.PostItemsImage-container {
+  align-self: center;
+}
+
 .SubmissionForm {
   background: inherit;
   padding: 1em;
@@ -103,13 +112,14 @@
 }
 
 .SubmissionForm section {
-  text-align: left;
+  /* text-align: left; */
   margin: 1em 0;
 }
 
 .SubmissionForm label {
-  text-align: right;
-  display: inline-block;
+  /* text-align: right;
+  display: inline-block; */
+  
 }
 
 .SubmissionFormCreateAccount label {
@@ -125,6 +135,7 @@
 }
 
 .SubmissionForm input[type=text] {
+  margin-top: 5px;
   width: 400px;
 }
 
@@ -137,10 +148,12 @@
 }
 
 .SubmissionFormPostItem input[type=number] {
+  margin-top: 5px;
   width: 400px;
 }
 
 .SubmissionFormPostItem select {
+  margin-top: 5px;
   width: 420px;
 }
 
@@ -196,36 +209,31 @@ body {
   margin: 0px !important;
   font-family: 'Varela Round', sans-serif;
   padding-bottom: 0;
-  background: rgb(46,180,166);
-  background: linear-gradient(146deg, rgba(46,180,166,.70153011204481788) 0%, rgba(203,243,240,0.7060399159663865) 13%, rgba(255,171,56,0.727521008403361) 100%);
-
-    /*
+  background: rgb(46, 180, 166);
+  background: linear-gradient(146deg, rgba(46, 180, 166, .70153011204481788) 0%, rgba(203, 243, 240, 0.7060399159663865) 13%, rgba(255, 171, 56, 0.727521008403361) 100%);
+  /*
   background: rgb(46,180,166);
   background: linear-gradient(146deg, rgba(46,180,166,0.10153011204481788) 0%, rgba(215,243,203,0.5060399159663865) 36%, rgba(255,56,56,0.08391106442577032) 100%);
   */
-
   /*background-image: url('https://media.giphy.com/media/f4JlJiyYlbcWbChzof/giphy.gif');*/
   /*background-image: url('https://www.forwardtofba.com/blog/wp-content/uploads/2017/07/mont_various_fpo-825x394.jpg');*/
-  background-size:cover;
+  background-size: cover;
   background-attachment: fixed;
   background-position: center;
   animation-delay: 10s;
-
 }
 
 main {
   padding: 30px;
-  margin: 0 auto ;
-  margin-bottom: 0 ;
+  margin: 0 auto;
+  margin-bottom: 0;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px) contrast(80%) hue-rotate(0deg) brightness(110%) grayscale(65%);
   /* padding-top: 30px;
   padding-bottom: 30px; */
   text-align: center;
-
   min-height: 100vh;
 }
-
 
 #welcome_message {
   font-size: 120%;
@@ -242,7 +250,7 @@ main {
   font-size: 600%;
 }
 
-.cityCard{
+.cityCard {
   padding: 1em;
   border: 2px solid #ff9f1c;
   margin: 1em;
@@ -250,7 +258,7 @@ main {
   transition: 0.2s;
 }
 
-.chosenCityCard{
+.chosenCityCard {
   padding: 1em;
   border: 2px solid #2ec4b6;
   margin: 1em;
@@ -260,20 +268,20 @@ main {
   border-bottom-left-radius: 12px;
 }
 
-.cityCard:hover{
+.cityCard:hover {
   border: 2px solid #2ec4b6;
   border-top-left-radius: 30px;
   border-bottom-right-radius: 30px;
-
   transition: 0.5s;
 }
 
-.cityParent{
+.cityParent {
   width: 500px;
   display: flex;
 }
 
 /*######### DropButton ##########*/
+
 .dropbtn {
   background-color: #04AA6D;
   color: white;
@@ -298,7 +306,9 @@ main {
   border-bottom: 1px solid #ddd;
 }
 
-#myInput:focus {outline: 3px solid #ddd;}
+#myInput:focus {
+  outline: 3px solid #ddd;
+}
 
 .dropdown {
   position: relative;
@@ -322,9 +332,13 @@ main {
   display: block;
 }
 
-.dropdown a:hover {background-color: #ddd;}
+.dropdown a:hover {
+  background-color: #ddd;
+}
 
-.show {display: block;}
+.show {
+  display: block;
+}
 
 #cities_section {
   display: flex;
@@ -342,18 +356,21 @@ input[type=text], textarea, select {
   border-radius: 6px;
   border-width: thin;
 }
+
 input[type=password], textarea, select {
   padding: 10px 10px 10px 10px;
   margin: 0 3px 10px 3px;
   border-radius: 6px;
   border-width: thin;
 }
+
 input[type=number], textarea, select {
   padding: 10px 10px 10px 10px;
   margin: 0 3px 10px 3px;
   border-radius: 6px;
   border-width: thin;
 }
+
 input[type=date] {
   padding: 7px 7px 7px 7px;
   margin: 0 3px 0px 3px;
@@ -373,10 +390,60 @@ input[type=submit] {
   transition: 0.2s;
   background-color: white;
 }
+
 input[type=submit]:hover {
   border: 2px solid #2ec4b6;
   border-radius: 6px;
   transition: 0.3s;
   box-shadow: 0 0 4px black;
   cursor: pointer;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  width: max-content;
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.btn-done {
+  width: max-content;
+  border: 2px solid  gray;
+  color:  gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.btn-done-confirmed {
+  width: max-content;
+  border: 2px solid rgb(3, 192, 35);
+  color: rgb(3, 192, 35);
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
 }

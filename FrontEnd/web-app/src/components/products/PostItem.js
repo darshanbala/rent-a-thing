@@ -57,7 +57,7 @@ class PostItem extends Component {
             let price = parseFloat(value).toFixed(2);
             price = parseFloat(price)
             this.setState({ price })
-            console.log(this.state.price)
+            //console.log(this.state.price)
         }
     }
 
@@ -107,7 +107,7 @@ class PostItem extends Component {
 
     validateLive(info) {
         const { name, nameCharacterLimit, description, descriptionCharacterLimit } = this.state;
-        
+
         const descriptionCharacterAlert = descriptionCharacterLimit - 10
         const nameRemainingCharactersAlert = nameCharacterLimit - 5
 
@@ -137,53 +137,60 @@ class PostItem extends Component {
             <>
                 <h1 className="centered">Post an advert for an item to be made available for rental</h1>
 
-                <ImageUpload handleImgUrl={this.handleImgUrl} />
+                <div className="PostItems-container">
 
-                <form className='SubmissionForm SubmissionFormPostItem' onSubmit={(e) => this.handleSubmit(e)}>
-                    <section>
+                    <div className="PostItemsImage-container">
+                        <ImageUpload img_url={img_url} handleImgUrl={this.handleImgUrl} />
+                    </div>
 
-                        <label>Item name: </label>
-                        <input type='text' name='name' value={name} maxlength={nameCharacterLimit} onChange={this.handleChange} />
-                        <div>{this.validateLive(name)}</div>
+                    <div className="PostItemsDetails-container">
+                        <form className='SubmissionForm SubmissionFormPostItem' onSubmit={(e) => this.handleSubmit(e)}>
+                            <section>
 
-                    </section>
+                                <label>Title </label>
+                                <input type='text' name='name' placeholder="What are you lending?" value={name} maxlength={nameCharacterLimit} onChange={this.handleChange} />
+                                <div>{this.validateLive(name)}</div>
 
-                    <section>
-                        <label>Item description: </label>
-                        <input type='text' name='description' value={description} maxlength={descriptionCharacterLimit} onChange={this.handleChange}></input>
-                        <div>{this.validateLive(description)}</div>
-                    </section>
+                            </section>
 
-
-                    <section>
-                        <label> Price (£): </label>
-                        <input type="number" name='price' value={price} onChange={this.handleChange} step="0.01" min="0" />
-                    </section>
+                            <section>
+                                <label>Description </label>
+                                <input type='text' name='description' placeholder="Accurately describe your item in a few words" value={description} maxlength={descriptionCharacterLimit} onChange={this.handleChange}></input>
+                                <div>{this.validateLive(description)}</div>
+                            </section>
 
 
-                    {categories &&
-                        <section>
-                            <label>Select category: </label>
-                            <select name="category" value={category} onChange={this.handleChange}>
-                                <option>Please select a category</option>
-                                {categories.map(({ id, name, description, imgurl }) =>
-                                    <option key={id} id={id} name={category} value={id}>{name}</option>
-                                )}
-                            </select>
-                        </section>
-                    }
+                            <section>
+                                <label> Price: </label>
+                                <input type="number" name='price' placeholder="£ / day" value={price} onChange={this.handleChange} step="0.01" min="0" />
+                            </section>
 
-                    <section>
-                        <label>Select age restriction: </label>
-                        <select name="age_restriction" value={age_restriction} onChange={this.handleChange}>
-                            <option>Please select an age restriction</option>
-                            <option value='1'>No restriction</option>
-                            <option value="18">18 and over</option>
-                        </select>
-                    </section>
 
-                    <input disabled={!this.allFieldsEntered()} type='submit' value='Post item' />
-                </form>
+                            {categories &&
+                                <section>
+                                    <label>Category </label>
+                                    <select name="category" value={category} onChange={this.handleChange}>
+                                        <option>Please select a category</option>
+                                        {categories.map(({ id, name, description, imgurl }) =>
+                                            <option key={id} id={id} name={category} value={id}>{name}</option>
+                                        )}
+                                    </select>
+                                </section>
+                            }
+
+                            <section>
+                                <label>Age restriction</label>
+                                <select name="age_restriction" value={age_restriction} onChange={this.handleChange}>
+                                    <option>Please select an age restriction</option>
+                                    <option value='1'>No restriction</option>
+                                    <option value="18">18 and over</option>
+                                </select>
+                            </section>
+
+                            <input disabled={!this.allFieldsEntered()} type='submit' value='Post item' />
+                        </form>
+                    </div>
+                </div>
 
             </>
 

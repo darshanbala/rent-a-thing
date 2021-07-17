@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
-const ImageUpload = ({ handleImgUrl }) => {
+const ImageUpload = ({ handleImgUrl, img_url }) => {
 
     const [fileName, setFileName] = useState('')
-    const [previewSourceUrl, setPreviewSourceUrl] = useState('')
+    const [sourceUrl, setSourceUrl] = useState('')
+    const [previousSourceUrl, setPreviousSourceUrl] = useState('')
+
 
 
     const previewFile = (file) => {
         const reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = () => {
-            setPreviewSourceUrl(reader.result)
+            setSourceUrl(reader.result)
             setFileName(file.name)
         }
 
@@ -27,30 +29,47 @@ const ImageUpload = ({ handleImgUrl }) => {
         //console.log('Submitting on ImageUpload.js')
         e.preventDefault()
 
-        if (!previewSourceUrl) return;
-        //console.log(previewSourceUrl)
-        handleImgUrl(previewSourceUrl)
+        if (!sourceUrl) return;
+        //console.log(sourceUrl)
+        handleImgUrl(sourceUrl)
+        setPreviousSourceUrl(sourceUrl)
 
         // const reader = new FileReader()
         // reader.readAsDataURL(selectedFile)
     }
 
 
+
+
     return (
 
         <div className="img-upload">
             <form onSubmit={handleFileSubmit}>
-                <input
-                    type='file'
-                    name={fileName}
-                    onChange={handFileChange}>
-                </input>
+                <div className="upload-btn-wrapper">
+                    <button className="btn">Upload an image</button>
+                    <input
+                        type='file'
+                        name={fileName}
+                        onChange={handFileChange}>
+                    </input>
+                </div>
 
-                {previewSourceUrl && (
-                    <img src={previewSourceUrl} alt={fileName} style={{ height: '300px' }} />
+                {sourceUrl && (
+                    <>
+                        <div>
+                            <img src={sourceUrl} alt={fileName} style={{ height: '300px', margin: '20px' }} />
+                        </div>
+                        <div>
+                            <button className={!img_url || sourceUrl !== previousSourceUrl ? "btn-done" : "btn-done-confirmed"} type="submit">Done</button>
+                            { sourceUrl !== previousSourceUrl &&
+                                <p>Click "Done" to confirm</p>
+                            }
+
+                        </div>
+                    </>
                 )}
 
-                <button type="submit">Upload</button>
+
             </form>
 
         </div >
