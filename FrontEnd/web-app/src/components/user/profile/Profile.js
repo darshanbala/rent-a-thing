@@ -15,6 +15,7 @@ class Profile extends React.Component {
     super();
     this.state = {
       user: {},
+      cityName: null,
       star_rating: `No reviews...`,
       justVisiting: null,
       newLoad: true
@@ -23,15 +24,18 @@ class Profile extends React.Component {
   async componentDidMount() {
     console.log('redirected')
 
+
     try{
-    if(!this.props.location.state.justVisiting){
+      console.log(this.props.user)
+      await this.getCity(this.props.user.city_id)
       this.props.cookieCheck();
       await this.getStarRating(this.props.state.user)
       this.setState({
         user: this.props.user,
         justVisiting: false
       })
-    }
+
+
   }catch{}
   try{
       this.setState({
@@ -39,18 +43,23 @@ class Profile extends React.Component {
         justVisiting: true
       })
       await this.getStarRating(this.props.location.state.user)
-    }catch{}
 
+    }catch{}
 
     //this.setState({
     //  user: await this.props.checkWhoIsSignedIn()
     //})
   }
-  async componentDidUpdate(PrevProps, prevState) {
+  async componentDidUpdate(PrevProps, PrevState) {
     if(this.state.star_rating === 'loading...'){
       await this.getStarRating(this.state.user)
     }
-    if(this.props !== PrevProps){
+    try{
+      if(this.state.cityName === null && this.state.user.city_id){
+        await this.getCity(this.state.user.city_id)
+      }
+    }catch{}
+    if(this.props !== PrevProps || this.state.cityName !== PrevState.cityName){
       this.forceUpdate()
     }
   }
@@ -90,10 +99,36 @@ class Profile extends React.Component {
     );
   }
 
+  async getCity(city_id) {
+    if(!city_id){
+      let user;
+      try{
+          user  = this.props.user
+      }catch{user  = this.props.location.state.user}
+      city_id = user.city_id
+    }
+    console.log(city_id)
+    const response = await fetch(
+        `${process.env.REACT_APP_API_URL}getCity`,
+        {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cityId: city_id})
+        }
+    );
+    const city = await response.json();
+    console.log(await city[0].name)
+    const cityName = await city[0].name
+    this.setState({cityName: cityName})
+  }
+
   render() {
     let { user } = this.props
     let justVisiting = false
-    const{ newLoad } = this.state
+    const{ newLoad, cityName } = this.state
     console.log(newLoad)
     try{
         justVisiting  = this.props.location.state
@@ -119,7 +154,7 @@ class Profile extends React.Component {
               <h1>{`${user.first_name} ${user.last_name}`}</h1>
               <p>Email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
               <p>Average rating: {this.state.star_rating}</p>
-              <p>City: {user.city}</p>
+              <p>City: {cityName}</p>
               <p>User since: {user.created_at.slice(0,4)}</p>
             </div>
             <div id='centre_spacer' />
@@ -130,7 +165,7 @@ class Profile extends React.Component {
                 <UserReviews justVisiting={justVisiting} user={user} />
             </div>
           </section>
-        
+
       )
     }else{
       return(

@@ -377,7 +377,7 @@ app
     //console.log(await user)
     //console.log(user_id)
     const queryResponse = ( await client.queryObject(`
-          SELECT id, first_name, last_name, email, created_at, img_url FROM users WHERE id = ${user_id}`)
+          SELECT id, first_name, last_name, email, created_at, img_url, city_id FROM users WHERE id = ${user_id}`)
           ).rows
           //console.log(await queryResponse[0])
     const user = await queryResponse[0]
