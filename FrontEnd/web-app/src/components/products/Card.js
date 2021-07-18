@@ -30,7 +30,7 @@ export default function Card({
 
                     <div className={`${cardType}-text-container`}>
                         <h4><b>{name}</b></h4>
-                        <p>Price: £{price}</p>
+                        <p>£{price}/day</p>
                     </div>
                 </div>
             </Link>
