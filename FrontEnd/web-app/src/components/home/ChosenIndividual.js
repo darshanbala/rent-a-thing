@@ -16,11 +16,7 @@ class ChosenIndividual extends Component {
                 <div class="flex-container">
 
                     <div class="flex-child teamMemberPic IndividualTeamMemberContainer">
-                        {this.props.chosenIndividual.name === 'Darshan Balasigngam' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
-                        {this.props.chosenIndividual.name === 'David Ajayi' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img924/1387/oU9Kyi.png" alt={this.props.chosenIndividual.name} />}
-                        {this.props.chosenIndividual.name === 'Kyle Pearce' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
-                        {this.props.chosenIndividual.name === 'Milo Boucher' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img923/7235/3zJoiU.jpg" alt={this.props.chosenIndividual.name} />}
-                        {this.props.chosenIndividual.name === 'Rob Scholey' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img922/2968/ExjJCi.png" alt={this.props.chosenIndividual.name} />}
+                        <img className='chosenIndividualTeamMembers' src={this.props.chosenIndividual.cv_img} alt={this.props.chosenIndividual.name} />
                     </div>
 
                     <div class="flex-child teamMemberInfo">
@@ -56,5 +52,11 @@ class ChosenIndividual extends Component {
                     </div>
                 </>
 */
-
+/*
+{this.props.chosenIndividual.name === 'Darshan Balasigngam' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
+{this.props.chosenIndividual.name === 'David Ajayi' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img924/1387/oU9Kyi.png" alt={this.props.chosenIndividual.name} />}
+{this.props.chosenIndividual.name === 'Kyle Pearce' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={this.props.chosenIndividual.name} />}
+{this.props.chosenIndividual.name === 'Milo Boucher' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img923/7235/3zJoiU.jpg" alt={this.props.chosenIndividual.name} />}
+{this.props.chosenIndividual.name === 'Rob Scholey' && <img className='chosenIndividualTeamMembers' src="https://imagizer.imageshack.com/img922/2968/ExjJCi.png" alt={this.props.chosenIndividual.name} />}
+*/
 export default ChosenIndividual;
