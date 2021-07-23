@@ -8,6 +8,11 @@
   text-align: center;
 }
 
+.logo {
+  color: black;
+  text-decoration: none;
+}
+
 .navBar {
   /*padding: 1em;*/
   /*margin: 1em;*/
@@ -119,7 +124,7 @@
 .SubmissionForm label {
   /* text-align: right;
   display: inline-block; */
-  
+
 }
 
 .SubmissionFormCreateAccount label {

@@ -102,7 +102,7 @@ class App extends Component {
 
             <Router>
                 <div className="header">
-                    RENT-A-THING
+                    <NavLink to="/home" className='logo' activeClassName="logo"><strong>~</strong> RENT-A-THING <strong>~</strong></NavLink>
                 </div>
                 { !isLoggedIn &&
                   <nav className="navBar">
