@@ -25,14 +25,9 @@ class Individual extends Component {
                 <div className="category" onClick={() => this.props.handleClick(individualData)}>
                     <div id="info_container">
                         <h2>{individualData.name}</h2>
-                        {/*<h2>{this.props.description}</h2>*/}
-                        {/*<h2>{this.props.email}</h2>*/}
-                        {/*<h2>{this.props.number}</h2>*/}
-                        {/*<h2>{this.props.link}</h2>*/}
                     </div>
                     <div id="img_container">
-                        <img id="category_card_img" className='things-page-card-img' src="logo192.png" alt={individualData.name} style={{ height: '310px' }} />
-                        {/*<img id="category_card_img" src={"logo192.png"} alt={this.props.id} />*/}
+                        <img className='aboutPageTeamMembers' src={individualData.cv_img} alt={individualData.name} />
                     </div>
                 </div>
             );
@@ -40,5 +35,11 @@ class Individual extends Component {
     }
 
 }
-
+/*
+{individualData.name === 'Darshan Balasigngam' && <img className='aboutPageTeamMembers' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={individualData.name} />}
+{individualData.name === 'David Ajayi' && <img className='aboutPageTeamMembers' src="https://imagizer.imageshack.com/img924/1387/oU9Kyi.png" alt={individualData.name} />}
+{individualData.name === 'Kyle Pearce' && <img className='aboutPageTeamMembers' src="https://imagizer.imageshack.com/img922/6269/kNlGPM.jpg" alt={individualData.name} />}
+{individualData.name === 'Milo Boucher' && <img className='aboutPageTeamMembers' src="https://imagizer.imageshack.com/img923/7235/3zJoiU.jpg" alt={individualData.name} />}
+{individualData.name === 'Rob Scholey' && <img className='aboutPageTeamMembers' src="https://imagizer.imageshack.com/img922/2968/ExjJCi.png" alt={individualData.name} />}
+*/
 export default Individual;
