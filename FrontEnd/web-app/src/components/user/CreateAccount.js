@@ -382,7 +382,7 @@ class CreateAccount extends Component {
 
 
   render() {
-    const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, cityName } = this.state
+    const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, img_url } = this.state
     //console.log("CITIES:");
     //console.log(cityOptions);
     if (successfullySubmitted) {
@@ -391,24 +391,24 @@ class CreateAccount extends Component {
 
     if (!valid_new_user) {
       return (
-        <section>
+       <>
           <h1 className="centered">Create an account</h1>
 
-          <div className="CreateAccount-container">
+          
 
             <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
-                <label htmlFor="email" value="Email address: " >Email address: </label>
+                <label>Email address</label>
                 <input type="text" name="email" id="email" value={email} onKeyDown={(e) => this.handleKeyDown(e)} onChange={(e) => this.updateInfo(e)} />
                 {!validEmail && <p className="error errorCreateAccount" >Email address is unavailable</p>}
               </section>
               <section>
-                <label htmlFor="password1" value="Password: " >Password: </label>
+                <label>Password</label>
                 <input type="password" name="password1" id="password1" value={password1} onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password1)}</div>
               </section>
               <section>
-                <label htmlFor="password2" value="Re-enter password: " value={password2} >Re-enter password: </label>
+                <label>Re-enter password</label>
                 <input type="password" name="password2" id="password2" onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password2)}</div>
               </section>
@@ -418,8 +418,8 @@ class CreateAccount extends Component {
               </section>
             </form>
 
-          </div>
-        </section>
+      
+        </>
       );
     }
     else {
@@ -432,7 +432,7 @@ class CreateAccount extends Component {
 
             <div className="CreateAccountImage-container">
               <label>Profile Picture</label>
-              <ImageUpload handleImgUrl={this.handleImgUrl} />
+              <ImageUpload img_url={img_url} handleImgUrl={this.handleImgUrl} />
             </div>
 
 
