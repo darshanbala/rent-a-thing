@@ -99,13 +99,19 @@
   float: right;
 }
 
-.PostItems-container {
+.PostItems-container,
+.CreateAccount-container {
   display: flex;
   justify-content: center;
 }
 
 .PostItemsImage-container {
   align-self: center;
+}
+
+.CreateAccountImage-container {
+  align-self: flex-start;
+  margin-top: 2em;
 }
 
 .SubmissionForm {
@@ -408,6 +414,7 @@ input[type=submit]:hover {
   position: relative;
   overflow: hidden;
   display: inline-block;
+  margin-top: 5px;
 }
 
 .btn {
