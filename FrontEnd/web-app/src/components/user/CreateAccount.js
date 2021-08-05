@@ -171,7 +171,7 @@ class CreateAccount extends Component {
           username: `${this.state.first_name}${result.id}`,
 
           secret: this.state.email,
-         }
+        }
 
 
 
@@ -181,16 +181,16 @@ class CreateAccount extends Component {
           headers: {
             'PRIVATE-KEY': 'ab826fa0-1758-4f20-9213-a0ce97bf6a5c'
           },
-          data : data
+          data: data
         };
 
         axios(config)
-        .then(function (response) {
-          // console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .then(function (response) {
+            // console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
       this.props.cookieCheck()
     } else {
@@ -368,21 +368,21 @@ class CreateAccount extends Component {
   async handleKeyDown(e) {
     const { valid_new_user } = this.state
 
-    console.log(e.key+' key pressed')
-    if(!valid_new_user){
-    if(e.key === 'Enter'){
-      await this.submitEmailInfo()
+    console.log(e.key + ' key pressed')
+    if (!valid_new_user) {
+      if (e.key === 'Enter') {
+        await this.submitEmailInfo()
+      }
+    } else {
+      if (e.key === 'Enter') {
+        await this.submitUser()
+      }
     }
-  }else{
-    if(e.key === 'Enter'){
-      await this.submitUser()
-    }
-  }
   }
 
 
   render() {
-    const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, cityName } = this.state
+    const { successfullySubmitted, validEmail, validationMessage, valid_new_user, first_name, last_name, email, password1, password2, DoB, phone_number, address_1, address_2, city, postcode, cityOptions, hasChosenCountry, img_url } = this.state
     //console.log("CITIES:");
     //console.log(cityOptions);
     if (successfullySubmitted) {
@@ -391,82 +391,91 @@ class CreateAccount extends Component {
 
     if (!valid_new_user) {
       return (
-        <section>
-            <h1 className="centered">Create an account</h1>
+       <>
+          <h1 className="centered">Create an account</h1>
+
+          
+
             <form className="SubmissionForm SubmissionFormCreateAccount">
               <section>
-                <label htmlFor="email" value="Email address: " >Email address: </label>
+                <label>Email address</label>
                 <input type="text" name="email" id="email" value={email} onKeyDown={(e) => this.handleKeyDown(e)} onChange={(e) => this.updateInfo(e)} />
                 {!validEmail && <p className="error errorCreateAccount" >Email address is unavailable</p>}
               </section>
               <section>
-                <label htmlFor="password1" value="Password: " >Password: </label>
+                <label>Password</label>
                 <input type="password" name="password1" id="password1" value={password1} onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password1)}</div>
               </section>
               <section>
-                <label htmlFor="password2" value="Re-enter password: " value={password2} >Re-enter password: </label>
+                <label>Re-enter password</label>
                 <input type="password" name="password2" id="password2" onChange={(e) => this.updateInfo(e)} />
                 <div>{this.validateLive(password2)}</div>
               </section>
               <section>
-                <input type="submit" onClick={(e) => this.submitEmailInfo(e)}  value="Create account" />
+                <input type="submit" onClick={(e) => this.submitEmailInfo(e)} value="Create account" />
                 {validationMessage && <p className="error errorCreateAccount">{validationMessage}</p>}
               </section>
             </form>
-        </section>
+
+      
+        </>
       );
     }
     else {
       return (
-        <section>
-            <h1>Submit your details</h1>
-            <div className="SubmissionForm">
+        <>
+          <h1>Submit your details</h1>
 
-            <section>
-              <label>Profile Picture:</label>
-              <ImageUpload handleImgUrl={this.handleImgUrl} />
-            </section>
+          <div className="CreateAccount-container">
 
-          </div>
-            <form className="SubmissionForm SubmissionFormCreateAccount">
-              <section>
-                <label htmlFor="first_name" value="First name: " >First name: </label>
-                <input type="text" name="first_name" id="first_name" value={first_name} onKeyDown={(e) => this.handleKeyDown(e)} onChange={(e) => this.updateInfo(e)} />
-              </section>
-              <section>
-                <label htmlFor="last_name" value="Last name: " >Last name: </label>
-                <input type="text" name="last_name" id="last_name" value={last_name} onChange={(e) => this.updateInfo(e)} />
-              </section>
-              <section>
-                <label htmlFor="DoB" value="Date of birth : " >Date of birth : </label>
-                <input type="date" name="DoB" id="DoB" value={DoB} max={format(new Date(), 'y-MM-d')} onChange={(e) => this.updateInfo(e)} />
-              </section>
-              <section>
-                <label htmlFor="phone_number" value="Phone number: " >Phone number: </label>
-                <input type="text" name="phone_number" id="phone_number" value={phone_number} onChange={(e) => this.updateInfo(e)} />
-                <div>{this.validateLive(phone_number)}</div>
-              </section>
-              <section>
-                <label htmlFor="address_1" value="Address line 1: " >Address line 1: </label>
-                <input type="text" name="address_1" id="address_1" value={address_1} onChange={(e) => this.updateInfo(e)} />
-              </section>
-              <section>
-                <label htmlFor="address_2" value="Address line 2: " >Address line 2: </label>
-                <input type="text" name="address_2" id="address_2" value={address_2} onChange={(e) => this.updateInfo(e)} />
-              </section>
-              <section>
 
-              <div className="cityParent">
-                <label htmlFor="city" value="City : " >City : </label>
-                <br />
-                {/*<input type="text" name="city" id="city" value={city} onChange={(e) => this.updateInfo(e)} />*/}
-                <section id='cities_section'>
-                  {!hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
-                  {hasChosenCountry && <div className="chosenCityCard">{city.name}</div>}
+            <div className="CreateAccountImage-container">
+              <label>Profile Picture</label>
+              <ImageUpload img_url={img_url} handleImgUrl={this.handleImgUrl} />
+            </div>
+
+
+
+            <div className="CreateAccountDetails-container">
+              <form className="SubmissionForm SubmissionFormCreateAccount">
+                <section>
+                  <label htmlFor="first_name" value="First name: " >First Name </label>
+                  <input type="text" name="first_name" id="first_name" value={first_name} onKeyDown={(e) => this.handleKeyDown(e)} onChange={(e) => this.updateInfo(e)} />
                 </section>
-                {/*<City key={id} id={id} name={name} />*/}
-                {/*
+                <section>
+                  <label htmlFor="last_name" value="Last name: " >Last Name </label>
+                  <input type="text" name="last_name" id="last_name" value={last_name} onChange={(e) => this.updateInfo(e)} />
+                </section>
+                <section>
+                  <label htmlFor="DoB" value="Date of birth : " >Date Of Birth </label>
+                  <input type="date" name="DoB" id="DoB" value={DoB} max={format(new Date(), 'y-MM-d')} onChange={(e) => this.updateInfo(e)} />
+                </section>
+                <section>
+                  <label htmlFor="phone_number" value="Phone number: " >Phone Number </label>
+                  <input type="text" name="phone_number" id="phone_number" value={phone_number} onChange={(e) => this.updateInfo(e)} />
+                  <div>{this.validateLive(phone_number)}</div>
+                </section>
+                <section>
+                  <label htmlFor="address_1" value="Address line 1: " >Address Line 1 </label>
+                  <input type="text" name="address_1" id="address_1" value={address_1} onChange={(e) => this.updateInfo(e)} />
+                </section>
+                <section>
+                  <label htmlFor="address_2" value="Address line 2: " >Address Line 2 </label>
+                  <input type="text" name="address_2" id="address_2" value={address_2} onChange={(e) => this.updateInfo(e)} />
+                </section>
+                <section>
+
+                  <div className="cityParent">
+                    <label htmlFor="city" value="City : " >City </label>
+                    <br />
+                    {/*<input type="text" name="city" id="city" value={city} onChange={(e) => this.updateInfo(e)} />*/}
+                    <section id='cities_section'>
+                      {!hasChosenCountry && cityOptions.map(({ id, name }) => <div className="cityCard" onClick={(e) => this.changeCity(e)} key={id} value={name}>{name}</div>)}
+                      {hasChosenCountry && <div className="chosenCityCard">{city.name}</div>}
+                    </section>
+                    {/*<City key={id} id={id} name={name} />*/}
+                    {/*
                 <div className="dropdown">
                   <button onClick={(e) => this.myFunction(e)} className="dropbtn">Dropdown</button>
                   <div id="myDropdown" className="dropdown-content">
@@ -482,18 +491,21 @@ class CreateAccount extends Component {
                   </div>
                 </div>
                 */}
-                </div>
-              </section>
-              <section>
-                <label htmlFor="postcode" value="Postcode: " >Postcode: </label>
-                <input type="text" name="postcode" id="postcode" value={postcode} onChange={(e) => this.updateInfo(e)} />
-              </section>
-              <section>
-                <input type="submit" name="submit" value="Submit details" onClick={(e) => this.submitUser(e)} />
-                {validationMessage && <p className="error">{validationMessage}</p>}
-              </section>
-            </form>
-        </section>
+                  </div>
+                </section>
+                <section>
+                  <label htmlFor="postcode" value="Postcode: " >Postcode </label>
+                  <input type="text" name="postcode" id="postcode" value={postcode} onChange={(e) => this.updateInfo(e)} />
+                </section>
+                <section>
+                  <input type="submit" name="submit" value="Submit details" onClick={(e) => this.submitUser(e)} />
+                  {validationMessage && <p className="error">{validationMessage}</p>}
+                </section>
+              </form>
+            </div>
+          </div>
+        </>
+
       )
     }
   }

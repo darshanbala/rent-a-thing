@@ -99,7 +99,7 @@ class Login extends Component {
                 <h1 className="centered">Login to your account</h1>
                 <form className='SubmissionForm SubmissionFormLogin' onSubmit={(e) => this.handleSubmit(e)}>
                     <section>
-                        <label>Email: </label>
+                        <label>Email</label>
                             <input
                                 value={email}
                                 onChange={(e) => this.setState({ email: e.target.value })}
@@ -109,7 +109,7 @@ class Login extends Component {
                         {this.emailErrors() && <p className='error errorLogin'>{this.emailErrors()}</p>}
                     </section>
                     <section>
-                        <label>Password: </label>
+                        <label>Password</label>
                             <input
                                 value={password}
                                 onChange={(e) => this.setState({ password: e.target.value })}

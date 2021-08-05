@@ -99,7 +99,8 @@
   float: right;
 }
 
-.PostItems-container {
+.PostItems-container,
+.CreateAccount-container {
   display: flex;
   justify-content: center;
 }
@@ -108,12 +109,23 @@
   align-self: center;
 }
 
+.PostItemsDetails-container,
+.CreateAccountDetails-container {
+  margin-left: 5em;
+}
+
+.CreateAccountImage-container {
+  align-self: flex-start;
+  margin-top: 2em;
+}
+
 .SubmissionForm {
   background: inherit;
   padding: 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 25em;
 }
 
 .SubmissionForm section {
@@ -145,6 +157,7 @@
 }
 
 .SubmissionForm input[type=password] {
+  margin-top: 5px;
   width: 400px;
 }
 
@@ -378,7 +391,7 @@ input[type=number], textarea, select {
 
 input[type=date] {
   padding: 7px 7px 7px 7px;
-  margin: 0 3px 0px 3px;
+  margin: 5px 3px 0px 3px;
   border-radius: 6px;
   border-width: thin;
 }
@@ -408,6 +421,7 @@ input[type=submit]:hover {
   position: relative;
   overflow: hidden;
   display: inline-block;
+  margin-top: 5px;
 }
 
 .btn {
